@@ -1,0 +1,13 @@
+"UnlitGeneric"
+{
+	"$basetexture" "freeze_tag/revive_bar"
+    "$translucent" 1
+
+	"Proxies"
+	{
+		"PlayerTeamMatch"
+		{
+			"resultVar"  "$alpha"
+		}
+	}
+}
