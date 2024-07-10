@@ -4,6 +4,7 @@
 // -----------------------------------------------
 
 ::VSCRIPT_PATH <- "gamemodes/freeze_tag/";
+IncludeScript(VSCRIPT_PATH + "arena.nut", this);
 IncludeScript(VSCRIPT_PATH + "util.nut", this);
 
 ClearGameEventCallbacks();
@@ -39,6 +40,8 @@ function RoundStart() {
         ResetPlayer(player);
         SetupPlayer(player);
     }
+
+    ChangeStateToSetup();
 }
 
 local _ticks = 0;
@@ -48,7 +51,7 @@ function Think() {
         FreezeThink();
     }
 
-    ThawThink();
+    if (STATE == GAMESTATES.ROUND) ThawThink();
 
     _ticks += tick_rate;
     if (_ticks > 1) _ticks = 0;
@@ -75,7 +78,15 @@ function OnGameEvent_player_spawn(params) {
     if (params.team == 0) {
         player.ValidateScriptScope();
         SetupPlayer(player);
+    } else if (STATE == GAMESTATES.ROUND) {
+        RunWithDelay(function() {
+            NetProps.SetPropInt(player, "m_lifeState", LIFE_STATE.DEAD);
+        }, 0.1);
     }
+}
+
+function OnGameEvent_player_disconnect(params) {
+    if (STATE == GAMESTATES.ROUND) RunWithDelay(CountAlivePlayers, 0.1, [this, true]);
 }
 
 __CollectGameEventCallbacks(this);

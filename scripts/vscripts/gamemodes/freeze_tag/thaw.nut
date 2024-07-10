@@ -7,6 +7,21 @@ revive_sprite_frames <- 20; // number of frames in the revive sprite's animation
 // -------------------------------
 
 function UnfreezePlayer(player) {
+    // prevent the player from switching class while dead.
+    // FIXME: this still lets players change weapons. can we fix this?
+    local scope = player.GetScriptScope();
+    player.SetPlayerClass(scope.player_class);
+    SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", scope.player_class);
+    player.ForceRegenerateAndRespawn();
+    player.Weapon_Equip(GetPropEntityArray(player, "m_hMyWeapons", 0));
+    player.SetHealth(player.GetMaxHealth() * health_multiplier_on_thaw);
+
+    // put the player on the revive marker if it exists.
+    //  it should do this nearly every time, but as a failsafe it'll put them in the spawn room
+    if (scope.revive_marker && scope.revive_marker.IsValid()) {
+        player.SetOrigin(scope.revive_marker.GetOrigin());
+    }
+
     ResetPlayer(player);
     PlayThawSound(player);
     DispatchParticleEffect(thaw_particle, player.GetOrigin(), vectriple(0));
@@ -83,26 +98,10 @@ function ThawThink() {
 
         // HACK: medics healing frozen players' revive markers can sometimes outpace the tickrate.
         //  check if the frozen player is otherwise alive (because they've been revived) and manually thaw in that case
-        local medic_hack = (GetPropInt(player, "m_lifeState") == 0 && scope.revive_progress > 0.9);
+        local medic_hack = (IsPlayerAlive(player) && scope.revive_progress > 0.9);
 
         if (scope.revive_progress >= 1 || medic_hack) {
-            // prevent the player from switching class while dead.
-            // FIXME: this still lets players change weapons. can we fix this?
-            local scope = player.GetScriptScope();
-            player.SetPlayerClass(scope.player_class);
-            SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", scope.player_class);
-            player.ForceRegenerateAndRespawn();
-            player.Weapon_Equip(GetPropEntityArray(player, "m_hMyWeapons", 0));
-            player.SetHealth(player.GetMaxHealth() * health_multiplier_on_thaw);
-
-            // put the player on the revive marker if it exists.
-            //  it should do this nearly every time, but as a failsafe it'll put them in the spawn room
-            if (scope.revive_marker && scope.revive_marker.IsValid()) {
-                player.SetOrigin(scope.revive_marker.GetOrigin());
-            }
-
             UnfreezePlayer(player);
-            return;
         }
     }
 }

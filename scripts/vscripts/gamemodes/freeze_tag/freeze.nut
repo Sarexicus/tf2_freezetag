@@ -198,5 +198,12 @@ function GetPlayerWeaponIndex(player) {
 function OnGameEvent_player_death(params)
 {
     local player = GetPlayerFromUserID(params.userid);
-    FreezePlayer(player);
+    if (STATE == GAMESTATES.SETUP) {
+        RunWithDelay(function() {
+            player.ForceRegenerateAndRespawn();
+        }, 0.1);
+    } else if (STATE == GAMESTATES.ROUND) {
+        FreezePlayer(player);
+        RunWithDelay(CountAlivePlayers, 0.1, [this, true]);
+    }
 }
