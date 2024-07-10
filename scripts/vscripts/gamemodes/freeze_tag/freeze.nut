@@ -9,10 +9,8 @@ local frozen_color = "0 228 255"; // this is the color that will tint frozen wea
 // -------------------------------
 
 function FreezePlayer(player) {
-    // HACK: just kill all the ragdolls here, to prevent any from showing up.
-    //  there's probably a better place to put this.
-    EntFire("tf_ragdoll", "Kill");
-
+    EntFireByHandle(player, "RunScriptCode", "NetProps.GetPropEntity(self, `m_hRagdoll`).Destroy()", 0.01, player, player);
+    
     local freeze_point = FindFreezePoint(player);
     if (freeze_point != null) {
         player.Teleport(true, freeze_point, false, QAngle(0, 0, 0), true, Vector(0, 0, 0));
