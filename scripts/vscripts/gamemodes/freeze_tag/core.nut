@@ -13,6 +13,7 @@ ClearGameEventCallbacks();
 // -----------------------------------------------
 health_multiplier_on_thaw <- 0.5;   // how much health does the player get when they thaw? (fraction of max hp)
 thaw_time <- 4.0;                   // how many seconds it takes for one player to thaw a player
+decay_time <- 8.0;                  // how many seconds it takes for thawing progress to decay from full to empty
 thaw_distance <- 128.0;             // you must be this close to a player to start thawing them
 
 freeze_sound <- "Icicle.TurnToIce";
@@ -68,7 +69,6 @@ function SetupPlayer(player) {
 // -----------------------------
 
 function OnGameEvent_teamplay_round_start(params) {
-    RoundStart();
     ChangeStateToSetup();
 }
 

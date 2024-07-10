@@ -200,7 +200,7 @@ function OnGameEvent_player_death(params)
     local player = GetPlayerFromUserID(params.userid);
     if (STATE == GAMESTATES.SETUP) {
         RunWithDelay(function() {
-            player.ForceRegenerateAndRespawn();
+            CleanRespawn(player);
         }, 0.1);
     } else if (STATE == GAMESTATES.ROUND) {
         FreezePlayer(player);

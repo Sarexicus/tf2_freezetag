@@ -12,12 +12,7 @@ function UnfreezePlayer(player) {
     local scope = player.GetScriptScope();
     player.SetPlayerClass(scope.player_class);
     SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", scope.player_class);
-    player.ForceRegenerateAndRespawn();
-    // HACK: If we don't do this, for some reason, players stay in a "dead" state
-    RunWithDelay(function() {
-        NetProps.SetPropInt(player, "m_lifeState", LIFE_STATE.ALIVE);
-    }, 0.1);
-    player.Weapon_Equip(GetPropEntityArray(player, "m_hMyWeapons", 0));
+    CleanRespawn(player);
     player.SetHealth(player.GetMaxHealth() * health_multiplier_on_thaw);
 
     // put the player on the revive marker if it exists.
@@ -94,6 +89,9 @@ function ThawThink() {
 
         if (scope.revive_players > 0) {
             scope.revive_progress += (1 / thaw_time) * tick_rate * scope.revive_players;
+        } else if (scope.revive_players == 0) {
+            scope.revive_progress -= (1 / decay_time) * tick_rate;
+            if (scope.revive_progress < 0) scope.revive_progress = 0;
         }
 
         SetReviveMarkerHealth(player);
@@ -138,17 +136,18 @@ function ThawCheck(player, params) {
     local scope = params.scope;
     local frozen_statue_location = scope.frozen_player_model.GetCenter();
     local frozen_player = params.frozen_player;
+    if (scope.revive_players == -1) return;
 
     // TODO: line-of-sight check
 
     if (Distance(frozen_statue_location, player.GetCenter()) > thaw_distance) return;
 
     // block progress if any enemy players are too close by
-    //  (set number of thawing players to basically negative infinity)
+    //  (set number of thawing players to -1, marking the capture is blocked)
     if (player.GetTeam() == frozen_player.GetTeam()) {
         scope.revive_players += 1;
     } else {
-        scope.revive_players = -MaxPlayers;
+        scope.revive_players = -1;
     }
 
     DebugDrawLine(player.GetCenter(), frozen_statue_location, 0, 0, 255, false, 0.5);

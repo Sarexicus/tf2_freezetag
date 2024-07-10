@@ -35,6 +35,7 @@ function ChangeStateToSetup() {
     EntFire("game_forcerespawn", "ForceRespawn", "", 0.3, null);
 
     EntityOutputs.AddOutput(GAME_TIMER, "OnSetupFinished", mainLogicEntity.GetName(), "RunScriptCode", "ChangeStateToRound()", 0, 1);
+    RoundStart();
 }
 
 function ChangeStateToRound() {

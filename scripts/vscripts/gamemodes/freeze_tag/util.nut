@@ -116,3 +116,12 @@ enum LIFE_STATE
     EntFireByHandle(trigger_stun, "EndTouch", "", 0.0, player, player);
     EntFireByHandle(trigger_stun, "Kill", "", 0.1, null, null);
 }
+
+::CleanRespawn <- function(player) {
+    player.ForceRegenerateAndRespawn();
+    // HACK: If we don't do this, for some reason, players stay in a "dead" state
+    RunWithDelay(function() {
+        NetProps.SetPropInt(player, "m_lifeState", LIFE_STATE.ALIVE);
+    }, 0.1);
+    player.Weapon_Equip(GetPropEntityArray(player, "m_hMyWeapons", 0));
+}
