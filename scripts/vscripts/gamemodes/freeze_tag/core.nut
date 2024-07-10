@@ -40,8 +40,6 @@ function RoundStart() {
         ResetPlayer(player);
         SetupPlayer(player);
     }
-
-    ChangeStateToSetup();
 }
 
 local _ticks = 0;
@@ -71,6 +69,7 @@ function SetupPlayer(player) {
 
 function OnGameEvent_teamplay_round_start(params) {
     RoundStart();
+    ChangeStateToSetup();
 }
 
 function OnGameEvent_player_spawn(params) {

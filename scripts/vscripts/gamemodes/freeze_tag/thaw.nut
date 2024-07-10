@@ -13,6 +13,10 @@ function UnfreezePlayer(player) {
     player.SetPlayerClass(scope.player_class);
     SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", scope.player_class);
     player.ForceRegenerateAndRespawn();
+    // HACK: If we don't do this, for some reason, players stay in a "dead" state
+    RunWithDelay(function() {
+        NetProps.SetPropInt(player, "m_lifeState", LIFE_STATE.ALIVE);
+    }, 0.1);
     player.Weapon_Equip(GetPropEntityArray(player, "m_hMyWeapons", 0));
     player.SetHealth(player.GetMaxHealth() * health_multiplier_on_thaw);
 
