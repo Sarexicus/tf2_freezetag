@@ -11,10 +11,11 @@ ClearGameEventCallbacks();
 
 // CONFIG
 // -----------------------------------------------
-health_multiplier_on_thaw <- 0.5;   // how much health does the player get when they thaw? (fraction of max hp)
-thaw_time <- 4.0;                   // how many seconds it takes for one player to thaw a player
+health_multiplier_on_thaw <- 0.5;   // how much health a frozen player gets when they thaw (fraction of max hp)
+thaw_time <- 4.0;                   // how many seconds it takes for one player to thaw a frozen player
 decay_time <- 8.0;                  // how many seconds it takes for thawing progress to decay from full to empty
-thaw_distance <- 128.0;             // you must be this close to a player to start thawing them
+thaw_distance <- 128.0;             // how close to a frozen player on your team you have to be to start thawing them
+players_solid_when_frozen <- false; // whether frozen players have collisions
 
 freeze_sound <- "Icicle.TurnToIce";
 thaw_sound <- "Fire.Engulf";
@@ -77,7 +78,8 @@ function OnGameEvent_player_spawn(params) {
     if (params.team == 0) {
         player.ValidateScriptScope();
         SetupPlayer(player);
-    } else if (STATE == GAMESTATES.ROUND) {
+    }
+    else if (STATE == GAMESTATES.ROUND) {
         RunWithDelay(function() {
             NetProps.SetPropInt(player, "m_lifeState", LIFE_STATE.DEAD);
         }, 0.1);

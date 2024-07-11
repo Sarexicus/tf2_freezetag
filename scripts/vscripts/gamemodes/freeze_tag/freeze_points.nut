@@ -84,7 +84,7 @@ function FindFreezePoint(player) {
     if(GetPropEntity(player, "m_hGroundEntity") != null) {
         local navPosition = NavMesh.GetNearestNavArea(player.GetOrigin(), nav_threshold_is_grounded, true, true);
         if(navPosition != null && SpaceAvailableForFreezePoint(player.GetOrigin(), player)) {
-            scope.solid <- true;
+            scope.solid <- players_solid_when_frozen;
             return null;
         }
     }
@@ -103,7 +103,7 @@ function FindFreezePoint(player) {
         DebugDrawBox(searchPos, player.GetPlayerMins(), player.GetPlayerMaxs(), 0, 255, 0, 100, 15)
 
         if (SpaceAvailableForFreezePoint(searchPos, player)) {
-            scope.solid <- true;
+            scope.solid <- players_solid_when_frozen;
             return searchPos;
         }
 
