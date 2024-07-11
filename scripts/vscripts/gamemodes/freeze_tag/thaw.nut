@@ -138,9 +138,10 @@ function ThawCheck(player, params) {
     local frozen_player = params.frozen_player;
     if (scope.revive_players == -1) return;
 
-    // TODO: line-of-sight check
-
     if (Distance(frozen_statue_location, player.GetCenter()) > thaw_distance) return;
+
+    // line-of-sight check
+    if (TraceLine(player.GetOrigin() + player.GetClassEyeHeight(), frozen_statue_location, player) != 1) return;
 
     // block progress if any enemy players are too close by
     //  (set number of thawing players to -1, marking the capture is blocked)
