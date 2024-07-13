@@ -30,7 +30,7 @@ function ChangeStateToSetup() {
     EntFireByHandle(GAME_TIMER, "Enable", "", -1, null, null);
     EntFireByHandle(GAME_TIMER, "RoundSpawn", "", 0, null, null);
 
-    EntFire("template_spawn", "ForceSpawn", "", 0, null);
+    EntFire("template_ft_preround", "ForceSpawn", "", 0, null);
     EntFire("setupgate*", "Close", "", 0, null);
     EntFire("game_forcerespawn", "ForceRespawn", "", 0.3, null);
 
@@ -45,8 +45,7 @@ function ChangeStateToRound() {
     EntFireByHandle(CENTRAL_CP, "SetUnlockTime", "50", 0, null, null);
     EntFireByHandle(CENTRAL_CP, "HideModel", "", 0, null, null);
 
-    EntFire("respawnrom_*", "Kill", "", 0, null);
-    EntFire("regenerate", "Kill", "", 0, null);
+    EntFire("ft_preround", "Kill", "", 0, null);
     EntFire("setupgate*", "Open", "", 0, null);
     EntFire("game_forcerespawn", "ForceTeamRespawn", "2", 0.3, null);
     EntFire("game_forcerespawn", "ForceTeamRespawn", "3", 0.3, null);
