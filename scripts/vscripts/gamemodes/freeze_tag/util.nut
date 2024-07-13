@@ -124,4 +124,5 @@ enum LIFE_STATE
         NetProps.SetPropInt(player, "m_lifeState", LIFE_STATE.ALIVE);
     }, 0.1);
     player.Weapon_Equip(GetPropEntityArray(player, "m_hMyWeapons", 0));
+    RunWithDelay(CountAlivePlayers, 0.5);
 }
