@@ -46,6 +46,9 @@ function RoundStart() {
 
 local _ticks = 0;
 function Think() {
+    // skip running any thinks when WFP is going
+    if (IsInWaitingForPlayers()) return;
+
     // only run the freeze think every second tick, for performance's sake
     if (_ticks % (tick_rate * 2) == 0) {
         FreezeThink();

@@ -90,7 +90,7 @@ function WinRound(winnerTeam) {
             if (!IsPlayerAlive(player)) UnfreezePlayer(player);
             // Delay is necessary because of the potential respawn
             RunWithDelay(function(player) {
-                player.AddCondEx(Constants.ETFCond.TF_COND_CRITBOOSTED_FIRST_BLOOD, 9999, null) 
+                player.AddCondEx(Constants.ETFCond.TF_COND_CRITBOOSTED_FIRST_BLOOD, 9999, null)
             }, 0.1, [this, player]);
         }
     }
