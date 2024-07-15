@@ -10,7 +10,7 @@ local frozen_color = "0 228 255"; // this is the color that will tint frozen wea
 
 function FreezePlayer(player) {
     EntFireByHandle(player, "RunScriptCode", "NetProps.GetPropEntity(self, `m_hRagdoll`).Destroy()", 0.01, player, player);
-    
+
     local freeze_point = FindFreezePoint(player);
     if (freeze_point != null) {
         player.Teleport(true, freeze_point, false, QAngle(0, 0, 0), true, Vector(0, 0, 0));
@@ -64,11 +64,11 @@ function CreateReviveMarker(player) {
 
 function GetFrozenPlayerModel(player) {
     switch(player.GetPlayerClass()) {
-        case TF_CLASS_SCOUT:         return "models/frozen/scout_frozen.mdl";
+        case TF_CLASS_SCOUT:         return "models/player/scout.mdl";//"models/frozen/scout_frozen.mdl";
         case TF_CLASS_SOLDIER:       return "models/player/soldier.mdl";
         case TF_CLASS_PYRO:          return "models/player/pyro.mdl";
         case TF_CLASS_DEMOMAN:       return "models/player/demo.mdl";
-        case TF_CLASS_HEAVYWEAPONS:  return "models/frozen/heavy_frozen.mdl";
+        case TF_CLASS_HEAVYWEAPONS:  return "models/player/heavy.mdl";//"models/frozen/heavy_frozen.mdl";
         case TF_CLASS_ENGINEER:      return "models/player/engineer.mdl";
         case TF_CLASS_MEDIC:         return "models/player/medic.mdl";
         case TF_CLASS_SNIPER:        return "models/player/sniper.mdl";
