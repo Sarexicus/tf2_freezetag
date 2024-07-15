@@ -18,8 +18,8 @@ thaw_distance <- 128.0;             // how close to a frozen player on your team
 players_solid_when_frozen <- false; // whether frozen players have collisions
 
 freeze_sound <- "Icicle.TurnToIce";
-thaw_sound <- "Fire.Engulf";
-thaw_particle <- "heavy_ring_of_fire_fp_child01";
+thaw_sound <- "Icicle.Melt";
+thaw_particle <- "xms_icicle_impact_dryice";
 
 tick_rate <- 0.1; // how often the base think rate polls
 
