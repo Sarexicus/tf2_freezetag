@@ -49,8 +49,8 @@ function ForEachAlivePlayer(callback, params = {}) {
 }
 
 ::TeamName <- function(team, natural=false) {
-    return natural ? 
-        (team == Constants.ETFTeam.TF_TEAM_RED ? "Red" : "Blue") : 
+    return natural ?
+        (team == Constants.ETFTeam.TF_TEAM_RED ? "Red" : "Blue") :
         (team == Constants.ETFTeam.TF_TEAM_RED ? "red" : "blu")
 }
 
@@ -117,12 +117,16 @@ enum LIFE_STATE
     EntFireByHandle(trigger_stun, "Kill", "", 0.1, null, null);
 }
 
+::KillPlayerSilent <- function(player) {
+    NetProps.SetPropInt(player, "m_iObserverLastMode", 5);
+    local team = NetProps.GetPropInt(player, "m_iTeamNum");
+    NetProps.SetPropInt(player, "m_iTeamNum", 1);
+    player.DispatchSpawn();
+    NetProps.SetPropInt(player, "m_iTeamNum", team);
+}
+
 ::CleanRespawn <- function(player) {
     player.ForceRegenerateAndRespawn();
-    // HACK: If we don't do this, for some reason, players stay in a "dead" state
-    RunWithDelay(function() {
-        NetProps.SetPropInt(player, "m_lifeState", LIFE_STATE.ALIVE);
-    }, 0.1);
     player.Weapon_Equip(GetPropEntityArray(player, "m_hMyWeapons", 0));
     RunWithDelay(CountAlivePlayers, 0.5);
 }

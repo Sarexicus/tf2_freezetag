@@ -65,6 +65,7 @@ function SetupPlayer(player) {
     SetPropInt(player, "m_nRenderMode", 0);
     local scope = player.GetScriptScope();
     scope.frozen <- false;
+    scope.thawed <- false;
     scope.freeze_positions <- [];
     scope.position_index <- 0;
 }
@@ -78,14 +79,20 @@ function OnGameEvent_teamplay_round_start(params) {
 
 function OnGameEvent_player_spawn(params) {
     local player = GetPlayerFromUserID(params.userid);
+    player.ValidateScriptScope();
+
     if (params.team == 0) {
-        player.ValidateScriptScope();
         SetupPlayer(player);
     }
     else if (STATE == GAMESTATES.ROUND) {
-        RunWithDelay(function() {
-            NetProps.SetPropInt(player, "m_lifeState", LIFE_STATE.DEAD);
-        }, 0.1);
+        // if someone spawns mid-round and they weren't just thawed,
+        //  then they're joining mid-round, so we silently kill them.
+        local scope = player.GetScriptScope();
+
+        if (!scope.rawin("thawed") || !scope.thawed) {
+            KillPlayerSilent(player);
+            SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", TF_CLASS_SCOUT);
+        }
     }
 }
 

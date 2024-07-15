@@ -10,8 +10,12 @@ function UnfreezePlayer(player) {
     // prevent the player from switching class while dead.
     // FIXME: this still lets players change weapons. can we fix this?
     local scope = player.GetScriptScope();
-    player.SetPlayerClass(scope.player_class);
-    SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", scope.player_class);
+    scope.thawed <- true;
+
+    if (scope.rawin("player_class")) {
+        player.SetPlayerClass(scope.player_class);
+        SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", scope.player_class);
+    }
     CleanRespawn(player);
     player.SetHealth(player.GetMaxHealth() * health_multiplier_on_thaw);
 
@@ -29,6 +33,7 @@ function UnfreezePlayer(player) {
 function ResetPlayer(player) {
     local scope = player.GetScriptScope();
     scope.frozen <- false;
+    scope.thawed <- false;
     scope.revive_progress <- 0;
 
     RemoveFrozenPlayerModel(player);
