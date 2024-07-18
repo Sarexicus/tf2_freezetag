@@ -48,7 +48,7 @@ function CalculatePlayerFreezePoint(player) {
                     if(j <= 0) j = scope.freeze_positions.len() - 1;
                 }
             }
-            DebugDrawBox(freeze_position, vectriple(-4), vectriple(4), 255, 0, 0, 100, 5)
+            if (developer() >= 2) DebugDrawBox(freeze_position, vectriple(-4), vectriple(4), 255, 0, 0, 100, 5)
 
             // rolling array - only store a fixed amount maximum, start replacing above maximum size
             if(scope.freeze_positions.len() <= scope.position_index) {
@@ -107,7 +107,7 @@ function FindFreezePoint(player) {
 
         local searchPos = scope.freeze_positions[searchIndex];
 
-        DebugDrawBox(searchPos, player.GetPlayerMins(), player.GetPlayerMaxs(), 0, 255, 0, 100, 15)
+        if (developer() >= 2) DebugDrawBox(searchPos, player.GetPlayerMins(), player.GetPlayerMaxs(), 0, 255, 0, 100, 15)
 
         if (SpaceAvailableForFreezePoint(searchPos, player)) {
             scope.solid <- players_solid_when_frozen;

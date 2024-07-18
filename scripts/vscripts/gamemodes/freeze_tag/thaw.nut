@@ -85,7 +85,7 @@ function ThawThink() {
         local scope = player.GetScriptScope();
         if (!scope.frozen) continue;
 
-        DebugDrawBox(scope.frozen_player_model.GetOrigin(), vectriple(-4), vectriple(4), 0, 255, 0, 128, 0.5);
+        if (developer() >= 2) DebugDrawBox(scope.frozen_player_model.GetOrigin(), vectriple(-4), vectriple(4), 0, 255, 0, 128, 0.5);
 
         scope.revive_players <- 0;
         ForEachAlivePlayer(ThawCheck, {
@@ -157,5 +157,5 @@ function ThawCheck(player, params) {
         scope.revive_players = -1;
     }
 
-    DebugDrawLine(player.GetCenter(), frozen_statue_location, 0, 0, 255, false, 0.5);
+    if (developer() >= 2) DebugDrawLine(player.GetCenter(), frozen_statue_location, 0, 0, 255, false, 0.5);
 }
