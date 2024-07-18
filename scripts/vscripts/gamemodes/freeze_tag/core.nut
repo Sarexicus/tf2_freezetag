@@ -89,7 +89,7 @@ function OnGameEvent_player_team(params) {
     // if a player changes team, remove their statue
     local player = GetPlayerFromUserID(params.userid);
     local scope = player.GetScriptScope();
-    if (params.team != scope.team) {
+    if (params.team != params.oldteam) {
         ResetPlayer(player);
     }
 }

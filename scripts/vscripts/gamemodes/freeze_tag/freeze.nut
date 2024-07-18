@@ -64,15 +64,15 @@ function CreateReviveMarker(player) {
 
 function GetFrozenPlayerModel(player) {
     switch(player.GetPlayerClass()) {
-        case TF_CLASS_SCOUT:         return "models/player/scout.mdl";//"models/frozen/scout_frozen.mdl";
-        case TF_CLASS_SOLDIER:       return "models/player/soldier.mdl";
-        case TF_CLASS_PYRO:          return "models/player/pyro.mdl";
-        case TF_CLASS_DEMOMAN:       return "models/player/demo.mdl";
-        case TF_CLASS_HEAVYWEAPONS:  return "models/player/heavy.mdl";//"models/frozen/heavy_frozen.mdl";
-        case TF_CLASS_ENGINEER:      return "models/player/engineer.mdl";
-        case TF_CLASS_MEDIC:         return "models/player/medic.mdl";
-        case TF_CLASS_SNIPER:        return "models/player/sniper.mdl";
-        case TF_CLASS_SPY:           return "models/player/spy.mdl";
+        case TF_CLASS_SCOUT:         return "models/props_freezetag/scout_frozen.mdl";
+        case TF_CLASS_SOLDIER:       return "models/props_freezetag/soldier_frozen.mdl";
+        case TF_CLASS_PYRO:          return "models/props_freezetag/pyro_frozen.mdl";
+        case TF_CLASS_DEMOMAN:       return "models/props_freezetag/demo_frozen.mdl";
+        case TF_CLASS_HEAVYWEAPONS:  return "models/props_freezetag/heavy_frozen.mdl";
+        case TF_CLASS_ENGINEER:      return "models/props_freezetag/engineer_frozen.mdl";
+        case TF_CLASS_MEDIC:         return "models/props_freezetag/medic_frozen.mdl";
+        case TF_CLASS_SNIPER:        return "models/props_freezetag/sniper_frozen.mdl";
+        case TF_CLASS_SPY:           return "models/props_freezetag/spy_frozen.mdl";
         default: return "";
     }
 }
@@ -109,6 +109,11 @@ function CreateFrozenPlayerModel(player, scope) {
         rendermode = 2,
         solid = (scope.solid) ? 6 : 0
     });
+    // todo: add bodygroups later
+    // for (local i = 0; i < 256; i++) {
+    //     frozen_player_model.SetBodygroup(i, player.GetBodygroup(i));
+    // }
+
 
     // HACK: tint player for now if we don't have the frozen player model yet
     if (fpm.find("/player/") != null) {
