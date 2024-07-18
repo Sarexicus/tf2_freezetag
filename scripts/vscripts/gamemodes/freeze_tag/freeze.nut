@@ -142,7 +142,8 @@ function CreateFrozenPlayerModel(player, scope) {
             rendermode = 2,
             renderamt = 230,
             rendercolor = frozen_color,
-            model = wearable.GetModelName()
+            model = wearable.GetModelName(),
+            skin = player.GetSkin()
         });
         EntFireByHandle(cosmetic_model, "SetAttached", "!activator", 0.05, frozen_player_model, null);
 
