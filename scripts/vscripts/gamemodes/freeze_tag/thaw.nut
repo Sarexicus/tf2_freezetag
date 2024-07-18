@@ -72,8 +72,8 @@ function RevealPlayer(player) {
 
 function RemoveFrozenPlayerModel(player) {
     local scope = player.GetScriptScope();
-    if(scope.rawin("frozen_player_model") && scope.frozen_player_model.IsValid()) scope.frozen_player_model.Kill();
-    if(scope.rawin("frozen_weapon_model") && scope.frozen_weapon_model.IsValid()) scope.frozen_weapon_model.Kill();
+    if(scope.rawin("frozen_player_model") && scope.frozen_player_model != null && scope.frozen_player_model.IsValid()) scope.frozen_player_model.Kill();
+    if (scope.rawin("frozen_weapon_model") && scope.frozen_weapon_model != null && scope.frozen_weapon_model.IsValid()) scope.frozen_weapon_model.Kill();
 }
 
 function ThawThink() {

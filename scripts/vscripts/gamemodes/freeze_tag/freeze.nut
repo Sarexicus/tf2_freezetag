@@ -119,20 +119,32 @@ function CreateFrozenPlayerModel(player, scope) {
     frozen_player_model.SetCycle(player.GetCycle());
 
     local weapon_modelname = GetWeaponModel(scope.weapon_index);
-    local frozen_weapon_model = SpawnEntityFromTable("prop_dynamic_ornament", {
-        "model": weapon_modelname,
-        "rendermode": 5,
-        "renderamt": 230,
-        "rendercolor": frozen_color,
-        "targetname": "frozen_weapon_model",
-        "skin": player.GetSkin()
-    });
-    EntFireByHandle(frozen_weapon_model, "SetAttached", "!activator", 0.05, frozen_player_model, null);
+    local frozen_weapon_model = null;
+    if (weapon_modelname != null && weapon_modelname != "") {
+        frozen_weapon_model = SpawnEntityFromTable("prop_dynamic_ornament", {
+            "model": weapon_modelname,
+            "rendermode": 5,
+            "renderamt": 230,
+            "rendercolor": frozen_color,
+            "targetname": "frozen_weapon_model",
+            "skin": player.GetSkin()
+        });
+        EntFireByHandle(frozen_weapon_model, "SetAttached", "!activator", 0.05, frozen_player_model, null);
+
+        scope.frozen_weapon_model <- frozen_weapon_model;
+    }
+
 
     // cosmetics
     for (local wearable = player.FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
     {
         if (wearable.GetClassname() != "tf_wearable")
+            continue;
+
+        local wearable_modelname = wearable.GetModelName();
+        printl(wearable_modelname);
+
+        if (wearable_modelname == null || wearable_modelname == "")
             continue;
 
         local cosmetic_model = SpawnEntityFromTable("prop_dynamic_ornament",
@@ -151,7 +163,6 @@ function CreateFrozenPlayerModel(player, scope) {
     }
 
     scope.frozen_player_model <- frozen_player_model;
-    scope.frozen_weapon_model <- frozen_weapon_model;
     scope.revive_progress <- 0;
 }
 
