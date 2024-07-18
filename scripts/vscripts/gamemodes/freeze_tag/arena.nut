@@ -18,7 +18,7 @@ EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam1", mainLogicEntity.GetName(), "Ru
 EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam2", mainLogicEntity.GetName(), "RunScriptCode", "WinRound(Constants.ETFTeam.TF_TEAM_BLUE)", 0, -1);
 
 
-enum GAMESTATES {
+::GAMESTATES <- {
     SETUP = 0,
     ROUND = 1,
     ROUND_END = 2
