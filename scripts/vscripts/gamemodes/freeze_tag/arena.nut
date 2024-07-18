@@ -51,6 +51,7 @@ function ChangeStateToRound() {
     EntFire("game_forcerespawn", "ForceTeamRespawn", "3", 0.3, null);
 
     RunWithDelay(CountAlivePlayers, 0.5);
+    ForEachAlivePlayer(RecordPlayerTeam, {})
 }
 
 function CountAlivePlayers(checkForGameEnd=false) {

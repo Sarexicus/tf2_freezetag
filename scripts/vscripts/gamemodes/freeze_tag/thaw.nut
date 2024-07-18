@@ -31,6 +31,7 @@ function UnfreezePlayer(player) {
 }
 
 function ResetPlayer(player) {
+    SetPropInt(player, "m_nRenderMode", 0);
     local scope = player.GetScriptScope();
     scope.frozen <- false;
     scope.thawed <- false;

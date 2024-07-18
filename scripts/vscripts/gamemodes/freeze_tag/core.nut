@@ -33,6 +33,11 @@ function Precache() {
     PrecacheScriptSound(thaw_sound);
 }
 
+function RecordPlayerTeam(player, params) {
+    local scope = player.GetScriptScope();
+    scope.team <- player.GetTeam();
+}
+
 function RoundStart() {
     EntFire("ft_relay_newround", "Trigger", "", 0, null);
 
@@ -43,6 +48,7 @@ function RoundStart() {
 
         ResetPlayer(player);
         SetupPlayer(player);
+        RecordPlayerTeam(player, {});
     }
 }
 
@@ -79,6 +85,15 @@ function OnGameEvent_teamplay_round_start(params) {
     ChangeStateToSetup();
 }
 
+function OnGameEvent_player_team(params) {
+    // if a player changes team, remove their statue
+    local player = GetPlayerFromUserID(params.userid);
+    local scope = player.GetScriptScope();
+    if (params.team != scope.team) {
+        ResetPlayer(player);
+    }
+}
+
 function OnGameEvent_player_spawn(params) {
     local player = GetPlayerFromUserID(params.userid);
     player.ValidateScriptScope();
@@ -99,7 +114,13 @@ function OnGameEvent_player_spawn(params) {
 }
 
 function OnGameEvent_player_disconnect(params) {
+    // check if this means a round would end
     if (STATE == GAMESTATES.ROUND) RunWithDelay(CountAlivePlayers, 0.1, [this, true]);
+
+    // remove their statue if they were frozen
+    local player = GetPlayerFromUserID(params.userid);
+    local scope = player.GetScriptScope();
+    ResetPlayer(player);
 }
 
 __CollectGameEventCallbacks(this);
