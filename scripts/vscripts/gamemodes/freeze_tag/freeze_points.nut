@@ -94,10 +94,17 @@ function FindFreezePoint(player) {
     local maxSearchIndex = searchIndex;
     if(searchIndex <= 0) searchIndex = scope.freeze_positions.len() - 1;
 
+    // worst-case scenario - they haven't moved at all and spawned too close to a teammate. just freeze them here.
+    if (searchIndex == -1) {
+        scope.solid <- false;
+        return player.GetOrigin();
+    }
+
     local iterations = 0;
     local max_iterations = max_freeze_points;
 
     while (searchIndex != maxSearchIndex || iterations < max_freeze_points) {
+
         local searchPos = scope.freeze_positions[searchIndex];
 
         DebugDrawBox(searchPos, player.GetPlayerMins(), player.GetPlayerMaxs(), 0, 255, 0, 100, 15)

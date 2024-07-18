@@ -21,7 +21,7 @@ function UnfreezePlayer(player) {
 
     // put the player on the revive marker if it exists.
     //  it should do this nearly every time, but as a failsafe it'll put them in the spawn room
-    if (scope.revive_marker && scope.revive_marker.IsValid()) {
+    if (scope.rawin("revive_marker") && scope.revive_marker && scope.revive_marker.IsValid()) {
         player.SetOrigin(scope.revive_marker.GetOrigin());
     }
 
