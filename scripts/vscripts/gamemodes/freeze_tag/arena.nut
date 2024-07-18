@@ -50,6 +50,9 @@ function ChangeStateToRound() {
     EntFire("game_forcerespawn", "ForceTeamRespawn", "2", 0.3, null);
     EntFire("game_forcerespawn", "ForceTeamRespawn", "3", 0.3, null);
 
+    EntFireByHandle(GAMERULES, "PlayVO", "Announcer.AM_RoundStartRandom", 0, null, null);
+    EntFireByHandle(GAMERULES, "PlayVO", "Ambient.Siren", 0, null, null);
+
     RunWithDelay(CountAlivePlayers, 0.5);
     ForEachAlivePlayer(RecordPlayerTeam, {})
 }
@@ -76,6 +79,7 @@ function CountAlivePlayers(checkForGameEnd=false) {
 function WinRound(winnerTeam) {
     if (winnerTeam) {
         EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "Score"+TeamName(winnerTeam, true)+"Points", "", 0, null, null);
+        EntFireByHandle(GAMERULES, "PlayVO", "Hud.EndRoundScored", 0, null, null);
         EntFire("text_win_"+TeamName(winnerTeam), "Display", "", 0, null);
     } else {
         EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "ScoreRedPoints", "", 0, null, null);
