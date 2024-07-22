@@ -27,11 +27,15 @@ function FreezePlayer(player) {
 
     scope.revive_progress <- 0;
     scope.frozen <- true;
+
     RemoveFrozenPlayerModel(player);
     RemovePlayerReviveMarker(scope);
+    RemoveGlow(scope);
+
     scope.revive_marker <- CreateReviveMarker(freeze_point, player);
     scope.frozen_player_model <- CreateFrozenPlayerModel(freeze_point, player, scope);
     EntFireByHandle(scope.frozen_player_model, "SetParent", "!activator", -1, scope.revive_marker, scope.revive_marker);
+    scope.glow <- CreateGlow(player, scope.frozen_player_model);
     scope.revive_progress_sprite <- CreateReviveProgressSprite(freeze_point, player);
     
     HidePlayer(player);
@@ -213,6 +217,35 @@ function CreateFrozenPlayerModel(pos, player, scope) {
     }
 
     return frozen_player_model;
+}
+
+function CreateGlow(player, prop) {
+    // "Prop" that will be glowing
+    local proxy_entity = Entities.CreateByClassname("obj_teleporter");
+    proxy_entity.SetAbsOrigin(prop.GetOrigin());
+    proxy_entity.DispatchSpawn();
+    proxy_entity.SetModel(prop.GetModelName());
+    proxy_entity.AddEFlags(Constants.FEntityEFlags.EFL_NO_THINK_FUNCTION);
+    NetProps.SetPropString(proxy_entity, "m_iName", UniqueString("glow_target"));
+    NetProps.SetPropBool(proxy_entity, "m_bPlacing", true);
+    NetProps.SetPropInt(proxy_entity, "m_fObjectFlags", 2);
+
+    // Bonemerging
+    proxy_entity.SetSolid(0);
+    proxy_entity.SetMoveType(0, 0);
+    NetProps.SetPropInt(proxy_entity, "m_fEffects", 129);
+    NetProps.SetPropInt(proxy_entity, "m_nNextThinkTick", 0x7FFFFFFF);
+    NetProps.SetPropEntity(proxy_entity, "m_hBuilder", player);
+    EntFireByHandle(proxy_entity, "SetParent", "!activator", -1, prop, prop);
+
+    // Tf_glow entity
+    local glow = SpawnEntityFromTable("tf_glow", {
+        targetname = "glow_" + proxy_entity.GetName(),
+        target = proxy_entity.GetName(),
+        GlowColor = "255 255 255 255"
+    });
+
+    return glow;
 }
 
 function CreateReviveProgressSprite(pos, player) {

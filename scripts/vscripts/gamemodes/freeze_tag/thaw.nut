@@ -40,6 +40,7 @@ function ResetPlayer(player) {
 
     RemoveFrozenPlayerModel(player);
     RemoveReviveProgressSprite(scope);
+    RemoveGlow(scope);
     RemovePlayerReviveMarker(scope);
     RevealPlayer(player);
 }
@@ -57,6 +58,13 @@ function RemovePlayerReviveMarker(scope) {
         scope.revive_marker.Kill();
     }
     scope.revive_marker <- null;
+}
+
+function RemoveGlow(scope) {
+    if (scope.rawin("glow") && scope.glow != null && scope.glow.IsValid()) {
+        scope.glow.Kill();
+    }
+    scope.glow <- null;
 }
 
 function RemoveReviveProgressSprite(scope) {
@@ -88,6 +96,7 @@ function ThawThink() {
 
         if (developer() >= 2) DebugDrawBox(scope.frozen_player_model.GetOrigin(), vectriple(-4), vectriple(4), 0, 255, 0, 128, 0.5);
 
+        local was_being_thawed = scope.revive_players > 0;
         scope.revive_players <- 0;
         ForEachAlivePlayer(ThawCheck, {
             "frozen_player": player,
@@ -95,13 +104,34 @@ function ThawThink() {
         });
 
         if (scope.revive_players > 0) {
+            if (!was_being_thawed)
+                SendGlobalGameEvent("show_annotation", {
+                    text = "You are being thawed: " + (scope.revive_progress * 100) + ""
+                    id = player.entindex()
+                    visibilityBitfield = 1 << player.entindex()
+                    follow_entindex = scope.frozen_player_model.entindex()
+                    lifetime = thaw_time
+                    show_effect = false
+                });
+
             scope.revive_progress += (1 / thaw_time) * tick_rate * scope.revive_players;
         } else if (scope.revive_players == 0) {
+            if (was_being_thawed)
+                SendGlobalGameEvent("show_annotation", {
+                    text = ""
+                    id = player.entindex()
+                    worldPosX = 0.0 worldPosY = 0.0 worldPosZ = 0.0
+                    visibilityBitfield = 1 << player.entindex()
+                    lifetime = 0.01
+                    show_effect = false
+                });
+            
             scope.revive_progress -= (1 / decay_time) * tick_rate;
             if (scope.revive_progress < 0) scope.revive_progress = 0;
         }
 
         SetReviveMarkerHealth(player);
+        UpdateGlowColor(player);
         UpdateReviveProgressSprite(player);
         ChangeFrozenPlayerModelSolidity(scope);
 
@@ -129,6 +159,16 @@ function SetReviveMarkerHealth(player) {
     // scale the health on the revive marker based on the revive progress.
     // always show at least one health or it doesn't show the hp bar at all
     SetPropInt(revive_marker, "m_iHealth", max(1, player.GetMaxHealth() * scope.revive_progress * health_multiplier_on_thaw));
+}
+
+function UpdateGlowColor(player) {
+    local scope = player.GetScriptScope();
+    local glow = scope.glow;
+
+    local progress = pow(scope.revive_progress, 2);
+    local goalColor = player.GetTeam() == TF_TEAM_RED ? [255, 0, 0] : [0, 0, 255];
+    foreach (i, component in goalColor) goalColor[i] = (255 * (1 - progress) + component * progress).tointeger();
+    SetPropInt(glow, "m_glowColor", (goalColor[0]) | (goalColor[1] << 8) | (goalColor[2] << 16) | (255 << 24));
 }
 
 function UpdateReviveProgressSprite(player) {
