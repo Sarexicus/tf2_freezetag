@@ -17,9 +17,11 @@ decay_time <- 8.0;                  // how many seconds it takes for thawing pro
 thaw_distance <- 128.0;             // how close to a frozen player on your team you have to be to start thawing them
 players_solid_when_frozen <- false; // whether frozen players have collisions
 
-freeze_sound <- "Icicle.TurnToIce";
-thaw_sound <- "Icicle.Melt";
-thaw_particle <- "xms_icicle_impact_dryice";
+::freeze_sound <- "Icicle.TurnToIce";
+::thaw_sound <- "Icicle.Melt";
+::thaw_particle <- "xms_icicle_impact_dryice";
+::fake_thaw_sound <- "Halloween.spell_stealth";
+::fake_disappear_particle <- "ghost_smoke";
 
 tick_rate <- 0.1; // how often the base think rate polls
 
@@ -31,6 +33,7 @@ IncludeScript(VSCRIPT_PATH + "thaw.nut", this);
 function Precache() {
     PrecacheScriptSound(freeze_sound);
     PrecacheScriptSound(thaw_sound);
+    PrecacheScriptSound(fake_thaw_sound);
 }
 
 function RecordPlayerTeam(player, params) {
@@ -96,12 +99,12 @@ function OnGameEvent_player_team(params) {
 
 function OnGameEvent_player_spawn(params) {
     local player = GetPlayerFromUserID(params.userid);
-    player.ValidateScriptScope();
+    if (player == null) return;
 
+    player.ValidateScriptScope();
     if (params.team == 0) {
         SetupPlayer(player);
-    }
-    else if (STATE == GAMESTATES.ROUND) {
+    } else if (STATE == GAMESTATES.ROUND) {
         // if someone spawns mid-round and they weren't just thawed,
         //  then they're joining mid-round, so we silently kill them.
         local scope = player.GetScriptScope();

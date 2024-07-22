@@ -4,7 +4,8 @@
 
 IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
 
-local frozen_color = "0 228 255"; // this is the color that will tint frozen weapons, cosmetics, and placeholder player models
+frozen_color <- "0 228 255"; // this is the color that will tint frozen weapons, cosmetics, and placeholder player models
+pose_parameters <- ["move_x", "move_y", "look_pitch", "look_yaw"]; // pose parameters transferred to the statue 
 
 // -------------------------------
 
@@ -14,21 +15,56 @@ function FreezePlayer(player) {
     local freeze_point = FindFreezePoint(player);
     if (freeze_point != null) {
         player.Teleport(true, freeze_point, false, QAngle(0, 0, 0), true, Vector(0, 0, 0));
+    } else {
+        freeze_point = player.GetOrigin();
     }
 
     local scope = player.GetScriptScope();
 
-    HidePlayer(player);
     PlayFreezeSound(player);
 
     scope.player_class <- player.GetPlayerClass();
 
-    RemoveFrozenPlayerModel(player);
-    CreateFrozenPlayerModel(player, scope);
-
+    scope.revive_progress <- 0;
     scope.frozen <- true;
-    scope.revive_marker <- CreateReviveMarker(player);
-    scope.revive_progress_sprite <- CreateReviveProgressSprite(player);
+    RemoveFrozenPlayerModel(player);
+    RemovePlayerReviveMarker(scope);
+    scope.revive_marker <- CreateReviveMarker(freeze_point, player);
+    scope.frozen_player_model <- CreateFrozenPlayerModel(freeze_point, player, scope);
+    EntFireByHandle(scope.frozen_player_model, "SetParent", "!activator", -1, scope.revive_marker, scope.revive_marker);
+    scope.revive_progress_sprite <- CreateReviveProgressSprite(freeze_point, player);
+    
+    HidePlayer(player);
+}
+
+function FakeFreezePlayer(player) {
+    // HACK: I don't think the fake ragdoll is stored anywhere, so we have to use that
+    EntFire("tf_ragdoll", "Kill", "", 0.01, player);
+
+    local freeze_point = FindFreezePoint(player);
+    local scope = player.GetScriptScope();
+
+    PlayFreezeSound(player);
+
+    scope.player_class <- player.GetPlayerClass();
+    local fake_revive_marker = CreateReviveMarker(freeze_point, player);
+    local fake_frozen_player_model = CreateFrozenPlayerModel(freeze_point, player, scope);
+    EntFireByHandle(fake_frozen_player_model, "SetParent", "!activator", -1, fake_revive_marker, fake_revive_marker);
+
+    fake_revive_marker.ValidateScriptScope();
+    fake_revive_marker.GetScriptScope().Think <- function() {
+        if (!player.InCond(TF_COND_STEALTHED)) {
+            EmitSoundEx({
+                sound_name = fake_thaw_sound,
+                origin = self.GetCenter(),
+                filter_type = Constants.EScriptRecipientFilter.RECIPIENT_FILTER_GLOBAL
+            });
+            DispatchParticleEffect(fake_disappear_particle, self.GetCenter(), vectriple(0));
+            CountAlivePlayers();
+            self.Kill();
+        }
+    }
+    AddThinkToEnt(fake_revive_marker, "Think");
 }
 
 function PlayFreezeSound(player) {
@@ -45,10 +81,10 @@ function HidePlayer(player) {
 }
 
 
-function CreateReviveMarker(player) {
+function CreateReviveMarker(pos, player) {
     local revive_marker = SpawnEntityFromTable("entity_revive_marker", {
         "targetname": "player_revive",
-        "origin": player.GetOrigin()
+        "origin": pos,
         "angles": player.GetAbsAngles(),
         "solid": 0,
         "rendermode": 10
@@ -56,7 +92,7 @@ function CreateReviveMarker(player) {
 
     SetPropEntity(revive_marker, "m_hOwner", player);
     SetPropInt(revive_marker, "m_iTeamNum", player.GetTeam())
-    revive_marker.SetBodygroup(1, player.GetPlayerClass() - 1);
+    revive_marker.SetBodygroup(1, player.GetPlayerClass() - 1);  // Not really necessary since it's invisible
 
     SetPropInt(revive_marker, "m_iMaxHealth", player.GetMaxHealth());
     return revive_marker;
@@ -95,7 +131,7 @@ function GetWeaponModel(wep_idx)
     return name;
 }
 
-function CreateFrozenPlayerModel(player, scope) {
+function CreateFrozenPlayerModel(pos, player, scope) {
     if (!scope.rawin("cosmetics")) scope.cosmetics <- [];
 
     local fpm = GetFrozenPlayerModel(player);
@@ -103,7 +139,7 @@ function CreateFrozenPlayerModel(player, scope) {
     local frozen_player_model = SpawnEntityFromTable("prop_dynamic", {
         targetname = "frozen_player",
         model = fpm,
-        origin = player.GetOrigin(),
+        origin = pos,
         angles = player.GetAbsAngles(),
         skin = player.GetSkin(),
         rendermode = 2,
@@ -114,7 +150,6 @@ function CreateFrozenPlayerModel(player, scope) {
     //     frozen_player_model.SetBodygroup(i, player.GetBodygroup(i));
     // }
 
-
     // HACK: tint player for now if we don't have the frozen player model yet
     if (fpm.find("/player/") != null) {
         frozen_player_model.KeyValueFromString("rendercolor", frozen_color);
@@ -122,6 +157,17 @@ function CreateFrozenPlayerModel(player, scope) {
 
     frozen_player_model.SetSequence(player.GetSequence());
     frozen_player_model.SetCycle(player.GetCycle());
+
+    // pose parameters
+    local ang = scope.ang;
+    local eye_ang = scope.eye_ang;
+    local vel = scope.vel;
+    local dir = Vector(vel.x, vel.y, vel.z);
+    local speed = dir.Norm() / 300.0;
+    frozen_player_model.SetPoseParameter(frozen_player_model.LookupPoseParameter("move_x"), dir.Dot(ang.Forward()) * speed);
+    frozen_player_model.SetPoseParameter(frozen_player_model.LookupPoseParameter("move_y"), dir.Dot(ang.Left()) * speed);
+    frozen_player_model.SetPoseParameter(frozen_player_model.LookupPoseParameter("body_pitch"), -eye_ang.x);
+    frozen_player_model.SetPoseParameter(frozen_player_model.LookupPoseParameter("body_yaw"), ang.y - eye_ang.y);
 
     local weapon_modelname = GetWeaponModel(scope.weapon_index);
     local frozen_weapon_model = null;
@@ -138,7 +184,6 @@ function CreateFrozenPlayerModel(player, scope) {
 
         scope.frozen_weapon_model <- frozen_weapon_model;
     }
-
 
     // cosmetics
     for (local wearable = player.FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
@@ -167,11 +212,10 @@ function CreateFrozenPlayerModel(player, scope) {
         scope.cosmetics.push(cosmetic_model);
     }
 
-    scope.frozen_player_model <- frozen_player_model;
-    scope.revive_progress <- 0;
+    return frozen_player_model;
 }
 
-function CreateReviveProgressSprite(player) {
+function CreateReviveProgressSprite(pos, player) {
     local sprite = SpawnEntityFromTable("env_sprite", {
         "origin": player.GetOrigin() + player.GetClassEyeHeight() + Vector(0, 0, 32),
         "model": "freeze_tag/revive_bar.vmt",
@@ -199,12 +243,20 @@ function FreezeThink() {
 
         CalculatePlayerFreezePoint(player);
         GetPlayerWeaponIndex(player);
+        GetPlayerPoseParameters(player);
     }
 }
 
 function GetPlayerWeaponIndex(player) {
     local scope = player.GetScriptScope();
     scope.weapon_index <- GetPropInt(player.GetActiveWeapon(), "m_AttributeManager.m_Item.m_iItemDefinitionIndex");
+}
+
+function GetPlayerPoseParameters(player) {
+    local scope = player.GetScriptScope();
+    scope.ang <- player.GetAbsAngles();
+    scope.eye_ang <- player.EyeAngles();
+    scope.vel <- player.GetAbsVelocity();
 }
 
 // EVENTS
@@ -218,7 +270,11 @@ function OnGameEvent_player_death(params)
             CleanRespawn(player);
         }, 0.1);
     } else if (STATE == GAMESTATES.ROUND) {
-        FreezePlayer(player);
+        if (params.death_flags & 32)
+            FakeFreezePlayer(player);
+        else
+            FreezePlayer(player);
+        
         RunWithDelay(CountAlivePlayers, 0.1, [this, true]);
     }
 }

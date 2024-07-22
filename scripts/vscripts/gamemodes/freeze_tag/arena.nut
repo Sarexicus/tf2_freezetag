@@ -57,12 +57,21 @@ function ChangeStateToRound() {
     ForEachAlivePlayer(RecordPlayerTeam, {})
 }
 
-function CountAlivePlayers(checkForGameEnd=false) {
+::CountAlivePlayers <- function(checkForGameEnd=false) {
     local redAlive = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_RED);
     local bluAlive = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_BLUE);
 
-    NetProps.SetPropString(TEXT_PLAYERCOUNT_RED, "m_iszMessage", redAlive.tostring());
-    NetProps.SetPropString(TEXT_PLAYERCOUNT_BLU, "m_iszMessage", bluAlive.tostring());
+    local redText = redAlive;
+    local bluText = bluAlive;
+    foreach (player in GetAllPlayers()) {
+        if (player.InCond(TF_COND_FEIGN_DEATH)) {
+            if (player.GetTeam() == TF_TEAM_RED) redText--;
+            if (player.GetTeam() == TF_TEAM_BLUE) bluText--;
+        }
+    }
+
+    NetProps.SetPropString(TEXT_PLAYERCOUNT_RED, "m_iszMessage", redText.tostring());
+    NetProps.SetPropString(TEXT_PLAYERCOUNT_BLU, "m_iszMessage", bluText.tostring());
     EntFireByHandle(TEXT_PLAYERCOUNT_RED, "Display", "", 0, null, null);
     EntFireByHandle(TEXT_PLAYERCOUNT_BLU, "Display", "", 0, null, null);
 

@@ -2,9 +2,9 @@
 // by Sarexicus and Le Codex (try to find which part is whom's)
 // -------------------------------
 
-function vectriple(a) { return Vector(a, a, a); }
-function Distance(vec1, vec2) { return (vec1-vec2).Length(); }
-function max(a, b) { return (a > b) ? a : b; }
+::vectriple <- function(a) { return Vector(a, a, a); }
+::Distance <- function(vec1, vec2) { return (vec1-vec2).Length(); }
+::max <- function(a, b) { return (a > b) ? a : b; }
 
 ::MaxPlayers <- MaxClients().tointeger();
 ::ROOT <- getroottable();

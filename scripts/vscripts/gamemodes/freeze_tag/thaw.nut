@@ -3,6 +3,7 @@
 // -------------------------------
 
 revive_sprite_frames <- 20; // number of frames in the revive sprite's animation. need to set this manually, I think
+no_thaw_conditions <- [TF_COND_DISGUISED, TF_COND_STEALTHED, TF_COND_INVULNERABLE]; // conditions that prevent the player from thawing other players
 
 // -------------------------------
 
@@ -27,7 +28,7 @@ function UnfreezePlayer(player) {
 
     ResetPlayer(player);
     PlayThawSound(player);
-    DispatchParticleEffect(thaw_particle, player.GetOrigin(), vectriple(0));
+    DispatchParticleEffect(thaw_particle, player.GetCenter(), vectriple(0));
 }
 
 function ResetPlayer(player) {
@@ -139,6 +140,9 @@ function UpdateReviveProgressSprite(player) {
 }
 
 function ThawCheck(player, params) {
+    foreach (cond in no_thaw_conditions)
+        if (player.InCond(cond)) return;
+
     local scope = params.scope;
     local frozen_statue_location = scope.frozen_player_model.GetCenter();
     local frozen_player = params.frozen_player;
