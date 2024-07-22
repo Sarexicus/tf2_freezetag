@@ -173,6 +173,7 @@ function CreateFrozenPlayerModel(pos, player, scope) {
     frozen_player_model.SetPoseParameter(frozen_player_model.LookupPoseParameter("body_pitch"), -eye_ang.x);
     frozen_player_model.SetPoseParameter(frozen_player_model.LookupPoseParameter("body_yaw"), ang.y - eye_ang.y);
 
+    // Weapon model
     local weapon_modelname = GetWeaponModel(scope.weapon_index);
     local frozen_weapon_model = null;
     if (weapon_modelname != null && weapon_modelname != "") {

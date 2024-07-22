@@ -91,6 +91,8 @@ function OnGameEvent_teamplay_round_start(params) {
 function OnGameEvent_player_team(params) {
     // if a player changes team, remove their statue
     local player = GetPlayerFromUserID(params.userid);
+    if (player == null) return;
+
     local scope = player.GetScriptScope();
     if (params.team != params.oldteam) {
         ResetPlayer(player);
