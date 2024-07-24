@@ -79,6 +79,7 @@ function SetupPlayer(player) {
     scope.thawed <- false;
     scope.freeze_positions <- [];
     scope.position_index <- 0;
+    scope.revive_players <- 0;
 }
 
 // EVENTS

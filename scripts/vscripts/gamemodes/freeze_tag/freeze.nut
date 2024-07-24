@@ -161,6 +161,7 @@ function CreateFrozenPlayerModel(pos, player, scope) {
 
     frozen_player_model.SetSequence(player.GetSequence());
     frozen_player_model.SetCycle(player.GetCycle());
+    SetPropBool(frozen_player_model, "m_bClientSideAnimation", false);
 
     // pose parameters
     local ang = scope.ang;

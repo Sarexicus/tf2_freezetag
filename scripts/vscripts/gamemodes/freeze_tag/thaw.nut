@@ -106,7 +106,7 @@ function ThawThink() {
         if (scope.revive_players > 0) {
             if (!was_being_thawed)
                 SendGlobalGameEvent("show_annotation", {
-                    text = "You are being thawed: " + (scope.revive_progress * 100) + ""
+                    text = "You are being thawed!"
                     id = player.entindex()
                     visibilityBitfield = 1 << player.entindex()
                     follow_entindex = scope.frozen_player_model.entindex()
