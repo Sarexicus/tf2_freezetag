@@ -1,0 +1,13 @@
+"UnlitGeneric"
+{
+    "$basetexture" "effects/cake.vtf"
+    "$translucent" 1
+
+    "Proxies"
+    {
+        "PlayerTeamMatch"
+        {
+            "resultVar"  "$alpha"
+        }
+    }
+}

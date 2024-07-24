@@ -42,6 +42,7 @@ function ResetPlayer(player) {
     RemoveReviveProgressSprite(scope);
     RemoveGlow(scope);
     RemovePlayerReviveMarker(scope);
+    RemoveParticles(scope);
     RevealPlayer(player);
 }
 
@@ -74,10 +75,18 @@ function RemoveReviveProgressSprite(scope) {
     scope.revive_progress_sprite <- null;
 }
 
+function RemoveParticles(scope) {
+    if (scope.rawin("particles") && scope.particles != null && scope.particles.IsValid()) {
+        scope.particles.Kill();
+    }
+    scope.particles <- null;
+}
+
 function RevealPlayer(player) {
     player.SetMoveType(MOVETYPE_WALK, MOVECOLLIDE_DEFAULT);
     SetPropInt(player, "m_nRenderMode", 0);
 }
+
 
 function RemoveFrozenPlayerModel(player) {
     local scope = player.GetScriptScope();
@@ -125,7 +134,7 @@ function ThawThink() {
                     lifetime = 0.01
                     show_effect = false
                 });
-            
+
             scope.revive_progress -= (1 / decay_time) * tick_rate;
             if (scope.revive_progress < 0) scope.revive_progress = 0;
         }
