@@ -5,7 +5,6 @@
 IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
 
 frozen_color <- "0 228 255"; // this is the color that will tint frozen weapons, cosmetics, and placeholder player models
-pose_parameters <- ["move_x", "move_y", "look_pitch", "look_yaw"]; // pose parameters transferred to the statue 
 
 // -------------------------------
 
@@ -32,12 +31,13 @@ function FreezePlayer(player) {
     RemovePlayerReviveMarker(scope);
     RemoveGlow(scope);
 
-    scope.revive_marker <- CreateReviveMarker(freeze_point, player);
-    scope.frozen_player_model <- CreateFrozenPlayerModel(freeze_point, player, scope);
-    EntFireByHandle(scope.frozen_player_model, "SetParent", "!activator", -1, scope.revive_marker, scope.revive_marker);
-    scope.glow <- CreateGlow(player, scope.frozen_player_model);
-    scope.revive_progress_sprite <- CreateReviveProgressSprite(freeze_point, player);
-    
+    RunWithDelay(function() {
+        scope.revive_marker <- CreateReviveMarker(freeze_point, player);
+        scope.frozen_player_model <- CreateFrozenPlayerModel(freeze_point, player, scope);
+        EntFireByHandle(scope.frozen_player_model, "SetParent", "!activator", -1, scope.revive_marker, scope.revive_marker);
+        scope.glow <- CreateGlow(player, scope.frozen_player_model);
+        scope.revive_progress_sprite <- CreateReviveProgressSprite(freeze_point, player);
+    }, 0);
     HidePlayer(player);
 }
 
@@ -102,8 +102,8 @@ function CreateReviveMarker(pos, player) {
     return revive_marker;
 }
 
-function GetFrozenPlayerModel(player) {
-    switch(player.GetPlayerClass()) {
+function GetFrozenPlayerModel(playerClass) {
+    switch(playerClass) {
         case TF_CLASS_SCOUT:         return "models/props_freezetag/scout_frozen.mdl";
         case TF_CLASS_SOLDIER:       return "models/props_freezetag/soldier_frozen.mdl";
         case TF_CLASS_PYRO:          return "models/props_freezetag/pyro_frozen.mdl";
@@ -138,7 +138,10 @@ function GetWeaponModel(wep_idx)
 function CreateFrozenPlayerModel(pos, player, scope) {
     if (!scope.rawin("cosmetics")) scope.cosmetics <- [];
 
-    local fpm = GetFrozenPlayerModel(player);
+    local player_class = player.GetPlayerClass();
+    if (player.InCond(TF_COND_DISGUISED) && NetProps.GetPropInt(player, "m_nDisguiseTeam") == player.GetTeam())
+        player_class = NetProps.GetPropInt(player, "m_nDisguiseClass");
+    local fpm = GetFrozenPlayerModel(player_class);
 
     local frozen_player_model = SpawnEntityFromTable("prop_dynamic", {
         targetname = "frozen_player",
@@ -159,8 +162,10 @@ function CreateFrozenPlayerModel(pos, player, scope) {
         frozen_player_model.KeyValueFromString("rendercolor", frozen_color);
     }
 
-    frozen_player_model.SetSequence(player.GetSequence());
+    local sequenceName = player.GetSequenceName(player.GetSequence());
+    frozen_player_model.ResetSequence(frozen_player_model.LookupSequence(sequenceName));
     frozen_player_model.SetCycle(player.GetCycle());
+    frozen_player_model.SetPlaybackRate(0.001);
     SetPropBool(frozen_player_model, "m_bClientSideAnimation", false);
 
     // pose parameters
