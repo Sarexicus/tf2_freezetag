@@ -97,7 +97,6 @@ function OnGameEvent_player_team(params) {
 
     local scope = player.GetScriptScope();
     if (params.team != params.oldteam) {
-        printl("what")
         ResetPlayer(player);
     }
 }
@@ -115,8 +114,11 @@ function OnGameEvent_player_spawn(params) {
         local scope = player.GetScriptScope();
 
         if (!scope.rawin("thawed") || !scope.thawed) {
-            KillPlayerSilent(player);
-            SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", TF_CLASS_SCOUT);
+            RunWithDelay(function() {
+                scope.thawed = true;
+                KillPlayerSilent(player);
+                SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", TF_CLASS_SCOUT);
+            }, 0.1);
         }
     }
 }
