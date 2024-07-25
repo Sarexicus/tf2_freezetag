@@ -3,7 +3,6 @@
 // -------------------------------
 
 revive_sprite_frames <- 20; // number of frames in the revive sprite's animation. need to set this manually, I think
-no_thaw_conditions <- [TF_COND_DISGUISED, TF_COND_STEALTHED, TF_COND_INVULNERABLE]; // conditions that prevent the player from thawing other players
 
 // -------------------------------
 
@@ -188,9 +187,19 @@ function UpdateReviveProgressSprite(player) {
     SetPropFloat(sprite, "m_flFrame", revive_sprite_frames * progress);
 }
 
-function ThawCheck(player, params) {
+function CanThaw(player) {
+    local no_thaw_conditions = [TF_COND_STEALTHED, TF_COND_INVULNERABLE];
     foreach (cond in no_thaw_conditions)
-        if (player.InCond(cond)) return;
+        if (player.InCond(cond)) return false;
+
+    if (player.InCond(TF_COND_DISGUISED) && NetProps.GetPropInt(player, "m_nDisguiseTeam") != player.GetTeam())
+        return false;
+
+    return true;
+}
+
+function ThawCheck(player, params) {
+    if (!CanThaw(player)) return;
 
     local scope = params.scope;
     local frozen_statue_location = scope.frozen_player_model.GetCenter();
