@@ -67,6 +67,8 @@ function Think() {
 
     if (STATE == GAMESTATES.ROUND) ThawThink();
 
+    deadRingerSpies.clear();
+
     _ticks += tick_rate;
     if (_ticks > 1) _ticks = 0;
     return tick_rate;

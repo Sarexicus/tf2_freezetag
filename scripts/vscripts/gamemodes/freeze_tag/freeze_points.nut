@@ -20,7 +20,7 @@ function CalculatePlayerFreezePoint(player) {
     }
 
     local traceTable = {
-        "start": player.GetOrigin()
+        "start": player.GetOrigin() + Vector(0, 0, 32)
         "end": player.GetOrigin() + Vector(0, 0, -10000),
         "ignore": player,
         "hullmin": player.GetPlayerMins(),

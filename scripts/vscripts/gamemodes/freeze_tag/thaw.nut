@@ -155,6 +155,7 @@ function ThawThink() {
 
 function ChangeFrozenPlayerModelSolidity(scope) {
     local frozen_player_model = scope.frozen_player_model;
+    if (!frozen_player_model || !frozen_player_model.IsValid()) return;
     frozen_player_model.SetSolid(scope.solid ? 6 : 0);
 }
 
@@ -192,7 +193,7 @@ function CanThaw(player) {
     foreach (cond in no_thaw_conditions)
         if (player.InCond(cond)) return false;
 
-    if (player.InCond(TF_COND_DISGUISED) && NetProps.GetPropInt(player, "m_nDisguiseTeam") != player.GetTeam())
+    if (player.InCond(TF_COND_DISGUISED) && GetPropInt(player, "m_Shared.m_nDisguiseTeam") != player.GetTeam())
         return false;
 
     return true;
@@ -202,7 +203,10 @@ function ThawCheck(player, params) {
     if (!CanThaw(player)) return;
 
     local scope = params.scope;
-    local frozen_statue_location = scope.frozen_player_model.GetCenter();
+    local frozen_statue = scope.frozen_player_model;
+    if (!frozen_statue || !frozen_statue.IsValid()) return;
+
+    local frozen_statue_location = frozen_statue.GetCenter();
     local frozen_player = params.frozen_player;
     if (scope.revive_players == -1) return;
 

@@ -52,7 +52,6 @@ function FakeFreezePlayer(player) {
 
     PlayFreezeSound(player);
 
-    scope.player_class <- player.GetPlayerClass();
     local fake_revive_marker = CreateReviveMarker(freeze_point, player);
     local fake_frozen_player_model = CreateFrozenPlayerModel(freeze_point, player, scope);
     EntFireByHandle(fake_frozen_player_model, "SetParent", "!activator", -1, fake_revive_marker, fake_revive_marker);
@@ -139,10 +138,11 @@ function GetWeaponModel(wep_idx)
 
 function CreateFrozenPlayerModel(pos, player, scope) {
     if (!scope.rawin("cosmetics")) scope.cosmetics <- [];
+    // Reestablish this when we have found a way to get the disguise's animation
+    local friendly_disguised = false; // player.InCond(TF_COND_DISGUISED) && GetPropInt(player, "m_Shared.m_nDisguiseTeam") == player.GetTeam();
 
     local player_class = player.GetPlayerClass();
-    if (player.InCond(TF_COND_DISGUISED) && NetProps.GetPropInt(player, "m_nDisguiseTeam") == player.GetTeam())
-        player_class = NetProps.GetPropInt(player, "m_nDisguiseClass");
+    if (friendly_disguised) player_class = GetPropInt(player, "m_Shared.m_nDisguiseClass");
     local fpm = GetFrozenPlayerModel(player_class);
 
     local frozen_player_model = SpawnEntityFromTable("prop_dynamic", {
@@ -182,7 +182,7 @@ function CreateFrozenPlayerModel(pos, player, scope) {
     frozen_player_model.SetPoseParameter(frozen_player_model.LookupPoseParameter("body_yaw"), ang.y - eye_ang.y);
 
     // Weapon model
-    local weapon_modelname = GetWeaponModel(scope.weapon_index);
+    local weapon_modelname = friendly_disguised ? GetPropEntity(player, "m_Shared.m_hDisguiseWeapon").GetModelName() : GetWeaponModel(scope.weapon_index);
     local frozen_weapon_model = null;
     if (weapon_modelname != null && weapon_modelname != "") {
         frozen_weapon_model = SpawnEntityFromTable("prop_dynamic_ornament", {
@@ -199,30 +199,34 @@ function CreateFrozenPlayerModel(pos, player, scope) {
     }
 
     // cosmetics
-    for (local wearable = player.FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
-    {
-        if (wearable.GetClassname() != "tf_wearable")
-            continue;
-
-        local wearable_modelname = wearable.GetModelName();
-        printl(wearable_modelname);
-
-        if (wearable_modelname == null || wearable_modelname == "")
-            continue;
-
-        local cosmetic_model = SpawnEntityFromTable("prop_dynamic_ornament",
+    local disguise_target = GetPropEntity(player, "m_Shared.m_hDisguiseTarget");
+    local origin = friendly_disguised ? (disguise_target.GetPlayerClass() == player_class ? disguise_target : null) : player;
+    if (origin) {
+        for (local wearable = origin.FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
         {
-            targetname = "frozen_wearable",
-            origin = frozen_player_model.GetOrigin(),
-            rendermode = 2,
-            renderamt = 230,
-            rendercolor = frozen_color,
-            model = wearable.GetModelName(),
-            skin = player.GetSkin()
-        });
-        EntFireByHandle(cosmetic_model, "SetAttached", "!activator", 0.05, frozen_player_model, null);
+            if (wearable.GetClassname() != "tf_wearable")
+                continue;
 
-        scope.cosmetics.push(cosmetic_model);
+            local wearable_modelname = wearable.GetModelName();
+            printl(wearable_modelname);
+
+            if (wearable_modelname == null || wearable_modelname == "")
+                continue;
+
+            local cosmetic_model = SpawnEntityFromTable("prop_dynamic_ornament",
+            {
+                targetname = "frozen_wearable",
+                origin = frozen_player_model.GetOrigin(),
+                rendermode = 2,
+                renderamt = 230,
+                rendercolor = frozen_color,
+                model = wearable.GetModelName(),
+                skin = player.GetSkin()
+            });
+            EntFireByHandle(cosmetic_model, "SetAttached", "!activator", 0.05, frozen_player_model, null);
+
+            scope.cosmetics.push(cosmetic_model);
+        }
     }
 
     return frozen_player_model;
@@ -320,18 +324,32 @@ function GetPlayerPoseParameters(player) {
 // EVENTS
 // -----------------------------
 
+deadRingerSpies <- [];
 function OnGameEvent_player_death(params)
 {
     local player = GetPlayerFromUserID(params.userid);
+    printl(player);
     if (STATE == GAMESTATES.SETUP) {
         RunWithDelay(function() {
             CleanRespawn(player);
         }, 0.1);
     } else if (STATE == GAMESTATES.ROUND) {
-        if (params.death_flags & 32)
-            FakeFreezePlayer(player);
-        else
+        if (params.death_flags & 32) {
+            // HACK: Because of a weird inconsistency with friendly disguises, we actually need to make sure we actually got the Spy
+            local spy = null;
+            foreach (player in GetAllPlayers()) {
+                local entindex = player.entindex();
+                if (deadRingerSpies.find(entindex) == null && GetPropFloat(player, "m_Shared.m_flCloakMeter") == 50.0) {
+                    spy = player;
+                    deadRingerSpies.push(entindex);
+                    break;
+                }
+            }
+
+            if (spy) FakeFreezePlayer(spy);
+        } else {
             FreezePlayer(player);
+        }
 
         RunWithDelay(CountAlivePlayers, 0.1, [this, true]);
     }

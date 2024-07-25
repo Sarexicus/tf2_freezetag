@@ -91,6 +91,10 @@ function ChangeStateToRound() {
 function WinRound(winnerTeam) {
     if (round_scored) return;
     round_scored = true;
+
+    EntFire("freeze_particles", "Kill", null, 0, null);
+    EntFire("revive_progress_sprite", "Kill", null, 0, null);
+
     if (winnerTeam) {
         EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "Score"+TeamName(winnerTeam, true)+"Points", "", 0, null, null);
         EntFireByHandle(GAMERULES, "PlayVO", "Hud.EndRoundScored", 0, null, null);
