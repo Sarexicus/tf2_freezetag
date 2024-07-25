@@ -17,6 +17,7 @@ EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "DisableMaxScoreUpdating", "0", 1, nul
 EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam1", mainLogicEntity.GetName(), "RunScriptCode", "WinRound(Constants.ETFTeam.TF_TEAM_RED)", 0, -1);
 EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam2", mainLogicEntity.GetName(), "RunScriptCode", "WinRound(Constants.ETFTeam.TF_TEAM_BLUE)", 0, -1);
 
+local round_scored = false;
 
 ::GAMESTATES <- {
     SETUP = 0,
@@ -27,6 +28,8 @@ EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam2", mainLogicEntity.GetName(), "Ru
 
 function ChangeStateToSetup() {
     STATE = GAMESTATES.SETUP;
+
+    round_scored = false;
     EntFireByHandle(GAME_TIMER, "Enable", "", -1, null, null);
     EntFireByHandle(GAME_TIMER, "RoundSpawn", "", 0, null, null);
 
@@ -86,6 +89,8 @@ function ChangeStateToRound() {
 }
 
 function WinRound(winnerTeam) {
+    if (round_scored) return;
+    round_scored = true;
     if (winnerTeam) {
         EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "Score"+TeamName(winnerTeam, true)+"Points", "", 0, null, null);
         EntFireByHandle(GAMERULES, "PlayVO", "Hud.EndRoundScored", 0, null, null);

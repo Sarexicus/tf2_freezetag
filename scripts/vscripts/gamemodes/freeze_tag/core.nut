@@ -19,7 +19,7 @@ players_solid_when_frozen <- false; // whether frozen players have collisions
 
 ::freeze_sound <- "Icicle.TurnToIce";
 ::thaw_sound <- "Icicle.Melt";
-::thaw_particle <- "xms_icicle_impact_dryice";
+::thaw_particle <- "ft_playerthaw";
 ::fake_thaw_sound <- "Halloween.spell_stealth";
 ::fake_disappear_particle <- "ghost_smoke";
 
@@ -86,6 +86,7 @@ function SetupPlayer(player) {
 // -----------------------------
 
 function OnGameEvent_teamplay_round_start(params) {
+    if(IsInWaitingForPlayers()) return;
     ChangeStateToSetup();
 }
 
@@ -96,6 +97,7 @@ function OnGameEvent_player_team(params) {
 
     local scope = player.GetScriptScope();
     if (params.team != params.oldteam) {
+        printl("what")
         ResetPlayer(player);
     }
 }

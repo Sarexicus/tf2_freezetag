@@ -35,6 +35,8 @@ function FreezePlayer(player) {
         scope.revive_marker <- CreateReviveMarker(freeze_point, player);
         scope.frozen_player_model <- CreateFrozenPlayerModel(freeze_point, player, scope);
         EntFireByHandle(scope.frozen_player_model, "SetParent", "!activator", -1, scope.revive_marker, scope.revive_marker);
+    
+        scope.particles <- CreateFreezeParticles(freeze_point, player, scope);
         scope.glow <- CreateGlow(player, scope.frozen_player_model);
         scope.revive_progress_sprite <- CreateReviveProgressSprite(freeze_point, player);
     }, 0);
@@ -226,6 +228,22 @@ function CreateFrozenPlayerModel(pos, player, scope) {
     return frozen_player_model;
 }
 
+function CreateFreezeParticles(pos, player, scope) {
+    local particle_name = (player.GetTeam() == 2) ? "ft_thawzone_base_red" : "ft_thawzone_base_blu";
+
+    local particles = SpawnEntityFromTable("info_particle_system", {
+        "targetname": "freeze_particles",
+        "effect_name": particle_name,
+        "origin": pos
+    });
+
+    particles.AcceptInput("Start", "", null, null);
+    // by default, the particle will preserve between rounds. change its classname here to prevent that
+    SetPropString(particles, "m_iClassname", "info_teleport_destination");
+
+    return particles;
+}
+
 function CreateGlow(player, prop) {
     // "Prop" that will be glowing
     local proxy_entity = Entities.CreateByClassname("obj_teleporter");
@@ -314,7 +332,7 @@ function OnGameEvent_player_death(params)
             FakeFreezePlayer(player);
         else
             FreezePlayer(player);
-        
+
         RunWithDelay(CountAlivePlayers, 0.1, [this, true]);
     }
 }
