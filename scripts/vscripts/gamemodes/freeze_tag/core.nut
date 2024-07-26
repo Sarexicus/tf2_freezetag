@@ -30,7 +30,17 @@ tick_rate <- 0.1; // how often the base think rate polls
 IncludeScript(VSCRIPT_PATH + "freeze.nut", this);
 IncludeScript(VSCRIPT_PATH + "thaw.nut", this);
 
+function PrecacheParticle(particle_name) {
+    PrecacheEntityFromTable({
+        classname = "info_particle_system",
+        effect_name = particle_name
+    });
+}
+
 function Precache() {
+    PrecacheParticle(thaw_particle);
+    PrecacheParticle(fake_disappear_particle);
+
     PrecacheScriptSound(freeze_sound);
     PrecacheScriptSound(thaw_sound);
     PrecacheScriptSound(fake_thaw_sound);
