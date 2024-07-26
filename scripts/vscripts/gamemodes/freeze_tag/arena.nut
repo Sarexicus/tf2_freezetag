@@ -73,8 +73,8 @@ function ChangeStateToRound() {
         }
     }
 
-    NetProps.SetPropString(TEXT_PLAYERCOUNT_RED, "m_iszMessage", redText.tostring());
-    NetProps.SetPropString(TEXT_PLAYERCOUNT_BLU, "m_iszMessage", bluText.tostring());
+    SetPropString(TEXT_PLAYERCOUNT_RED, "m_iszMessage", redText.tostring());
+    SetPropString(TEXT_PLAYERCOUNT_BLU, "m_iszMessage", bluText.tostring());
     EntFireByHandle(TEXT_PLAYERCOUNT_RED, "Display", "", 0, null, null);
     EntFireByHandle(TEXT_PLAYERCOUNT_BLU, "Display", "", 0, null, null);
 
