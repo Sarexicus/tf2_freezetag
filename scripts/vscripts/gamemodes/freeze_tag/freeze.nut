@@ -23,7 +23,7 @@ function FreezePlayer(player) {
     PlayFreezeSound(player);
 
     scope.player_class <- player.GetPlayerClass();
-
+    scope.freeze_point <- freeze_point;
     scope.revive_progress <- 0;
     scope.frozen <- true;
 
@@ -93,6 +93,9 @@ function CreateReviveMarker(pos, player) {
     revive_marker.SetBodygroup(1, player.GetPlayerClass() - 1);  // Not really necessary since it's invisible
 
     SetPropInt(revive_marker, "m_iMaxHealth", player.GetMaxHealth());
+
+    revive_marker.SetMoveType(MOVETYPE_NONE, MOVECOLLIDE_FLY_BOUNCE);
+    revive_marker.SetCollisionGroup(COLLISION_GROUP_NONE);
     return revive_marker;
 }
 
@@ -162,6 +165,8 @@ function CreateFrozenPlayerModel(pos, player, scope) {
     frozen_player_model.SetCycle(player.GetCycle());
     frozen_player_model.SetPlaybackRate(0.001);
     SetPropBool(frozen_player_model, "m_bClientSideAnimation", false);
+    frozen_player_model.SetCollisionGroup(COLLISION_GROUP_NONE);
+    frozen_player_model.SetMoveType(MOVETYPE_NONE, MOVECOLLIDE_FLY_BOUNCE);
 
     // pose parameters
     local ang = scope.ang;
