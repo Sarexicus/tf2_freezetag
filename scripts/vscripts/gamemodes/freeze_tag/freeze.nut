@@ -238,7 +238,8 @@ function CreateFreezeParticles(pos, player, scope) {
     local particles = SpawnEntityFromTable("info_particle_system", {
         "targetname": "freeze_particles",
         "effect_name": particle_name,
-        "origin": pos
+        "origin": pos,
+        "TeamNum": player.GetTeam()
     });
 
     particles.AcceptInput("Start", "", null, null);
