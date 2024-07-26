@@ -31,7 +31,6 @@ function UnfreezePlayer(player) {
 }
 
 function ResetPlayer(player) {
-    SetPropInt(player, "m_nRenderMode", 0);
     local scope = player.GetScriptScope();
     scope.frozen <- false;
     scope.thawed <- false;
@@ -42,7 +41,6 @@ function ResetPlayer(player) {
     RemoveGlow(scope);
     RemovePlayerReviveMarker(scope);
     RemoveParticles(scope);
-    RevealPlayer(player);
 }
 
 function PlayThawSound(player) {
@@ -79,11 +77,6 @@ function RemoveParticles(scope) {
         scope.particles.Kill();
     }
     scope.particles <- null;
-}
-
-function RevealPlayer(player) {
-    player.SetMoveType(MOVETYPE_WALK, MOVECOLLIDE_DEFAULT);
-    SetPropInt(player, "m_nRenderMode", 0);
 }
 
 

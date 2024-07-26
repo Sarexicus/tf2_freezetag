@@ -35,12 +35,11 @@ function FreezePlayer(player) {
         scope.revive_marker <- CreateReviveMarker(freeze_point, player);
         scope.frozen_player_model <- CreateFrozenPlayerModel(freeze_point, player, scope);
         EntFireByHandle(scope.frozen_player_model, "SetParent", "!activator", -1, scope.revive_marker, scope.revive_marker);
-    
+
         scope.particles <- CreateFreezeParticles(freeze_point, player, scope);
         scope.glow <- CreateGlow(player, scope.frozen_player_model);
         scope.revive_progress_sprite <- CreateReviveProgressSprite(freeze_point, player);
     }, 0);
-    HidePlayer(player);
 }
 
 function FakeFreezePlayer(player) {
@@ -79,12 +78,6 @@ function PlayFreezeSound(player) {
         filter_type = Constants.EScriptRecipientFilter.RECIPIENT_FILTER_GLOBAL
     });
 }
-
-function HidePlayer(player) {
-    player.SetMoveType(MOVETYPE_NONE, MOVECOLLIDE_FLY_BOUNCE);
-    SetPropInt(player, "m_nRenderMode", 10);
-}
-
 
 function CreateReviveMarker(pos, player) {
     local revive_marker = SpawnEntityFromTable("entity_revive_marker", {
