@@ -1,0 +1,16 @@
+"Spritecard"
+{
+	"$basetexture"	"Effects/softglow"
+	"$additive"	1
+	"$vertexcolor"	1
+	"$vertexalphamat"	1
+	"$depthblend"  0
+
+    "Proxies"
+    {
+        "PlayerTeamMatch"
+        {
+            "resultVar" "$alpha"
+        }
+    }
+}
