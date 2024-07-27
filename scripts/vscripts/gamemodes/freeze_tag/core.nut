@@ -52,8 +52,6 @@ function RecordPlayerTeam(player, params) {
 }
 
 function RoundStart() {
-    EntFire("ft_relay_newround", "Trigger", "", 0, null);
-
     for (local i = 1; i <= MaxPlayers; i++)
     {
         local player = PlayerInstanceFromIndex(i)
