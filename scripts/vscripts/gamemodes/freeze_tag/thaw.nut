@@ -6,17 +6,19 @@ revive_sprite_frames <- 20; // number of frames in the revive sprite's animation
 
 // -------------------------------
 
-function UnfreezePlayer(player) {
+function UnfreezePlayer(player, no_respawn=false) {
     // prevent the player from switching class while dead.
     // FIXME: this still lets players change weapons. can we fix this?
     local scope = player.GetScriptScope();
     scope.thawed <- true;
 
-    if (scope.rawin("player_class")) {
-        player.SetPlayerClass(scope.player_class);
-        SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", scope.player_class);
+    if (!no_respawn) {
+        if (scope.rawin("player_class")) {
+            player.SetPlayerClass(scope.player_class);
+            SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", scope.player_class);
+        }
+        CleanRespawn(player);
     }
-    CleanRespawn(player);
     player.SetHealth(player.GetMaxHealth() * health_multiplier_on_thaw);
 
     // put the player on the revive marker if it exists.
@@ -148,7 +150,7 @@ function ThawThink() {
         local medic_hack = (IsPlayerAlive(player) && scope.revive_progress > 0.9);
 
         if (scope.revive_progress >= 1 || medic_hack) {
-            UnfreezePlayer(player);
+            UnfreezePlayer(player, medic_hack);
         }
     }
 }
