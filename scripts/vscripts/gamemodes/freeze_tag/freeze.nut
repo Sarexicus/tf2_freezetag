@@ -9,7 +9,7 @@ frozen_color <- "0 228 255"; // this is the color that will tint frozen weapons,
 // -------------------------------
 
 function FreezePlayer(player) {
-    EntFireByHandle(player, "RunScriptCode", "NetProps.GetPropEntity(self, `m_hRagdoll`).Destroy()", 0.01, player, player);
+    EntFireByHandle(player, "RunScriptCode", "GetPropEntity(self, `m_hRagdoll`).Destroy()", 0.01, player, player);
 
     local freeze_point = FindFreezePoint(player);
     if (freeze_point != null) {
@@ -23,7 +23,7 @@ function FreezePlayer(player) {
     PlayFreezeSound(player);
 
     scope.player_class <- player.GetPlayerClass();
-
+    scope.freeze_point <- freeze_point;
     scope.revive_progress <- 0;
     scope.frozen <- true;
 
@@ -35,12 +35,11 @@ function FreezePlayer(player) {
         scope.revive_marker <- CreateReviveMarker(freeze_point, player);
         scope.frozen_player_model <- CreateFrozenPlayerModel(freeze_point, player, scope);
         EntFireByHandle(scope.frozen_player_model, "SetParent", "!activator", -1, scope.revive_marker, scope.revive_marker);
-    
+
         scope.particles <- CreateFreezeParticles(freeze_point, player, scope);
         scope.glow <- CreateGlow(player, scope.frozen_player_model);
         scope.revive_progress_sprite <- CreateReviveProgressSprite(freeze_point, player);
     }, 0);
-    HidePlayer(player);
 }
 
 function FakeFreezePlayer(player) {
@@ -80,12 +79,6 @@ function PlayFreezeSound(player) {
     });
 }
 
-function HidePlayer(player) {
-    player.SetMoveType(MOVETYPE_NONE, MOVECOLLIDE_FLY_BOUNCE);
-    SetPropInt(player, "m_nRenderMode", 10);
-}
-
-
 function CreateReviveMarker(pos, player) {
     local revive_marker = SpawnEntityFromTable("entity_revive_marker", {
         "targetname": "player_revive",
@@ -100,11 +93,14 @@ function CreateReviveMarker(pos, player) {
     revive_marker.SetBodygroup(1, player.GetPlayerClass() - 1);  // Not really necessary since it's invisible
 
     SetPropInt(revive_marker, "m_iMaxHealth", player.GetMaxHealth());
+
+    revive_marker.SetMoveType(MOVETYPE_NONE, MOVECOLLIDE_FLY_BOUNCE);
+    revive_marker.SetCollisionGroup(COLLISION_GROUP_NONE);
     return revive_marker;
 }
 
-function GetFrozenPlayerModel(playerClass) {
-    switch(playerClass) {
+function GetFrozenPlayerModel(player_class) {
+    switch(player_class) {
         case TF_CLASS_SCOUT:         return "models/props_freezetag/scout_frozen.mdl";
         case TF_CLASS_SOLDIER:       return "models/props_freezetag/soldier_frozen.mdl";
         case TF_CLASS_PYRO:          return "models/props_freezetag/pyro_frozen.mdl";
@@ -169,6 +165,8 @@ function CreateFrozenPlayerModel(pos, player, scope) {
     frozen_player_model.SetCycle(player.GetCycle());
     frozen_player_model.SetPlaybackRate(0.001);
     SetPropBool(frozen_player_model, "m_bClientSideAnimation", false);
+    frozen_player_model.SetCollisionGroup(COLLISION_GROUP_NONE);
+    frozen_player_model.SetMoveType(MOVETYPE_NONE, MOVECOLLIDE_FLY_BOUNCE);
 
     // pose parameters
     local ang = scope.ang;
@@ -232,8 +230,22 @@ function CreateFrozenPlayerModel(pos, player, scope) {
     return frozen_player_model;
 }
 
+function TestFreezeParticles(team) {
+    local player = GetListenServerHost();
+    local particles = SpawnEntityFromTable("info_particle_system", {
+        "targetname": "freeze_particles",
+        "effect_name": "ft_teamtest_sprite",
+        "origin": player.GetOrigin(),
+        "TeamNum": team
+    });
+    particles.SetTeam(team);
+    particles.AcceptInput("Start", "", null, null);
+    // by default, the particle will preserve between rounds. change its classname here to prevent that
+    SetPropString(particles, "m_iClassname", "info_teleport_destination");
+}
+
 function CreateFreezeParticles(pos, player, scope) {
-    local particle_name = (player.GetTeam() == 2) ? "ft_thawzone_base_red" : "ft_thawzone_base_blu";
+    local particle_name = "ft_thawzone_circleonly_" + ((player.GetTeam() == 2) ? "red" : "blu");
 
     local particles = SpawnEntityFromTable("info_particle_system", {
         "targetname": "freeze_particles",
@@ -241,6 +253,8 @@ function CreateFreezeParticles(pos, player, scope) {
         "origin": pos,
         "TeamNum": player.GetTeam()
     });
+
+    particles.SetTeam(player.GetTeam());
 
     particles.AcceptInput("Start", "", null, null);
     // by default, the particle will preserve between rounds. change its classname here to prevent that
@@ -256,19 +270,19 @@ function CreateGlow(player, prop) {
     proxy_entity.DispatchSpawn();
     proxy_entity.SetModel(prop.GetModelName());
     proxy_entity.AddEFlags(Constants.FEntityEFlags.EFL_NO_THINK_FUNCTION);
-    NetProps.SetPropString(proxy_entity, "m_iName", UniqueString("glow_target"));
-    NetProps.SetPropBool(proxy_entity, "m_bPlacing", true);
-    NetProps.SetPropInt(proxy_entity, "m_fObjectFlags", 2);
+    SetPropString(proxy_entity, "m_iName", UniqueString("glow_target"));
+    SetPropBool(proxy_entity, "m_bPlacing", true);
+    SetPropInt(proxy_entity, "m_fObjectFlags", 2);
 
     // Bonemerging
     proxy_entity.SetSolid(0);
     proxy_entity.SetMoveType(0, 0);
-    NetProps.SetPropInt(proxy_entity, "m_fEffects", 129);
-    NetProps.SetPropInt(proxy_entity, "m_nNextThinkTick", 0x7FFFFFFF);
-    NetProps.SetPropEntity(proxy_entity, "m_hBuilder", player);
+    SetPropInt(proxy_entity, "m_fEffects", 129);
+    SetPropInt(proxy_entity, "m_nNextThinkTick", 0x7FFFFFFF);
+    SetPropEntity(proxy_entity, "m_hBuilder", player);
     EntFireByHandle(proxy_entity, "SetParent", "!activator", -1, prop, prop);
 
-    // Tf_glow entity
+    // tf_glow entity
     local glow = SpawnEntityFromTable("tf_glow", {
         targetname = "glow_" + proxy_entity.GetName(),
         target = proxy_entity.GetName(),

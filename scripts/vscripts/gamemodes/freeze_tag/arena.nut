@@ -36,6 +36,7 @@ function ChangeStateToSetup() {
     EntFire("template_ft_preround", "ForceSpawn", "", 0, null);
     EntFire("setupgate*", "Close", "", 0, null);
     EntFire("game_forcerespawn", "ForceRespawn", "", 0.3, null);
+    EntFire("ft_relay_newround", "Trigger", "", 0.3, null);
 
     EntityOutputs.AddOutput(GAME_TIMER, "OnSetupFinished", mainLogicEntity.GetName(), "RunScriptCode", "ChangeStateToRound()", 0, 1);
     RoundStart();
@@ -73,8 +74,8 @@ function ChangeStateToRound() {
         }
     }
 
-    NetProps.SetPropString(TEXT_PLAYERCOUNT_RED, "m_iszMessage", redText.tostring());
-    NetProps.SetPropString(TEXT_PLAYERCOUNT_BLU, "m_iszMessage", bluText.tostring());
+    SetPropString(TEXT_PLAYERCOUNT_RED, "m_iszMessage", redText.tostring());
+    SetPropString(TEXT_PLAYERCOUNT_BLU, "m_iszMessage", bluText.tostring());
     EntFireByHandle(TEXT_PLAYERCOUNT_RED, "Display", "", 0, null, null);
     EntFireByHandle(TEXT_PLAYERCOUNT_BLU, "Display", "", 0, null, null);
 

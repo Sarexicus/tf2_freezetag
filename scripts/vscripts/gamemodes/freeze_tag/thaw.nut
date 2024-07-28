@@ -21,10 +21,10 @@ function UnfreezePlayer(player, no_respawn=false) {
     }
     player.SetHealth(player.GetMaxHealth() * health_multiplier_on_thaw);
 
-    // put the player on the revive marker if it exists.
+    // put the player at the freeze point where they died if it exists.
     //  it should do this nearly every time, but as a failsafe it'll put them in the spawn room
-    if (scope.rawin("revive_marker") && scope.revive_marker && scope.revive_marker.IsValid()) {
-        player.SetOrigin(scope.revive_marker.GetOrigin());
+    if (scope.rawin("freeze_point") && scope.freeze_point) {
+        player.SetOrigin(scope.freeze_point);
     }
 
     ResetPlayer(player);
@@ -33,7 +33,6 @@ function UnfreezePlayer(player, no_respawn=false) {
 }
 
 function ResetPlayer(player) {
-    SetPropInt(player, "m_nRenderMode", 0);
     local scope = player.GetScriptScope();
     scope.frozen <- false;
     scope.thawed <- false;
@@ -44,7 +43,6 @@ function ResetPlayer(player) {
     RemoveGlow(scope);
     RemovePlayerReviveMarker(scope);
     RemoveParticles(scope);
-    RevealPlayer(player);
 }
 
 function PlayThawSound(player) {
@@ -83,11 +81,6 @@ function RemoveParticles(scope) {
     scope.particles <- null;
 }
 
-function RevealPlayer(player) {
-    player.SetMoveType(MOVETYPE_WALK, MOVECOLLIDE_DEFAULT);
-    SetPropInt(player, "m_nRenderMode", 0);
-}
-
 
 function RemoveFrozenPlayerModel(player) {
     local scope = player.GetScriptScope();
@@ -104,7 +97,7 @@ function ThawThink() {
         local scope = player.GetScriptScope();
         if (!scope.frozen) continue;
 
-        if (developer() >= 2) DebugDrawBox(scope.frozen_player_model.GetOrigin(), vectriple(-4), vectriple(4), 0, 255, 0, 128, 0.5);
+        if (developer() >= 2) DebugDrawBox(scope.freeze_point, vectriple(-4), vectriple(4), 0, 255, 0, 128, 0.5);
 
         local was_being_thawed = scope.revive_players > 0;
         scope.revive_players <- 0;
