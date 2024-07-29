@@ -107,7 +107,8 @@ function ThawThink() {
             "frozen_player": player,
             "scope": scope
         });
-
+        
+        scope.revive_players = min(scope.revive_players, 3);
         if (scope.revive_players > 0) {
             if (!was_being_thawed)
                 SendGlobalGameEvent("show_annotation", {

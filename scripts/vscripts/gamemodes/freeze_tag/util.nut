@@ -5,6 +5,7 @@
 ::vectriple <- function(a) { return Vector(a, a, a); }
 ::Distance <- function(vec1, vec2) { return (vec1-vec2).Length(); }
 ::max <- function(a, b) { return (a > b) ? a : b; }
+::min <- function(a, b) { return (a < b) ? a : b; }
 
 ::MaxPlayers <- MaxClients().tointeger();
 ::ROOT <- getroottable();
