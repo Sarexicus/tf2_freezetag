@@ -20,6 +20,7 @@ function UnfreezePlayer(player, no_respawn=false) {
     }
     player.SetHealth(player.GetMaxHealth() * health_multiplier_on_thaw);
     player.AddCondEx(TF_COND_INVULNERABLE_USER_BUFF, 1.0, player);
+    player.AcceptInput("SpeakResponseConcept", "TLK_RESURRECTED", null, null);
 
     foreach (i, num in scope.ammo)
         SetPropIntArray(player, "localdata.m_iAmmo", num, i);
