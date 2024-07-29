@@ -19,7 +19,11 @@ function UnfreezePlayer(player, no_respawn=false) {
         CleanRespawn(player);
     }
     player.SetHealth(player.GetMaxHealth() * health_multiplier_on_thaw);
+    player.AddCondEx(TF_COND_INVULNERABLE_USER_BUFF, 1.0, player);
 
+    foreach (i, num in scope.ammo)
+        SetPropIntArray(player, "localdata.m_iAmmo", num, i);
+    
     // put the player at the freeze point where they died if it exists.
     //  it should do this nearly every time, but as a failsafe it'll put them in the spawn room
     if (scope.rawin("freeze_point") && scope.freeze_point) {

@@ -26,6 +26,11 @@ function FreezePlayer(player) {
     scope.freeze_point <- freeze_point;
     scope.revive_progress <- 0;
     scope.frozen <- true;
+    
+    scope.ammo <- {};
+    local length = NetProps.GetPropArraySize(player, "localdata.m_iAmmo");
+    for (local i = 0; i < length; i++)
+        scope.ammo[i] <- NetProps.GetPropIntArray(player, "localdata.m_iAmmo", i);
 
     RemoveFrozenPlayerModel(player);
     RemovePlayerReviveMarker(scope);
