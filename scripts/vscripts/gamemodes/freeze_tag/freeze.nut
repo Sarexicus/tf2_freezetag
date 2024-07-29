@@ -54,6 +54,7 @@ function FakeFreezePlayer(player) {
     local fake_revive_marker = CreateReviveMarker(freeze_point, player);
     local fake_frozen_player_model = CreateFrozenPlayerModel(freeze_point, player, scope);
     EntFireByHandle(fake_frozen_player_model, "SetParent", "!activator", -1, fake_revive_marker, fake_revive_marker);
+    fake_revive_marker.SetSolid(0);
 
     fake_revive_marker.ValidateScriptScope();
     fake_revive_marker.GetScriptScope().Think <- function() {
@@ -148,7 +149,7 @@ function CreateFrozenPlayerModel(pos, player, scope) {
         angles = player.GetAbsAngles(),
         skin = player.GetSkin(),
         rendermode = 2,
-        solid = (scope.solid) ? 6 : 0
+        solid = scope.solid ? 6 : 0
     });
     // todo: add bodygroups later
     // for (local i = 0; i < 256; i++) {
@@ -298,7 +299,8 @@ function CreateReviveProgressSprite(pos, player) {
         "model": "freeze_tag/revive_bar.vmt",
         "framerate": 0,
         "targetname": "revive_progress_sprite",
-        "rendermode": 2,
+        "rendermode": 4,
+        "rendercolor": player.GetTeam() == TF_TEAM_RED ? "255 0 0" : "100 100 255",
         "scale": 0.25,
         "spawnflags": 1,
         "teamnum": player.GetTeam()

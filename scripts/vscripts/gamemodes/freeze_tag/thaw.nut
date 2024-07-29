@@ -2,7 +2,7 @@
 // by Sarexicus and Le Codex
 // -------------------------------
 
-revive_sprite_frames <- 20; // number of frames in the revive sprite's animation. need to set this manually, I think
+revive_sprite_frames <- 40; // number of frames in the revive sprite's animation. need to set this manually, I think
 
 // -------------------------------
 
@@ -10,7 +10,6 @@ function UnfreezePlayer(player, no_respawn=false) {
     // prevent the player from switching class while dead.
     // FIXME: this still lets players change weapons. can we fix this?
     local scope = player.GetScriptScope();
-    scope.thawed <- true;
 
     if (!no_respawn) {
         if (scope.rawin("player_class")) {
@@ -35,7 +34,6 @@ function UnfreezePlayer(player, no_respawn=false) {
 function ResetPlayer(player) {
     local scope = player.GetScriptScope();
     scope.frozen <- false;
-    scope.thawed <- false;
     scope.revive_progress <- 0;
 
     RemoveFrozenPlayerModel(player);

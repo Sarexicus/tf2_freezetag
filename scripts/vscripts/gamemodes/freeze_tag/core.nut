@@ -85,7 +85,6 @@ function Think() {
 function SetupPlayer(player) {
     local scope = player.GetScriptScope();
     scope.frozen <- false;
-    scope.thawed <- false;
     scope.freeze_positions <- [];
     scope.position_index <- 0;
     scope.revive_players <- 0;
@@ -123,9 +122,9 @@ function OnGameEvent_player_spawn(params) {
         //  then they're joining mid-round, so we silently kill them.
         local scope = player.GetScriptScope();
 
-        if (!scope.rawin("thawed") || !scope.thawed) {
+        if (!scope.rawin("frozen") || !scope.frozen) {
             RunWithDelay(function() {
-                scope.thawed = true;
+                scope.frozen = true;
                 KillPlayerSilent(player);
                 SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", TF_CLASS_SCOUT);
             }, 0.1);
