@@ -101,7 +101,8 @@ function CreateReviveMarker(pos, player) {
     SetPropInt(revive_marker, "m_iMaxHealth", player.GetMaxHealth());
 
     revive_marker.SetMoveType(MOVETYPE_NONE, MOVECOLLIDE_FLY_BOUNCE);
-    revive_marker.SetCollisionGroup(COLLISION_GROUP_NONE);
+    revive_marker.SetCollisionGroup(COLLISION_GROUP_DEBRIS);
+    revive_marker.SetSolidFlags(0);
     return revive_marker;
 }
 
