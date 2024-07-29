@@ -82,13 +82,12 @@ function RemoveParticles(scope) {
 
 function RemoveFrozenPlayerModel(player) {
     local scope = player.GetScriptScope();
-    if(scope.rawin("frozen_player_model") && scope.frozen_player_model != null && scope.frozen_player_model.IsValid()) scope.frozen_player_model.Kill();
+    if( scope.rawin("frozen_player_model") && scope.frozen_player_model != null && scope.frozen_player_model.IsValid()) scope.frozen_player_model.Kill();
     if (scope.rawin("frozen_weapon_model") && scope.frozen_weapon_model != null && scope.frozen_weapon_model.IsValid()) scope.frozen_weapon_model.Kill();
 }
 
 function ThawThink() {
-    for (local i = 1; i <= MaxPlayers; i++)
-    {
+    for (local i = 1; i <= MaxPlayers; i++) {
         local player = PlayerInstanceFromIndex(i)
         if (player == null) continue;
 
@@ -115,7 +114,9 @@ function ThawThink() {
                     show_effect = false
                 });
 
-            scope.revive_progress += (1 / thaw_time) * tick_rate * scope.revive_players;
+            local rate = 1.0;
+            for (local j = 0; j < scope.revive_players - 1; j++) rate += 1 / (i+2);          
+            scope.revive_progress += (1 / thaw_time) * tick_rate * rate;
         } else if (scope.revive_players == 0) {
             if (was_being_thawed)
                 SendGlobalGameEvent("show_annotation", {
