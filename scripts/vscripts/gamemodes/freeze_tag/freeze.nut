@@ -108,15 +108,15 @@ function CreateReviveMarker(pos, player) {
 
 function GetFrozenPlayerModel(player_class) {
     switch(player_class) {
-        case TF_CLASS_SCOUT:         return "models/props_freezetag/scout_frozen.mdl";
-        case TF_CLASS_SOLDIER:       return "models/props_freezetag/soldier_frozen.mdl";
-        case TF_CLASS_PYRO:          return "models/props_freezetag/pyro_frozen.mdl";
-        case TF_CLASS_DEMOMAN:       return "models/props_freezetag/demo_frozen.mdl";
-        case TF_CLASS_HEAVYWEAPONS:  return "models/props_freezetag/heavy_frozen.mdl";
-        case TF_CLASS_ENGINEER:      return "models/props_freezetag/engineer_frozen.mdl";
-        case TF_CLASS_MEDIC:         return "models/props_freezetag/medic_frozen.mdl";
-        case TF_CLASS_SNIPER:        return "models/props_freezetag/sniper_frozen.mdl";
-        case TF_CLASS_SPY:           return "models/props_freezetag/spy_frozen.mdl";
+        case TF_CLASS_SCOUT:         return "models/freezetag/player/scout_frozen.mdl";
+        case TF_CLASS_SOLDIER:       return "models/freezetag/player/soldier_frozen.mdl";
+        case TF_CLASS_PYRO:          return "models/freezetag/player/pyro_frozen.mdl";
+        case TF_CLASS_DEMOMAN:       return "models/freezetag/player/demo_frozen.mdl";
+        case TF_CLASS_HEAVYWEAPONS:  return "models/freezetag/player/heavy_frozen.mdl";
+        case TF_CLASS_ENGINEER:      return "models/freezetag/player/engineer_frozen.mdl";
+        case TF_CLASS_MEDIC:         return "models/freezetag/player/medic_frozen.mdl";
+        case TF_CLASS_SNIPER:        return "models/freezetag/player/sniper_frozen.mdl";
+        case TF_CLASS_SPY:           return "models/freezetag/player/spy_frozen.mdl";
         default: return "";
     }
 }

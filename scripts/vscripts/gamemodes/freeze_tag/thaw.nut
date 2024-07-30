@@ -33,7 +33,7 @@ function UnfreezePlayer(player, no_respawn=false) {
 
     ResetPlayer(player);
     PlayThawSound(player);
-    DispatchParticleEffect(thaw_particle, player.GetCenter(), vectriple(0));
+    ShowThawParticle(thaw_particle);
 }
 
 function ResetPlayer(player) {
@@ -54,6 +54,16 @@ function PlayThawSound(player) {
         origin = player.GetCenter(),
         filter_type = Constants.EScriptRecipientFilter.RECIPIENT_FILTER_GLOBAL
     });
+}
+
+function ShowThawParticle(player) {
+    local particle = SpawnEntityFromTable("trigger_particle", {
+        particle_name = particle_name,
+        attachment_type = 1, // PATTACH_ABSORIGIN_FOLLOW,
+        spawnflags = 64 // allow everything
+    });
+    particle.AcceptInput("StartTouch", "!activator", player, player);
+    particle.Kill();
 }
 
 function RemovePlayerReviveMarker(scope) {
