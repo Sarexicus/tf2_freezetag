@@ -133,9 +133,7 @@ function GetWeaponModel(wep_idx)
     Entities.DispatchSpawn(wearable);
 
     local name = wearable.GetModelName();
-
-    wearable.Kill()
-
+    wearable.Kill();
     return name;
 }
 
@@ -157,10 +155,11 @@ function CreateFrozenPlayerModel(pos, player, scope) {
         rendermode = 2,
         solid = scope.solid ? 6 : 0
     });
-    // todo: add bodygroups later
-    // for (local i = 0; i < 256; i++) {
-    //     frozen_player_model.SetBodygroup(i, player.GetBodygroup(i));
-    // }
+
+    // bodygroups
+    for (local i = 0; i < 256; i++) {
+        frozen_player_model.SetBodygroup(i, player.GetBodygroup(i));
+    }
 
     // HACK: tint player for now if we don't have the frozen player model yet
     if (fpm.find("/player/") != null) {
