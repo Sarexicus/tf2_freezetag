@@ -127,7 +127,7 @@ function OnGameEvent_player_spawn(params) {
             RunWithDelay(function() {
                 scope.frozen = true;
                 KillPlayerSilent(player);
-                SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", TF_CLASS_SCOUT);
+                // SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", TF_CLASS_SCOUT);
             }, 0.1);
         }
     }
