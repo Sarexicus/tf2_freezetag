@@ -33,7 +33,7 @@ function UnfreezePlayer(player, no_respawn=false) {
 
     ResetPlayer(player);
     PlayThawSound(player);
-    ShowThawParticle(thaw_particle);
+    ShowThawParticle(player);
 }
 
 function ResetPlayer(player) {
@@ -58,7 +58,7 @@ function PlayThawSound(player) {
 
 function ShowThawParticle(player) {
     local particle = SpawnEntityFromTable("trigger_particle", {
-        particle_name = particle_name,
+        particle_name = thaw_particle,
         attachment_type = 1, // PATTACH_ABSORIGIN_FOLLOW,
         spawnflags = 64 // allow everything
     });

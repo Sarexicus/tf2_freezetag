@@ -89,6 +89,7 @@ function SetupPlayer(player) {
     scope.position_index <- 0;
     scope.revive_players <- 0;
     scope.frozen_player_model <- null;
+    scope.ammo <- {};
 }
 
 // EVENTS

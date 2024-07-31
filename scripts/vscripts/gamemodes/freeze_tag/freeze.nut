@@ -153,8 +153,10 @@ function CreateFrozenPlayerModel(pos, player, scope) {
         angles = player.GetAbsAngles(),
         skin = player.GetSkin(),
         rendermode = 2,
-        solid = scope.solid ? 6 : 0
+        solid = scope.solid ? 6 : 0,
+        DisableBoneFollowers = true
     });
+    
 
     // bodygroups
     for (local i = 0; i < 256; i++) {
@@ -162,7 +164,8 @@ function CreateFrozenPlayerModel(pos, player, scope) {
     }
 
     // HACK: tint player for now if we don't have the frozen player model yet
-    if (fpm.find("/player/") != null) {
+    printl("FOUND: " + fpm.find("_frozen"));
+    if (fpm.find("_frozen") == null) {
         frozen_player_model.KeyValueFromString("rendercolor", frozen_color);
     }
 
