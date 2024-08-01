@@ -26,7 +26,7 @@ function FreezePlayer(player) {
     scope.freeze_point <- freeze_point;
     scope.revive_progress <- 0;
     scope.frozen <- true;
-    
+
     scope.ammo <- {};
     local length = NetProps.GetPropArraySize(player, "localdata.m_iAmmo");
     for (local i = 0; i < length; i++)
@@ -156,7 +156,7 @@ function CreateFrozenPlayerModel(pos, player, scope) {
         solid = scope.solid ? 6 : 0,
         DisableBoneFollowers = true
     });
-    
+
 
     // bodygroups
     for (local i = 0; i < 256; i++) {
@@ -254,7 +254,7 @@ function TestFreezeParticles(team) {
 }
 
 function CreateFreezeParticles(pos, player, scope) {
-    local particle_name = "ft_thawzone_circleonly_" + ((player.GetTeam() == 2) ? "red" : "blu");
+    local particle_name = "ft_thawzone_" + ((player.GetTeam() == 2) ? "red" : "blu");
 
     local particles = SpawnEntityFromTable("info_particle_system", {
         "targetname": "freeze_particles",
