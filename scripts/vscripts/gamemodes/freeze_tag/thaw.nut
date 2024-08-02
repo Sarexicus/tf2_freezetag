@@ -214,16 +214,22 @@ function ThawCheck(player, params) {
 
     local scope = params.scope;
     local frozen_statue = scope.frozen_player_model;
+    local revive_marker = scope.revive_marker;
     if (!frozen_statue || !frozen_statue.IsValid()) return;
 
     local frozen_statue_location = frozen_statue.GetCenter();
     local frozen_player = params.frozen_player;
     if (scope.revive_players == -1) return;
 
-    if (Distance(frozen_statue_location, player.GetCenter()) > thaw_distance) return;
+    if (Distance(frozen_statue_location, player.GetCenter()) > thaw_distance) {
+        local weapon = player.GetActiveWeapon();
+        if (GetPropEntity(weapon, "m_hHealingTarget") == revive_marker) scope.revive_players += 1;
+        return;
+    }
 
     // line-of-sight check
     if (TraceLine(player.GetOrigin() + player.GetClassEyeHeight(), frozen_statue_location, player) != 1) return;
+    if (developer() >= 2) DebugDrawLine(player.GetCenter(), frozen_statue_location, 0, 0, 255, false, 0.5);
 
     // block progress if any enemy players are too close by
     //  (set number of thawing players to -1, marking the capture is blocked)
@@ -232,6 +238,4 @@ function ThawCheck(player, params) {
     } else {
         scope.revive_players = -1;
     }
-
-    if (developer() >= 2) DebugDrawLine(player.GetCenter(), frozen_statue_location, 0, 0, 255, false, 0.5);
 }
