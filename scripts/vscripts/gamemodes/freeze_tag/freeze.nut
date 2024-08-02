@@ -58,7 +58,9 @@ function FakeFreezePlayer(player) {
 
     local fake_revive_marker = CreateReviveMarker(freeze_point, player);
     local fake_frozen_player_model = CreateFrozenPlayerModel(freeze_point, player, scope);
+    local fake_particles = CreateFreezeParticles(freeze_point, player, scope);
     EntFireByHandle(fake_frozen_player_model, "SetParent", "!activator", -1, fake_revive_marker, fake_revive_marker);
+    EntFireByHandle(fake_particles, "SetParent", "!activator", -1, fake_revive_marker, fake_revive_marker);
     fake_revive_marker.SetSolid(0);
 
     fake_revive_marker.ValidateScriptScope();
