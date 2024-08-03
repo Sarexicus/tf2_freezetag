@@ -16,6 +16,7 @@ thaw_time <- 4.0;                   // how many seconds it takes for one player 
 decay_time <- 8.0;                  // how many seconds it takes for thawing progress to decay from full to empty
 thaw_distance <- 128.0;             // how close to a frozen player on your team you have to be to start thawing them
 players_solid_when_frozen <- false; // whether frozen players have collisions
+point_unlock_timer <- 120;          // how many seconds it takes the point to unlock 
 
 ::freeze_sound <- "Icicle.TurnToIce";
 ::thaw_sound <- "Icicle.Melt";

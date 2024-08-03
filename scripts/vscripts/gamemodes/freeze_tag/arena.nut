@@ -46,7 +46,7 @@ function ChangeStateToRound() {
     STATE = GAMESTATES.ROUND;
     EntFireByHandle(GAME_TIMER, "Disable", "", 0, null, null);
     EntFireByHandle(CENTRAL_CP, "SetLocked", "1", 0, null, null);
-    EntFireByHandle(CENTRAL_CP, "SetUnlockTime", "50", 0, null, null);
+    EntFireByHandle(CENTRAL_CP, "SetUnlockTime", point_unlock_timer.tostring(), 0, null, null);
     EntFireByHandle(CENTRAL_CP, "HideModel", "", 0, null, null);
 
     EntFire("ft_preround", "Kill", "", 0, null);
