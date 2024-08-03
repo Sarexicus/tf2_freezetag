@@ -130,8 +130,7 @@ function ThawThink() {
                     show_effect = false
                 });
 
-            local rate = 1.0;
-            for (local j = 0; j < scope.revive_players - 1; j++) rate += 1 / (i+2);          
+            local rate = 0.57721 + log(scope.revive_players + 0.5); // Using real approximation for Medigun partial cap rates
             scope.revive_progress += (1 / thaw_time) * tick_rate * rate;
         } else if (scope.revive_players == 0) {
             if (was_being_thawed)

@@ -157,9 +157,8 @@ function CreateFrozenPlayerModel(pos, player, scope) {
         rendermode = 2,
         solid = scope.solid ? 6 : 0,
         DisableBoneFollowers = true
-        alpha = 0.5
+        renderamt = 128
     });
-
 
     // bodygroups
     for (local i = 0; i < 256; i++) {
