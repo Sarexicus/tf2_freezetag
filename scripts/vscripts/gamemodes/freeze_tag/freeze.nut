@@ -157,6 +157,7 @@ function CreateFrozenPlayerModel(pos, player, scope) {
         rendermode = 2,
         solid = scope.solid ? 6 : 0,
         DisableBoneFollowers = true
+        alpha = 0.5
     });
 
 
