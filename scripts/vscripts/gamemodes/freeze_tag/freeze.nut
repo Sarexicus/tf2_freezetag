@@ -9,7 +9,7 @@ frozen_color <- "0 228 255"; // this is the color that will tint frozen weapons,
 // -------------------------------
 
 function FreezePlayer(player) {
-    // EntFireByHandle(player, "RunScriptCode", "GetPropEntity(self, `m_hRagdoll`).Destroy()", 0.01, player, player);
+    EntFireByHandle(player, "RunScriptCode", "GetPropEntity(self, `m_hRagdoll`).Destroy()", 0.01, player, player);
 
     local freeze_point = FindFreezePoint(player);
     if (freeze_point != null) {
@@ -49,7 +49,7 @@ function FreezePlayer(player) {
 
 function FakeFreezePlayer(player) {
     // HACK: I don't think the fake ragdoll is stored anywhere, so we have to use that
-    // EntFire("tf_ragdoll", "Kill", "", 0.01, player);
+    EntFire("tf_ragdoll", "Kill", "", 0.01, player);
 
     local freeze_point = FindFreezePoint(player);
     local scope = player.GetScriptScope();
