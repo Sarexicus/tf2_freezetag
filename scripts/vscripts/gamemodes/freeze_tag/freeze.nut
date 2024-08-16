@@ -4,7 +4,8 @@
 
 IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
 
-frozen_color <- { [TF_TEAM_BLUE] = "0 228 255", [TF_TEAM_RED] = "255 128 228" }; // this is the color that will tint frozen weapons, cosmetics, and placeholder player models
+frozen_color <- { [TF_TEAM_BLUE] = "0 228 255", [TF_TEAM_RED] = "255 128 228" };    // this is the color that will tint frozen weapons, cosmetics, and placeholder player models
+statue_color <- { [TF_TEAM_BLUE] = "225 240 255", [TF_TEAM_RED] = "255 225 240" };  // this is the color that will tint the frozen player models
 
 // -------------------------------
 
@@ -155,9 +156,10 @@ function CreateFrozenPlayerModel(pos, player, scope) {
         angles = player.GetAbsAngles(),
         skin = player.GetSkin(),
         rendermode = 2,
+        rendercolor = statue_color[player.GetTeam()]
+        renderamt = 128
         solid = scope.solid ? 6 : 0,
         DisableBoneFollowers = true
-        renderamt = 128
     });
 
     // bodygroups
@@ -197,7 +199,7 @@ function CreateFrozenPlayerModel(pos, player, scope) {
         frozen_weapon_model = SpawnEntityFromTable("prop_dynamic_ornament", {
             "model": weapon_modelname,
             "rendermode": 5,
-            "renderamt": 230,
+            "renderamt": 192,
             "rendercolor": frozen_color[player.GetTeam()],
             "targetname": "frozen_weapon_model",
             "skin": player.GetSkin()
@@ -227,7 +229,7 @@ function CreateFrozenPlayerModel(pos, player, scope) {
                 targetname = "frozen_wearable",
                 origin = frozen_player_model.GetOrigin(),
                 rendermode = 2,
-                renderamt = 230,
+                renderamt = 192,
                 rendercolor = frozen_color[player.GetTeam()],
                 model = wearable.GetModelName(),
                 skin = player.GetSkin()
