@@ -4,8 +4,8 @@
 // -----------------------------------------------
 
 ::VSCRIPT_PATH <- "gamemodes/freeze_tag/";
-IncludeScript(VSCRIPT_PATH + "arena.nut", this);
 IncludeScript(VSCRIPT_PATH + "util.nut", this);
+IncludeScript(VSCRIPT_PATH + "arena.nut", this);
 
 ClearGameEventCallbacks();
 

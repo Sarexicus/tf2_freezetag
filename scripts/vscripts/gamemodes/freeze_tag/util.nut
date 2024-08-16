@@ -7,8 +7,12 @@
 ::max <- function(a, b) { return (a > b) ? a : b; }
 ::min <- function(a, b) { return (a < b) ? a : b; }
 
+::mainLogic <- this;
+::mainLogicEntity <- self;
 ::MaxPlayers <- MaxClients().tointeger();
 ::ROOT <- getroottable();
+
+spectator_proxy <- null;
 
 // table folding (constants, netprops)
 if (!("ConstantNamingConvention" in ROOT)) // make sure folding is only done once
