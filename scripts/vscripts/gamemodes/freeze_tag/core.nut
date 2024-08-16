@@ -49,6 +49,8 @@ function Precache() {
 }
 
 function OnPostSpawn() {
+    RunWithDelay(CreateSpectatorProxy, 1);
+
     if (NavMesh.GetNavAreaCount() == 0) {
         ClientPrint(null, HUD_PRINTCENTER, "[WARNING] The map contains no nav mesh! Statues will appear where the player has died, even if that spot is invalid (mid-air or out of reach)");
     }
@@ -104,6 +106,9 @@ function SetupPlayer(player) {
     scope.revive_players <- 0;
     scope.frozen_player_model <- null;
     scope.ammo <- {};
+
+    scope.spectate_origin <- null;
+    scope.spectating_self <- false;
 }
 
 // EVENTS

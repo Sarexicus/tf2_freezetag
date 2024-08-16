@@ -46,6 +46,7 @@ function ResetPlayer(player) {
     RemoveGlow(scope);
     RemovePlayerReviveMarker(scope);
     RemoveParticles(scope);
+    RemoveSpectateOrigin(scope);
 }
 
 function PlayThawSound(player) {
@@ -94,11 +95,36 @@ function RemoveParticles(scope) {
     scope.particles <- null;
 }
 
+function RemoveSpectateOrigin(scope) {
+    if (scope.rawin("spectate_origin") && scope.spectate_origin != null && scope.spectate_origin.IsValid()) {
+        scope.spectate_origin.Kill();
+    }
+    scope.spectate_origin <- null;
+}
 
 function RemoveFrozenPlayerModel(player) {
     local scope = player.GetScriptScope();
     if( scope.rawin("frozen_player_model") && scope.frozen_player_model != null && scope.frozen_player_model.IsValid()) scope.frozen_player_model.Kill();
     if (scope.rawin("frozen_weapon_model") && scope.frozen_weapon_model != null && scope.frozen_weapon_model.IsValid()) scope.frozen_weapon_model.Kill();
+}
+
+function ForceSpectateFrozenPlayer(player) {
+    local scope = player.GetScriptScope();
+    SetPropEntity(player, "m_hObserverTarget", scope.spectate_origin);
+    scope.spectating_self <- true;
+}
+
+function FrozenPlayerSpectate(player) {
+    local scope = player.GetScriptScope();
+
+    if (GetPropEntity(player, "m_hObserverTarget").GetName() == spectator_proxy.GetName()) {
+        ForceSpectateFrozenPlayer(player);
+    }
+
+    if (scope.spectating_self && GetPropEntity(player, "m_hObserverTarget") != scope.spectate_origin) {
+        scope.spectating_self <- false;
+        SetPropEntity(player, "m_hObserverTarget", FindFirstAlivePlayerOnTeam(player.GetTeam()));
+    }
 }
 
 function ThawThink() {
@@ -111,12 +137,16 @@ function ThawThink() {
 
         if (developer() >= 2) DebugDrawBox(scope.freeze_point, vectriple(-4), vectriple(4), 0, 255, 0, 128, 0.5);
 
+        FrozenPlayerSpectate(player);
+
         local was_being_thawed = scope.revive_players > 0;
         scope.revive_players <- 0;
         ForEachAlivePlayer(ThawCheck, {
             "frozen_player": player,
             "scope": scope
         });
+
+        local prev_revive_progress = scope.revive_progress;
 
         scope.revive_players = min(scope.revive_players, 3);
         if (scope.revive_players > 0) {
@@ -132,6 +162,11 @@ function ThawThink() {
 
             local rate = 0.57721 + log(scope.revive_players + 0.5); // Using real approximation for Medigun partial cap rates
             scope.revive_progress += (1 / thaw_time) * tick_rate * rate;
+
+            // force a player to spectate their statue if they begin thawing
+            if (prev_revive_progress == 0 && scope.revive_progress > 0) {
+                ForceSpectateFrozenPlayer(player);
+            }
         } else if (scope.revive_players == 0) {
             if (was_being_thawed)
                 SendGlobalGameEvent("show_annotation", {

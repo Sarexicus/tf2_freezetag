@@ -42,6 +42,7 @@ function FreezePlayer(player) {
         scope.frozen_player_model <- CreateFrozenPlayerModel(freeze_point, player, scope);
         EntFireByHandle(scope.frozen_player_model, "SetParent", "!activator", -1, scope.revive_marker, scope.revive_marker);
 
+        scope.spectate_origin <- CreateSpectateOrigin(freeze_point + Vector(0, 0, 48));
         scope.particles <- CreateFreezeParticles(freeze_point, player, scope);
         scope.glow <- CreateGlow(player, scope.frozen_player_model);
         scope.revive_progress_sprite <- CreateReviveProgressSprite(freeze_point, player);
@@ -322,6 +323,15 @@ function CreateReviveProgressSprite(pos, player) {
     SetPropString(sprite, "m_iClassname", "info_teleport_destination");
 
     return sprite;
+}
+
+function CreateSpectateOrigin(pos) {
+    local spec_origin = SpawnEntityFromTable("prop_dynamic", {
+        "targetname": "frozen_player_spectate_origin",
+        "model": "models/empty.mdl",
+        "origin": pos
+    });
+    return spec_origin;
 }
 
 function FreezeThink() {

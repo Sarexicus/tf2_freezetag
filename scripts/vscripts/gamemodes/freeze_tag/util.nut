@@ -28,6 +28,23 @@ if (!("ConstantNamingConvention" in ROOT)) // make sure folding is only done onc
             ROOT[k] <- ::NetProps[k].bindenv(::NetProps);
 }
 
+// change the classname of an entity to prevent preserving it
+function UnpreserveEntity(entity) {
+    SetPropString(entity, "m_iClassname", "info_teleport_destination");
+}
+
+function SafeDeleteFromScope(scope, value) {
+    if (scope.rawin(value) && scope[value] != null && scope[value].IsValid()) {
+        scope[value].Kill();
+    }
+    scope[value] <- null;
+}
+
+function CreateSpectatorProxy() {
+    spectator_proxy = SpawnEntityFromTable("info_observer_point", {
+        "targetname": "spectator_proxy"
+    });
+}
 
 function ForEachAlivePlayer(callback, params = {}) {
     for (local i = 1; i <= MaxPlayers; i++)
@@ -41,6 +58,19 @@ function ForEachAlivePlayer(callback, params = {}) {
     }
 }
 
+function FindFirstAlivePlayerOnTeam(team) {
+    for (local i = 1; i <= MaxPlayers; i++)
+    {
+        local player = PlayerInstanceFromIndex(i)
+        if (player == null) continue;
+
+        if(GetPropInt(player, "m_lifeState") != 0) continue;
+
+        if (player.GetTeam() == team) return player;
+    }
+
+    return null;
+}
 
 ::RunWithDelay <- function(next, delay, args=clone [mainLogic]) {
     local callbackName = UniqueString("callback");
