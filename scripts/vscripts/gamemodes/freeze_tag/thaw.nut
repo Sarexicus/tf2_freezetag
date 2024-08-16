@@ -233,7 +233,7 @@ function ThawCheck(player, params) {
     // block progress if any enemy players are too close by
     //  (set number of thawing players to -1, marking the capture is blocked)
     if (player.GetTeam() == frozen_player.GetTeam()) {
-        scope.revive_players += 1;
+        scope.revive_players += player.GetPlayerClass() == TF_CLASS_SCOUT ? 2 : 1;
     } else {
         scope.revive_players = -1;
     }
