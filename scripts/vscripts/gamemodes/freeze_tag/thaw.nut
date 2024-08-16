@@ -24,7 +24,7 @@ function UnfreezePlayer(player, no_respawn=false) {
 
     foreach (i, num in scope.ammo)
         SetPropIntArray(player, "localdata.m_iAmmo", num, i);
-    
+
     // put the player at the freeze point where they died if it exists.
     //  it should do this nearly every time, but as a failsafe it'll put them in the spawn room
     if (scope.rawin("freeze_point") && scope.freeze_point) {
@@ -117,7 +117,7 @@ function ThawThink() {
             "frozen_player": player,
             "scope": scope
         });
-        
+
         scope.revive_players = min(scope.revive_players, 3);
         if (scope.revive_players > 0) {
             if (!was_being_thawed)
@@ -208,6 +208,24 @@ function CanThaw(player) {
     return true;
 }
 
+function PlayerHasPainTrain(player) {
+    for (local i = 0; i < 7; i++){
+        local weapon = NetProps.GetPropEntityArray(player, "m_hMyWeapons", i)
+        if (!weapon || !weapon.IsValid()) continue;
+        if (GetPropInt(weapon, "m_AttributeManager.m_Item.m_iItemDefinitionIndex") == 154) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function GetPlayerThawSpeed(player) {
+    if (player.GetPlayerClass() == TF_CLASS_SCOUT) return 2;
+    if (PlayerHasPainTrain(player)) return 2;
+
+    return 1;
+}
+
 function ThawCheck(player, params) {
     if (!CanThaw(player)) return;
 
@@ -231,9 +249,9 @@ function ThawCheck(player, params) {
     if (developer() >= 2) DebugDrawLine(player.GetCenter(), frozen_statue_location, 0, 0, 255, false, 0.5);
 
     // block progress if any enemy players are too close by
-    //  (set number of thawing players to -1, marking the capture is blocked)
+    //  (set number of thawing players to -1, marking the capture as blocked)
     if (player.GetTeam() == frozen_player.GetTeam()) {
-        scope.revive_players += player.GetPlayerClass() == TF_CLASS_SCOUT ? 2 : 1;
+        scope.revive_players += GetPlayerThawSpeed(player);
     } else {
         scope.revive_players = -1;
     }
