@@ -24,7 +24,7 @@ function CalculatePlayerFreezePoint(player) {
         "end": player.GetOrigin() + Vector(0, 0, -10000),
         "ignore": player,
         "hullmin": player.GetPlayerMins(),
-        "hullmax": player.GetPlayerMaxs(),
+        "hullmax": player.GetPlayerMaxs() - Vector(0, 0, 64),  // Make the hull shorter to avoid it getting stuck if the player is crouching
         "mask": CONTENTS_SOLID
     }
     if(TraceHull(traceTable) && "hit" in traceTable) {
