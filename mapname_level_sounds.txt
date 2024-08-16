@@ -1,0 +1,3 @@
+"Regenerate.Touch" { "wave" "misc/null.wav"}
+
+"MVM.PlayerRevived" { "wave" "misc/null.wav"}
