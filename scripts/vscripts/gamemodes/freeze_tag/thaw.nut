@@ -18,7 +18,7 @@ function UnfreezePlayer(player, no_respawn=false) {
         }
         CleanRespawn(player);
     }
-    player.SetHealth(player.GetMaxHealth() * health_multiplier_on_thaw);
+    RunWithDelay(function(player) { player.SetHealth(player.GetMaxHealth() * health_multiplier_on_thaw) }, 0.01, [this, player]);
     player.AddCondEx(TF_COND_INVULNERABLE_USER_BUFF, 1.0, player);
     player.AcceptInput("SpeakResponseConcept", "TLK_RESURRECTED", null, null);
 
