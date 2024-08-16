@@ -18,6 +18,7 @@ EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam1", mainLogicEntity.GetName(), "Ru
 EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam2", mainLogicEntity.GetName(), "RunScriptCode", "WinRound(Constants.ETFTeam.TF_TEAM_BLUE)", 0, -1);
 
 local round_scored = false;
+local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
 
 ::GAMESTATES <- {
     SETUP = 0,
@@ -96,14 +97,20 @@ function WinRound(winnerTeam) {
     EntFire("freeze_particles", "Kill", null, 0, null);
     EntFire("revive_progress_sprite", "Kill", null, 0, null);
 
+    EntFireByHandle(GAMERULES, "PlayVO", "Hud.EndRoundScored", 0, null, null);
     if (winnerTeam) {
         EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "Score"+TeamName(winnerTeam, true)+"Points", "", 0, null, null);
-        EntFireByHandle(GAMERULES, "PlayVO", "Hud.EndRoundScored", 0, null, null);
-        EntFire("text_win_"+TeamName(winnerTeam), "Display", "", 0, null);
+        scores[winnerTeam]++;
+        
+        if (scores[winnerTeam] < 3)
+            EntFire("text_win_"+TeamName(winnerTeam), "Display", "", 0, null);
     } else {
         EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "ScoreRedPoints", "", 0, null, null);
         EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "ScoreBluePoints", "", 0, null, null);
-        EntFire("text_win_none", "Display", "", 0, null);
+        scores[TF_TEAM_RED]++; scores[TF_TEAM_BLUE]++;
+        
+        if (scores[TF_TEAM_RED] < 3 && scores[TF_TEAM_BLUE] < 3)
+            EntFire("text_win_none", "Display", "", 0, null);
     }
 
     foreach (player in GetAllPlayers()) {
