@@ -33,6 +33,25 @@ function UnpreserveEntity(entity) {
     SetPropString(entity, "m_iClassname", "info_teleport_destination");
 }
 
+function ShowPlayerAnnotation(player, text, lifetime, follow_entity = null) {
+    local params = {
+        text = text,
+        id = player.entindex(),
+        visibilityBitfield = 1 << player.entindex(),
+        lifetime = lifetime,
+        show_effect = false
+    };
+    if (follow_entity == null) {
+        params.worldPosX <- 0.0;
+        params.worldPosY <- 0.0;
+        params.worldPosZ <- 0.0;
+    } else {
+        params.follow_entindex <- follow_entity.entindex()
+    }
+
+    SendGlobalGameEvent("show_annotation", params);
+}
+
 function SafeDeleteFromScope(scope, value) {
     if (scope.rawin(value) && scope[value] != null && scope[value].IsValid()) {
         scope[value].Kill();

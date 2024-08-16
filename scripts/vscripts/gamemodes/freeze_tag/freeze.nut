@@ -244,20 +244,6 @@ function CreateFrozenPlayerModel(pos, player, scope) {
     return frozen_player_model;
 }
 
-function TestFreezeParticles(team) {
-    local player = GetListenServerHost();
-    local particles = SpawnEntityFromTable("info_particle_system", {
-        "targetname": "freeze_particles",
-        "effect_name": "ft_teamtest_sprite",
-        "origin": player.GetOrigin(),
-        "TeamNum": team
-    });
-    particles.SetTeam(team);
-    particles.AcceptInput("Start", "", null, null);
-    // by default, the particle will preserve between rounds. change its classname here to prevent that
-    SetPropString(particles, "m_iClassname", "info_teleport_destination");
-}
-
 function CreateFreezeParticles(pos, player, scope) {
     local particle_name = "ft_thawzone_" + ((player.GetTeam() == 2) ? "red" : "blu");
 
@@ -271,8 +257,7 @@ function CreateFreezeParticles(pos, player, scope) {
     particles.SetTeam(player.GetTeam());
 
     particles.AcceptInput("Start", "", null, null);
-    // by default, the particle will preserve between rounds. change its classname here to prevent that
-    SetPropString(particles, "m_iClassname", "info_teleport_destination");
+    UnpreserveEntity(particles);
 
     return particles;
 }
@@ -319,9 +304,7 @@ function CreateReviveProgressSprite(pos, player) {
         "teamnum": player.GetTeam()
     });
 
-    // by default, the sprite will preserve between rounds. change its classname here to prevent that
-    SetPropString(sprite, "m_iClassname", "info_teleport_destination");
-
+    UnpreserveEntity(sprite);
     return sprite;
 }
 

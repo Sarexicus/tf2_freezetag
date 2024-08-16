@@ -68,44 +68,29 @@ function ShowThawParticle(player) {
 }
 
 function RemovePlayerReviveMarker(scope) {
-    if (scope.rawin("revive_marker") && scope.revive_marker != null && scope.revive_marker.IsValid()) {
-        scope.revive_marker.Kill();
-    }
-    scope.revive_marker <- null;
+    SafeDeleteFromScope(scope, "revive_marker");
 }
 
 function RemoveGlow(scope) {
-    if (scope.rawin("glow") && scope.glow != null && scope.glow.IsValid()) {
-        scope.glow.Kill();
-    }
-    scope.glow <- null;
+    SafeDeleteFromScope(scope, "glow");
 }
 
 function RemoveReviveProgressSprite(scope) {
-    if (scope.rawin("revive_progress_sprite") && scope.revive_progress_sprite != null && scope.revive_progress_sprite.IsValid()) {
-        scope.revive_progress_sprite.Kill();
-    }
-    scope.revive_progress_sprite <- null;
+    SafeDeleteFromScope(scope, "revive_progress_sprite");
 }
 
 function RemoveParticles(scope) {
-    if (scope.rawin("particles") && scope.particles != null && scope.particles.IsValid()) {
-        scope.particles.Kill();
-    }
-    scope.particles <- null;
+    SafeDeleteFromScope(scope, "particles");
 }
 
 function RemoveSpectateOrigin(scope) {
-    if (scope.rawin("spectate_origin") && scope.spectate_origin != null && scope.spectate_origin.IsValid()) {
-        scope.spectate_origin.Kill();
-    }
-    scope.spectate_origin <- null;
+    SafeDeleteFromScope(scope, "spectate_origin");
 }
 
 function RemoveFrozenPlayerModel(player) {
     local scope = player.GetScriptScope();
-    if( scope.rawin("frozen_player_model") && scope.frozen_player_model != null && scope.frozen_player_model.IsValid()) scope.frozen_player_model.Kill();
-    if (scope.rawin("frozen_weapon_model") && scope.frozen_weapon_model != null && scope.frozen_weapon_model.IsValid()) scope.frozen_weapon_model.Kill();
+    SafeDeleteFromScope(scope, "frozen_player_model");
+    SafeDeleteFromScope(scope, "frozen_weapon_model");
 }
 
 function ForceSpectateFrozenPlayer(player) {
@@ -151,14 +136,7 @@ function ThawThink() {
         scope.revive_players = min(scope.revive_players, 3);
         if (scope.revive_players > 0) {
             if (!was_being_thawed)
-                SendGlobalGameEvent("show_annotation", {
-                    text = "You are being thawed!"
-                    id = player.entindex()
-                    visibilityBitfield = 1 << player.entindex()
-                    follow_entindex = scope.frozen_player_model.entindex()
-                    lifetime = thaw_time
-                    show_effect = false
-                });
+                ShowPlayerAnnotation(player, "You are being thawed!", thaw_time, scope.frozen_player_model);
 
             local rate = 0.57721 + log(scope.revive_players + 0.5); // Using real approximation for Medigun partial cap rates
             scope.revive_progress += (1 / thaw_time) * tick_rate * rate;
@@ -169,14 +147,7 @@ function ThawThink() {
             }
         } else if (scope.revive_players == 0) {
             if (was_being_thawed)
-                SendGlobalGameEvent("show_annotation", {
-                    text = ""
-                    id = player.entindex()
-                    worldPosX = 0.0 worldPosY = 0.0 worldPosZ = 0.0
-                    visibilityBitfield = 1 << player.entindex()
-                    lifetime = 0.01
-                    show_effect = false
-                });
+                ShowPlayerAnnotation(player, "", 0.1);
 
             scope.revive_progress -= (1 / decay_time) * tick_rate;
             if (scope.revive_progress < 0) scope.revive_progress = 0;
