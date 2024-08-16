@@ -4,7 +4,7 @@
 
 IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
 
-frozen_color <- "0 228 255"; // this is the color that will tint frozen weapons, cosmetics, and placeholder player models
+frozen_color <- { [TF_TEAM_BLUE] = "0 228 255", [TF_TEAM_RED] = "255 128 228" }; // this is the color that will tint frozen weapons, cosmetics, and placeholder player models
 
 // -------------------------------
 
@@ -168,7 +168,7 @@ function CreateFrozenPlayerModel(pos, player, scope) {
     // HACK: tint player for now if we don't have the frozen player model yet
     printl("FOUND: " + fpm.find("_frozen"));
     if (fpm.find("_frozen") == null) {
-        frozen_player_model.KeyValueFromString("rendercolor", frozen_color);
+        frozen_player_model.KeyValueFromString("rendercolor", frozen_color[player.GetTeam()]);
     }
 
     local sequenceName = player.GetSequenceName(player.GetSequence());
@@ -198,7 +198,7 @@ function CreateFrozenPlayerModel(pos, player, scope) {
             "model": weapon_modelname,
             "rendermode": 5,
             "renderamt": 230,
-            "rendercolor": frozen_color,
+            "rendercolor": frozen_color[player.GetTeam()],
             "targetname": "frozen_weapon_model",
             "skin": player.GetSkin()
         });
@@ -228,7 +228,7 @@ function CreateFrozenPlayerModel(pos, player, scope) {
                 origin = frozen_player_model.GetOrigin(),
                 rendermode = 2,
                 renderamt = 230,
-                rendercolor = frozen_color,
+                rendercolor = frozen_color[player.GetTeam()],
                 model = wearable.GetModelName(),
                 skin = player.GetSkin()
             });
