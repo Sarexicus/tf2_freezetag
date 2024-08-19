@@ -6,11 +6,6 @@ revive_sprite_frames <- 40; // number of frames in the revive sprite's animation
 
 // -------------------------------
 
-thaw_damage_type <- SpawnEntityFromTable("info_target", {
-    targetname = "thaw_damage_type",
-    classname = "mannpower_regen"
-});
-
 function UnfreezePlayer(player, no_respawn=false) {
     // prevent the player from switching class while dead.
     // FIXME: this still lets players change weapons. can we fix this?
@@ -120,10 +115,10 @@ function FrozenPlayerSpectate(player) {
 }
 
 function GenerateThawKillfeedEvent(thawing_players, thawed_player) {
+    local revive_icon = (thawed_player.GetTeam() == 2) ? "redcapture" : "bluecapture";
+
     local params = {
-        "inflictor_entindex": thaw_damage_type.entindex(),
-        "weapon": "mannpower_regen"
-        "weaponid": thaw_damage_type.entindex(),
+        "weapon": revive_icon,
         "userid": GetPlayerUserID(thawed_player),
         "attacker": GetPlayerUserID(thawing_players[0]),
         "death_flags": custom_death_flags
