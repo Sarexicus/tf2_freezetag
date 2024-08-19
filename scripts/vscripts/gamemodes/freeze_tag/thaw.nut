@@ -103,14 +103,20 @@ function ForceSpectateFrozenPlayer(player) {
 
 function FrozenPlayerSpectate(player) {
     local scope = player.GetScriptScope();
+    local observer = GetPropEntity(player, "m_hObserverTarget");
+    if (observer == null || !observer.IsValid()) return;
 
-    if (GetPropEntity(player, "m_hObserverTarget").GetName() == spectator_proxy.GetName()) {
+    if (observer == spectator_proxy) {
         ForceSpectateFrozenPlayer(player);
+        return;
     }
 
-    if (scope.spectating_self && GetPropEntity(player, "m_hObserverTarget") != scope.spectate_origin) {
+    if (scope.spectating_self && observer != scope.spectate_origin) {
         scope.spectating_self <- false;
         SetPropEntity(player, "m_hObserverTarget", FindFirstAlivePlayerOnTeam(player.GetTeam()));
+        // if (observer.GetClassname() == "info_observer_point") {
+        //     SetPropEntity(player, "m_hObserverTarget", FindFirstAlivePlayerOnTeam(player.GetTeam()));
+        // }
     }
 }
 
