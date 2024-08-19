@@ -356,6 +356,9 @@ function OnGameEvent_player_death(params)
             CleanRespawn(player);
         }, 0.1);
     } else if (STATE == GAMESTATES.ROUND) {
+        // if we're firing a custom death event, get us out of here
+        if (params.death_flags == custom_death_flags) return;
+
         if (params.death_flags & 32) {
             // HACK: Because of a weird inconsistency with friendly disguises, we actually need to make sure we actually got the Spy
             local spy = null;

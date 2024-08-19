@@ -6,6 +6,11 @@ revive_sprite_frames <- 40; // number of frames in the revive sprite's animation
 
 // -------------------------------
 
+thaw_damage_type <- SpawnEntityFromTable("info_target", {
+    targetname = "thaw_damage_type",
+    classname = "mannpower_regen"
+});
+
 function UnfreezePlayer(player, no_respawn=false) {
     // prevent the player from switching class while dead.
     // FIXME: this still lets players change weapons. can we fix this?
@@ -30,6 +35,8 @@ function UnfreezePlayer(player, no_respawn=false) {
     if (scope.rawin("freeze_point") && scope.freeze_point) {
         player.SetOrigin(scope.freeze_point);
     }
+
+    GenerateThawKillfeedEvent(scope.revive_players, player);
 
     ResetPlayer(player);
     PlayThawSound(player);
@@ -112,6 +119,24 @@ function FrozenPlayerSpectate(player) {
     }
 }
 
+function GenerateThawKillfeedEvent(thawing_players, thawed_player) {
+    local params = {
+        "inflictor_entindex": thaw_damage_type.entindex(),
+        "weapon": "mannpower_regen"
+        "weaponid": thaw_damage_type.entindex(),
+        "userid": GetPlayerUserID(thawed_player),
+        "attacker": GetPlayerUserID(thawing_players[0]),
+        "death_flags": custom_death_flags
+    };
+
+    // if multiple players thawed, grab one of them for the assist
+    if (thawing_players.len() > 1) {
+        params["assister"] <- GetPlayerUserID(thawing_players[1]);
+    }
+
+    SendGlobalGameEvent("player_death", params)
+}
+
 function ThawThink() {
     for (local i = 1; i <= MaxPlayers; i++) {
         local player = PlayerInstanceFromIndex(i)
@@ -124,8 +149,9 @@ function ThawThink() {
 
         FrozenPlayerSpectate(player);
 
-        local was_being_thawed = scope.revive_players > 0;
-        scope.revive_players <- 0;
+        local was_being_thawed = scope.revive_playercount > 0;
+        scope.revive_playercount <- 0;
+        scope.revive_players <- [];
         ForEachAlivePlayer(ThawCheck, {
             "frozen_player": player,
             "scope": scope
@@ -133,19 +159,19 @@ function ThawThink() {
 
         local prev_revive_progress = scope.revive_progress;
 
-        scope.revive_players = min(scope.revive_players, 3);
-        if (scope.revive_players > 0) {
+        scope.revive_playercount = min(scope.revive_playercount, 3);
+        if (scope.revive_playercount > 0) {
             if (!was_being_thawed)
                 ShowPlayerAnnotation(player, "You are being thawed!", thaw_time, scope.frozen_player_model);
 
-            local rate = 0.57721 + log(scope.revive_players + 0.5); // Using real approximation for Medigun partial cap rates
+            local rate = 0.57721 + log(scope.revive_playercount + 0.5); // Using real approximation for Medigun partial cap rates
             scope.revive_progress += (1 / thaw_time) * tick_rate * rate;
 
             // force a player to spectate their statue if they begin thawing
             if (prev_revive_progress == 0 && scope.revive_progress > 0) {
                 ForceSpectateFrozenPlayer(player);
             }
-        } else if (scope.revive_players == 0) {
+        } else if (scope.revive_playercount == 0) {
             if (was_being_thawed)
                 ShowPlayerAnnotation(player, "", 0.1);
 
@@ -242,11 +268,11 @@ function ThawCheck(player, params) {
 
     local frozen_statue_location = frozen_statue.GetCenter();
     local frozen_player = params.frozen_player;
-    if (scope.revive_players == -1) return;
+    if (scope.revive_playercount == -1) return;
 
     if (Distance(frozen_statue_location, player.GetCenter()) > thaw_distance) {
         local weapon = player.GetActiveWeapon();
-        if (GetPropEntity(weapon, "m_hHealingTarget") == revive_marker) scope.revive_players += medigun_thawing_efficiency;
+        if (GetPropEntity(weapon, "m_hHealingTarget") == revive_marker) scope.revive_playercount += medigun_thawing_efficiency;
         return;
     }
 
@@ -257,8 +283,9 @@ function ThawCheck(player, params) {
     // block progress if any enemy players are too close by
     //  (set number of thawing players to -1, marking the capture as blocked)
     if (player.GetTeam() == frozen_player.GetTeam()) {
-        scope.revive_players += GetPlayerThawSpeed(player);
+        scope.revive_playercount += GetPlayerThawSpeed(player);
+        scope.revive_players.push(player);
     } else {
-        scope.revive_players = -1;
+        scope.revive_playercount = -1;
     }
 }

@@ -6,11 +6,15 @@
 ::Distance <- function(vec1, vec2) { return (vec1-vec2).Length(); }
 ::max <- function(a, b) { return (a > b) ? a : b; }
 ::min <- function(a, b) { return (a < b) ? a : b; }
+::playerManager <- Entities.FindByClassname(null, "tf_player_manager");
 
 ::mainLogic <- this;
 ::mainLogicEntity <- self;
 ::MaxPlayers <- MaxClients().tointeger();
 ::ROOT <- getroottable();
+
+// this value allows us to detect and cancel custom death events
+::custom_death_flags <- 16384;
 
 spectator_proxy <- null;
 
@@ -26,6 +30,11 @@ if (!("ConstantNamingConvention" in ROOT)) // make sure folding is only done onc
     foreach (k, v in ::NetProps.getclass())
         if (k != "IsValid")
             ROOT[k] <- ::NetProps[k].bindenv(::NetProps);
+}
+
+::GetPlayerUserID <- function(player)
+{
+    return NetProps.GetPropIntArray(playerManager, "m_iUserID", player.entindex())
 }
 
 // change the classname of an entity to prevent preserving it

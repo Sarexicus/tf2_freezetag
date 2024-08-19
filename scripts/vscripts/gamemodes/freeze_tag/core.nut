@@ -103,7 +103,8 @@ function SetupPlayer(player) {
     scope.frozen <- false;
     scope.freeze_positions <- [];
     scope.position_index <- 0;
-    scope.revive_players <- 0;
+    scope.revive_playercount <- 0;
+    scope.revive_players <- [];
     scope.frozen_player_model <- null;
     scope.ammo <- {};
 
