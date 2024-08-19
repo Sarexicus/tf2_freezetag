@@ -47,7 +47,7 @@ function ChangeStateToRound() {
     EntFireByHandle(CENTRAL_CP, "SetUnlockTime", point_unlock_timer.tostring(), 0, null, null);
     EntFireByHandle(CENTRAL_CP, "HideModel", "", 0, null, null);
 
-    EntFire("ft_preround", "Kill", "", 0, null);
+    EntFire("ft_preround*", "Kill", "", 0, null);
     EntFire("setupgate*", "Open", "", 0, null);
     EntFire("game_forcerespawn", "ForceTeamRespawn", "2", 0.3, null);
     EntFire("game_forcerespawn", "ForceTeamRespawn", "3", 0.3, null);
