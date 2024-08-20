@@ -106,12 +106,12 @@ function FrozenPlayerSpectate(player) {
     local observer = GetPropEntity(player, "m_hObserverTarget");
     if (observer == null || !observer.IsValid()) return;
 
-    if (observer == spectator_proxy) {
-        ForceSpectateFrozenPlayer(player);
-        return;
-    }
-
-    if (scope.spectating_self && observer != scope.spectate_origin) {
+    if(!scope.spectating_self) {
+        if (observer == spectator_proxy) {
+            ForceSpectateFrozenPlayer(player);
+            return;
+        }
+    } else if (observer != scope.spectate_origin) {
         scope.spectating_self <- false;
         SetPropEntity(player, "m_hObserverTarget", FindFirstAlivePlayerOnTeam(player.GetTeam()));
         // if (observer.GetClassname() == "info_observer_point") {
