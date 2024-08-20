@@ -110,6 +110,9 @@ function WinRound(winnerTeam) {
             EntFire("text_win_none", "Display", "", 0, null);
     }
 
+    for (local ent; ent = Entities.FindByClassname(ent, "obj_sentrygun");)
+        if (ent.GetTeam() != winnerTeam) EntFireByHandle(ent, "Disable", "", 0, null, null);
+
     foreach (player in GetAllPlayers()) {
         local team = player.GetTeam();
         if (!winnerTeam || team != winnerTeam) {
