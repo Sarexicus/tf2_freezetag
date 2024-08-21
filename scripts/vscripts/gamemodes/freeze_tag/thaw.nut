@@ -23,6 +23,7 @@ function UnfreezePlayer(player, no_respawn=false) {
     player.AcceptInput("SpeakResponseConcept", "TLK_RESURRECTED", null, null);
     player.SetAbsAngles(scope.ang);
     player.SnapEyeAngles(scope.eye_ang);
+    scope.last_thaw_time = Time();
 
     foreach (i, num in scope.ammo)
         SetPropIntArray(player, "localdata.m_iAmmo", num, i);
@@ -165,10 +166,11 @@ function ThawThink() {
         scope.revive_playercount = min(scope.revive_playercount, 3);
         if (scope.revive_playercount > 0) {
             if (!was_being_thawed)
-                ShowPlayerAnnotation(player, "You are being thawed!", thaw_time, scope.frozen_player_model);
+                ShowPlayerAnnotation(player, "You are being thawed!", 99, scope.frozen_player_model);
 
             local rate = 0.57721 + log(scope.revive_playercount + 0.5); // Using real approximation for Medigun partial cap rates
-            scope.revive_progress += (1 / thaw_time) * tick_rate * rate;
+            local penalized_thaw_time = thaw_time + scope.thaw_time_penalty;
+            scope.revive_progress += (1 / penalized_thaw_time) * tick_rate * rate;
 
             // force a player to spectate their statue if they begin thawing
             if (prev_revive_progress == 0 && scope.revive_progress > 0) {

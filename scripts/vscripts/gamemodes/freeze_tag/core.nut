@@ -11,13 +11,15 @@ ClearGameEventCallbacks();
 
 // CONFIG
 // -----------------------------------------------
-health_multiplier_on_thaw <- 0.5;   // how much health a frozen player gets when they thaw (fraction of max hp)
-thaw_time <- 3.0;                   // how many seconds it takes for one player to thaw a frozen player
-decay_time <- 8.0;                  // how many seconds it takes for thawing progress to decay from full to empty
-thaw_distance <- 128.0;             // how close to a frozen player on your team you have to be to start thawing them
-medigun_thawing_efficiency <- 0.66; // how efficient is thawing with a Medigun outside the thaw distance
-players_solid_when_frozen <- false; // whether frozen players have collisions
-point_unlock_timer <- 90;           // how many seconds it takes the point to unlock
+health_multiplier_on_thaw <- 0.5;       // how much health a frozen player gets when they thaw (fraction of max hp)
+thaw_time_penalty <- 1.0;               // how many seconds are added to the thaw time, per death
+penalty_grace_period <- 3.0;            // how many seconds can you die after thawing without applying the penalty
+thaw_time <- 3.0 - thaw_time_penalty;   // how many seconds it takes for one player to thaw a frozen player
+decay_time <- 8.0;                      // how many seconds it takes for thawing progress to decay from full to empty
+thaw_distance <- 128.0;                 // how close to a frozen player on your team you have to be to start thawing them
+medigun_thawing_efficiency <- 0.66;     // how efficient is thawing with a Medigun outside the thaw distance
+players_solid_when_frozen <- false;     // whether frozen players have collisions
+point_unlock_timer <- 90;               // how many seconds it takes the point to unlock
 
 ::freeze_sound <- "Icicle.TurnToIce";
 ::thaw_sound <- "Icicle.Melt";
@@ -107,6 +109,8 @@ function SetupPlayer(player) {
     scope.revive_players <- [];
     scope.frozen_player_model <- null;
     scope.ammo <- {};
+    scope.thaw_time_penalty <- 0;
+    scope.last_thaw_time <- 0;
 
     scope.spectate_origin <- null;
     scope.spectating_self <- false;
