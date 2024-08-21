@@ -323,7 +323,7 @@ function FreezeThink() {
         local player = PlayerInstanceFromIndex(i);
         if (player == null) continue;
 
-        if(GetPropInt(player, "m_lifeState") != 0) continue;
+        if(!IsPlayerAlive(player)) continue;
 
         CalculatePlayerFreezePoint(player);
         GetPlayerWeaponIndex(player);

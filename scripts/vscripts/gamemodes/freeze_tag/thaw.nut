@@ -21,6 +21,8 @@ function UnfreezePlayer(player, no_respawn=false) {
     RunWithDelay(function(player) { player.SetHealth(player.GetMaxHealth() * health_multiplier_on_thaw) }, 0.01, [this, player]);
     player.AddCondEx(TF_COND_INVULNERABLE_USER_BUFF, 1.0, player);
     player.AcceptInput("SpeakResponseConcept", "TLK_RESURRECTED", null, null);
+    player.SetAbsAngles(scope.ang);
+    player.SnapEyeAngles(scope.eye_ang);
 
     foreach (i, num in scope.ammo)
         SetPropIntArray(player, "localdata.m_iAmmo", num, i);
