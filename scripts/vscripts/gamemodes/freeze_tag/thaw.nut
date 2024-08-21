@@ -34,7 +34,7 @@ function UnfreezePlayer(player, no_respawn=false) {
         player.SetOrigin(scope.freeze_point);
     }
 
-    GenerateThawKillfeedEvent(scope.revive_players, player);
+    if ("revive_players" in scope && scope.revive_players != null && scope.revive_players.len() > 0) GenerateThawKillfeedEvent(scope.revive_players, player);
 
     ResetPlayer(player);
     PlayThawSound(player);
@@ -45,6 +45,7 @@ function ResetPlayer(player) {
     local scope = player.GetScriptScope();
     scope.frozen <- false;
     scope.revive_progress <- 0;
+    scope.revive_players <- [];
 
     RemoveFrozenPlayerModel(player);
     RemoveReviveProgressSprite(scope);
@@ -277,7 +278,10 @@ function ThawCheck(player, params) {
 
     if (Distance(frozen_statue_location, player.GetCenter()) > thaw_distance) {
         local weapon = player.GetActiveWeapon();
-        if (GetPropEntity(weapon, "m_hHealingTarget") == revive_marker) scope.revive_playercount += medigun_thawing_efficiency;
+        if (GetPropEntity(weapon, "m_hHealingTarget") == revive_marker) {
+            scope.revive_playercount += medigun_thawing_efficiency;
+            scope.revive_players.push(player);
+        }
         return;
     }
 
