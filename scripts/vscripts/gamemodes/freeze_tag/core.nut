@@ -116,7 +116,10 @@ function SetupPlayer(player) {
 // -----------------------------
 
 function OnGameEvent_teamplay_round_start(params) {
-    if(IsInWaitingForPlayers()) return;
+    if(IsInWaitingForPlayers()) {
+        EntFire("setupgate", "Open", "", 0, null);
+        return;
+    }
     ChangeStateToSetup();
 }
 
