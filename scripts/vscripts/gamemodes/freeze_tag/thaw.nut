@@ -274,7 +274,10 @@ function ThawCheck(player, params) {
 
     if (Distance(frozen_statue_location, player.GetCenter()) > thaw_distance) {
         local weapon = player.GetActiveWeapon();
-        if (GetPropEntity(weapon, "m_hHealingTarget") == revive_marker) scope.revive_playercount += medigun_thawing_efficiency;
+        if (GetPropEntity(weapon, "m_hHealingTarget") == revive_marker) {
+            scope.revive_playercount += medigun_thawing_efficiency;
+            scope.revive_players.push(player);
+        }
         return;
     }
 
