@@ -111,6 +111,8 @@ function SetupPlayer(player) {
     scope.ammo <- {};
     scope.thaw_time_penalty <- 0;
     scope.last_thaw_time <- 0;
+    scope.did_force_spectate <- false;
+    scope.last_freeze_time <- 0;
 
     scope.spectate_origin <- null;
     scope.spectating_self <- false;

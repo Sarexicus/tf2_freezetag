@@ -170,8 +170,6 @@ function ThawThink() {
             "scope": scope
         });
 
-        local prev_revive_progress = scope.revive_progress;
-
         scope.revive_playercount = min(scope.revive_playercount, 3);
         if (scope.revive_playercount > 0) {
             if (!was_being_thawed)
@@ -182,15 +180,20 @@ function ThawThink() {
             scope.revive_progress += (1 / penalized_thaw_time) * tick_rate * rate;
 
             // force a player to spectate their statue if they begin thawing
-            if (prev_revive_progress == 0 && scope.revive_progress > 0) {
+            if (!scope.did_force_spectate && GetPropInt(player, "m_iObserverMode") != 1) {
+                printl("FORCING CHANGE")
                 ForceSpectateFrozenPlayer(player);
+                scope.did_force_spectate = true;
             }
         } else if (scope.revive_playercount == 0) {
             if (was_being_thawed)
                 ShowPlayerAnnotation(player, "", 0.1);
 
             scope.revive_progress -= (1 / decay_time) * tick_rate;
-            if (scope.revive_progress < 0) scope.revive_progress = 0;
+            if (scope.revive_progress < 0) {
+                scope.did_force_spectate = false;
+                scope.revive_progress = 0;
+            }
         }
 
         SetReviveMarkerHealth(player);

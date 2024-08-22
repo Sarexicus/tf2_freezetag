@@ -128,7 +128,7 @@ enum LIFE_STATE
 
 ::IsPlayerAlive <- function(player)
 {
-    return NetProps.GetPropInt(player, "m_lifeState") == LIFE_STATE.ALIVE;
+    return GetPropInt(player, "m_lifeState") == LIFE_STATE.ALIVE;
 }
 
 ::IsValidPlayer <- function(player)
