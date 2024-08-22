@@ -127,16 +127,24 @@ function FrozenPlayerSpectate(player) {
 function GenerateThawKillfeedEvent(thawing_players, thawed_player) {
     local revive_icon = (thawed_player.GetTeam() == 2) ? "redcapture" : "bluecapture";
 
+    local credits = [];
+    foreach (player in thawing_players)
+        if (player != thawed_player)
+            credits.push(player);
+    
+    // Safety: if the player was thawed miracurously, make it so they thawed themselves
+    if (credits.len() == 0) credits = [thawed_player];
+
     local params = {
         "weapon": revive_icon,
         "userid": GetPlayerUserID(thawed_player),
-        "attacker": GetPlayerUserID(thawing_players[0]),
+        "attacker": GetPlayerUserID(credits[0]),
         "death_flags": custom_death_flags
     };
 
     // if multiple players thawed, grab one of them for the assist
-    if (thawing_players.len() > 1) {
-        params["assister"] <- GetPlayerUserID(thawing_players[1]);
+    if (credits.len() > 1) {
+        params["assister"] <- GetPlayerUserID(credits[1]);
     }
 
     SendGlobalGameEvent("player_death", params)

@@ -2,7 +2,7 @@
 // by Sarexicus and Le Codex
 // --------------------------------------
 
-setup_length <- 15;                     // how long setup lasts, in seconds
+local setup_length = 15;    // how long setup lasts, in seconds
 
 // --------------------------------------
 
@@ -69,7 +69,7 @@ function ChangeStateToSetup() {
     round_scored = false;
     EntFireByHandle(GAME_TIMER, "Enable", "", -1, null, null);
     EntFireByHandle(GAME_TIMER, "RoundSpawn", "", 0, null, null);
-    
+
     EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins10Seconds", setup_length - 11, null, null);
     EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins5Seconds", setup_length - 6, null, null);
     EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins4Seconds", setup_length - 5, null, null);
