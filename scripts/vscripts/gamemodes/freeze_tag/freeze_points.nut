@@ -71,10 +71,30 @@ function SpaceAvailableForFreezePoint(location, player) {
         "hullmax": player.GetPlayerMaxs()
     }
     TraceHull(traceTable);
-    return !("enthit" in traceTable)
+    return !("enthit" in traceTable);
 }
 
 function FindFreezePoint(player) {
+    // Make special triggers hitable by traces to prevent freezing there
+    local collisionGroup = null;
+    for (local ent; ent = Entities.FindByName(ent, "ft_func_nofreeze");) {
+        if (!collisionGroup) collisionGroup = ent.GetCollisionGroup();  // Store the first one, beucase all of them should be equal anyways
+        ent.SetCollisionGroup(COLLISION_GROUP_NONE);
+        ent.RemoveSolidFlags(FSOLID_NOT_SOLID);
+    }
+
+    local result = SearchForFreezePoint(player);
+
+    // Revert the changes
+    for (local ent; ent = Entities.FindByName(ent, "ft_func_nofreeze");) {
+        ent.SetCollisionGroup(collisionGroup);
+        ent.AddSolidFlags(FSOLID_NOT_SOLID);
+    }
+
+    return result;
+}
+
+function SearchForFreezePoint(player) {
     local scope = player.GetScriptScope();
 
     // don't find a freeze point for non-aerial players who are near the navmesh,

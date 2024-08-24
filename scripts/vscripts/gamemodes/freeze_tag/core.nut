@@ -1,6 +1,6 @@
 // FREEZE TAG SCRIPT
 // by Sarexicus and Le Codex
-// version 0.1
+// version 1.0
 // -----------------------------------------------
 
 ::VSCRIPT_PATH <- "gamemodes/freeze_tag/";
@@ -8,6 +8,8 @@ IncludeScript(VSCRIPT_PATH + "util.nut", this);
 IncludeScript(VSCRIPT_PATH + "arena.nut", this);
 
 ClearGameEventCallbacks();
+version <- "1.0";                       // Current version. DO NOT MODIFY
+if (developer() >= 1) printl("[FREEZE TAG LOADED] Version " + version);
 
 // CONFIG
 // -----------------------------------------------
