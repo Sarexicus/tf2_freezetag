@@ -95,6 +95,10 @@ function Think() {
 
     if (STATE == GAMESTATES.ROUND) ThawThink();
 
+    // printl(GetPropInt(GAMERULES, "m_iRoundState"));
+    SetPropInt(GAMERULES, "m_iRoundState", 4);
+
+
     deadRingerSpies.clear();
 
     _ticks += tick_rate;

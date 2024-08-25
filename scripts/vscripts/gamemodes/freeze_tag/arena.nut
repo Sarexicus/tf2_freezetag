@@ -63,19 +63,27 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
 }
 ::STATE <- GAMESTATES.SETUP;
 
+function SetArenaMode(enabled) {
+    SetPropInt(GAMERULES, "m_nGameType", enabled ? 4 : 0);
+    SetPropInt(GAMERULES, "m_iRoundState", enabled ? 7 : 0);
+}
+
 function ChangeStateToSetup() {
     STATE = GAMESTATES.SETUP;
+
+    SetArenaMode(true);
+    SetPropInt(GAMERULES, "m_iRoundState", 0);
 
     round_scored = false;
     EntFireByHandle(GAME_TIMER, "Enable", "", -1, null, null);
     EntFireByHandle(GAME_TIMER, "RoundSpawn", "", 0, null, null);
 
-    EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins10Seconds", setup_length - 11, null, null);
-    EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins5Seconds", setup_length - 6, null, null);
-    EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins4Seconds", setup_length - 5, null, null);
-    EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins3Seconds", setup_length - 4, null, null);
-    EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins2Seconds", setup_length - 3, null, null);
-    EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins1Seconds", setup_length - 2, null, null);
+    // EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins10Seconds", setup_length - 11, null, null);
+    // EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins5Seconds", setup_length - 6, null, null);
+    // EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins4Seconds", setup_length - 5, null, null);
+    // EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins3Seconds", setup_length - 4, null, null);
+    // EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins2Seconds", setup_length - 3, null, null);
+    // EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins1Seconds", setup_length - 2, null, null);
 
     EntFire("template_ft_preround", "ForceSpawn", "", 0, null);
     EntFire("setupgate*", "Close", "", 0, null);
@@ -92,6 +100,8 @@ function ChangeStateToRound() {
     EntFireByHandle(CENTRAL_CP, "SetLocked", "1", 0, null, null);
     EntFireByHandle(CENTRAL_CP, "SetUnlockTime", point_unlock_timer.tostring(), 0, null, null);
     EntFireByHandle(CENTRAL_CP, "HideModel", "", 0, null, null);
+
+    SetArenaMode(false);
 
     EntFire("ft_preround*", "Kill", "", 0, null);
     EntFire("setupgate*", "Open", "", 0, null);

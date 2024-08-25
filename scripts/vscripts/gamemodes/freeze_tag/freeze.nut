@@ -380,6 +380,14 @@ function OnGameEvent_player_death(params)
             FreezePlayer(player);
         }
 
-        RunWithDelay(CountAlivePlayers, 0.1, [this, true]);
+        local teammates_alive = GetAliveTeamPlayerCount(player.GetTeam());
+        printl(teammates_alive);
+        if (teammates_alive == 1) {
+            printl("DISABLING ARENA");
+            SetArenaMode(false);
+            SetPropInt(GAMERULES, "m_iRoundState", 4);
+            // SetPropInt(player, "m_lifeState", 1);
+            // RunWithDelay(CountAlivePlayers, 0.1, [this, true]);
+        }
     }
 }
