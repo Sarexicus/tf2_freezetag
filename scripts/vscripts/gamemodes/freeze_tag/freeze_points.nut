@@ -75,10 +75,10 @@ function SpaceAvailableForFreezePoint(location, player) {
 }
 
 function FindFreezePoint(player) {
-    // Make special triggers hitable by traces to prevent freezing there
+    // Make special triggers collide with traces to invalidate any freeze points inside
     local collisionGroup = null;
     for (local ent; ent = Entities.FindByName(ent, "ft_func_nofreeze");) {
-        if (!collisionGroup) collisionGroup = ent.GetCollisionGroup();  // Store the first one, beucase all of them should be equal anyways
+        if (!collisionGroup) collisionGroup = ent.GetCollisionGroup();  // Store the first one, because all of them should be equal anyways
         ent.SetCollisionGroup(COLLISION_GROUP_NONE);
         ent.RemoveSolidFlags(FSOLID_NOT_SOLID);
     }
@@ -123,8 +123,7 @@ function SearchForFreezePoint(player) {
     local iterations = 0;
     local max_iterations = max_freeze_points;
 
-    while (searchIndex != maxSearchIndex || iterations < max_freeze_points) {
-
+    while (searchIndex != maxSearchIndex || iterations < max_iterations) {
         local searchPos = scope.freeze_positions[searchIndex];
 
         if (developer() >= 2) DebugDrawBox(searchPos, player.GetPlayerMins(), player.GetPlayerMaxs(), 0, 255, 0, 100, 15)
