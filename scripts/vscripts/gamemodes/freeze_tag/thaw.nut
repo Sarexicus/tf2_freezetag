@@ -21,12 +21,13 @@ function UnfreezePlayer(player, no_respawn=false) {
     RunWithDelay(function(player) { player.SetHealth(player.GetMaxHealth() * health_multiplier_on_thaw) }, 0.01, [this, player]);
     player.AddCondEx(TF_COND_INVULNERABLE_USER_BUFF, 1.0, player);
     player.AcceptInput("SpeakResponseConcept", "TLK_RESURRECTED", null, null);
-    player.SetAbsAngles(scope.ang);
-    player.SnapEyeAngles(scope.eye_ang);
-    scope.last_thaw_time = Time();
+    if (scope.rawin("ang") && scope.ang) player.SetAbsAngles(scope.ang);
+    if (scope.rawin("eye_ang") && scope.eye_ang) player.SnapEyeAngles(scope.eye_ang);
+    scope.last_thaw_time <- Time();
 
-    foreach (i, num in scope.ammo)
-        SetPropIntArray(player, "localdata.m_iAmmo", num, i);
+    if (scope.rawin("ammo") && scope.ammo)
+        foreach (i, num in scope.ammo)
+            SetPropIntArray(player, "localdata.m_iAmmo", num, i);
 
     // put the player at the freeze point where they died if it exists.
     //  it should do this nearly every time, but as a failsafe it'll put them in the spawn room

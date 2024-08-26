@@ -41,8 +41,8 @@ EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "SetPointsOnPlayerDeath", "0", -1, nul
 EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "EnableMaxScoreUpdating", "0", -1, null, null);
 EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "DisableMaxScoreUpdating", "0", 1, null, null);
 
-EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam1", mainLogicEntity.GetName(), "RunScriptCode", "WinRound(Constants.ETFTeam.TF_TEAM_RED)", 0, -1);
-EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam2", mainLogicEntity.GetName(), "RunScriptCode", "WinRound(Constants.ETFTeam.TF_TEAM_BLUE)", 0, -1);
+EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam1", mainLogicEntity.GetName(), "RunScriptCode", "WinRound(TF_TEAM_RED)", 0, -1);
+EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam2", mainLogicEntity.GetName(), "RunScriptCode", "WinRound(TF_TEAM_BLUE)", 0, -1);
 
 // player count flags
 ::escrow_playercount <- { [TF_TEAM_RED] = null, [TF_TEAM_BLUE] = null };
@@ -170,7 +170,6 @@ function SpawnEscrowPlayercountFlag(team) {
 
 function WinRound(winnerTeam) {
     if (round_scored) return;
-    round_scored = true;
 
     EntFire("freeze_particles", "Kill", null, 0, null);
     EntFire("revive_progress_sprite", "Kill", null, 0, null);
@@ -185,11 +184,13 @@ function WinRound(winnerTeam) {
         scores[TF_TEAM_RED]++; scores[TF_TEAM_BLUE]++;
     }
 
-    if (scores[TF_TEAM_RED] < 3 && scores[TF_TEAM_BLUE] < 3)
+    if (scores[TF_TEAM_RED] < 3 && scores[TF_TEAM_BLUE] < 3) {
         EntFireByHandle(TEXT_WIN[winnerTeam], "Display", "", 0, null, null);
+    }
 
-    for (local ent; ent = Entities.FindByClassname(ent, "obj_sentrygun");)
+    for (local ent; ent = Entities.FindByClassname(ent, "obj_sentrygun");) {
         if (ent.GetTeam() != winnerTeam) EntFireByHandle(ent, "Disable", "", 0, null, null);
+    }
 
     foreach (player in GetAllPlayers()) {
         local team = player.GetTeam();
@@ -204,6 +205,7 @@ function WinRound(winnerTeam) {
         }
     }
 
+    round_scored = true;
     ChangeStateToRoundEnd();
 }
 
