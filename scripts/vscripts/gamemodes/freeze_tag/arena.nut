@@ -44,6 +44,7 @@ local setup_length = 15;    // how long setup lasts, in seconds
     })
 };
 
+// pseudo-arena setup
 EntFireByHandle(GAMERULES, "SetRedTeamRespawnWaveTime", "99999", -1, null, null);
 EntFireByHandle(GAMERULES, "SetBlueTeamRespawnWaveTime", "99999", -1, null, null);
 EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "SetPointsOnPlayerDeath", "0", -1, null, null);
@@ -52,6 +53,9 @@ EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "DisableMaxScoreUpdating", "0", 1, nul
 
 EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam1", mainLogicEntity.GetName(), "RunScriptCode", "WinRound(Constants.ETFTeam.TF_TEAM_RED)", 0, -1);
 EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam2", mainLogicEntity.GetName(), "RunScriptCode", "WinRound(Constants.ETFTeam.TF_TEAM_BLUE)", 0, -1);
+
+// player count flags
+escrow_playercount <- { [TF_TEAM_RED] = null, [TF_TEAM_BLUE] = null };
 
 local round_scored = false;
 local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
@@ -81,6 +85,7 @@ function ChangeStateToSetup() {
     EntFire("setupgate*", "Close", "", 0, null);
     EntFire("game_forcerespawn", "ForceRespawn", "", 0.3, null);
     EntFire("ft_relay_newround", "Trigger", "", 0.3, null);
+    RunWithDelay(UpdateTeamEscrows, 0.5);
 
     EntityOutputs.AddOutput(GAME_TIMER, "OnFinished", mainLogicEntity.GetName(), "RunScriptCode", "ChangeStateToRound()", 0, 1);
     RoundStart();
@@ -101,11 +106,63 @@ function ChangeStateToRound() {
     EntFireByHandle(GAMERULES, "PlayVO", "Announcer.AM_RoundStartRandom", 0, null, null);
     EntFireByHandle(GAMERULES, "PlayVO", "Ambient.Siren", 0, null, null);
 
-    RunWithDelay(CountAlivePlayers, 0.5);
+    UpdateTeamEscrows();
+    RunWithDelay(CountAlivePlayers, 0.1);
     ForEachAlivePlayer(RecordPlayerTeam, {})
 }
 
+function SpawnEscrows() {
+    escrow_playercount[TF_TEAM_BLUE] <- SpawnEscrowPlayercountFlag(TF_TEAM_BLUE);
+    escrow_playercount[TF_TEAM_RED] <- SpawnEscrowPlayercountFlag(TF_TEAM_RED);
+
+    RunWithDelay(UpdateTeamEscrows, 1);
+}
+
+function SpawnEscrowPlayercountFlag(team) {
+    local player = FindFirstAlivePlayerOnTeam(team);
+
+    local flag = SpawnEntityFromTable("item_teamflag", {
+        "PointValue": 1,
+        "flag_model": "models/empty.mdl",
+        "GameType": 6,
+        "trail_effect": 0,
+    });
+
+    SetPropInt(flag, "m_nPointValue", 1);
+    SetPropInt(flag, "m_nFlagStatus", 1);
+    SetPropEntity(flag, "m_hPrevOwner", player);
+    flag.AcceptInput("Disable", "", null, null);
+
+    return flag;
+}
+
+function UpdateTeamEscrows() {
+    local alive = {
+        [TF_TEAM_RED] = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_RED),
+        [TF_TEAM_BLUE] = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_BLUE)
+    }
+    foreach(player in GetAllPlayers()) {
+        if (player.InCond(TF_COND_FEIGN_DEATH)) alive[player.GetTeam()]--;
+    }
+
+    UpdateTeamEscrow(TF_TEAM_BLUE, alive[TF_TEAM_BLUE]);
+    UpdateTeamEscrow(TF_TEAM_RED, alive[TF_TEAM_RED]);
+}
+
+function UpdateTeamEscrow(team, score) {
+    local escrow = escrow_playercount[team];
+    SetPropInt(escrow, "m_nPointValue", score);
+
+    // check if the player responsible for a team's score is disconnected
+    local owner = GetPropEntity(escrow, "m_hPrevOwner");
+    if (owner == null || !owner.IsValid()) {
+        SetPropEntity(escrow, "m_hPrevOwner", FindFirstAlivePlayerOnTeam(team));
+    }
+}
+
 ::CountAlivePlayers <- function(checkForGameEnd=false) {
+    UpdateTeamEscrows();
+
     local alive = {
         [TF_TEAM_RED] = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_RED),
         [TF_TEAM_BLUE] = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_BLUE)

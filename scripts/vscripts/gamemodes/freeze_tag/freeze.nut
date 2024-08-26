@@ -354,7 +354,6 @@ deadRingerSpies <- [];
 function OnGameEvent_player_death(params)
 {
     local player = GetPlayerFromUserID(params.userid);
-    printl(player);
     if (STATE == GAMESTATES.SETUP) {
         RunWithDelay(function() {
             CleanRespawn(player);

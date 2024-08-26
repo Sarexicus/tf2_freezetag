@@ -54,6 +54,7 @@ function Precache() {
 
 function OnPostSpawn() {
     RunWithDelay(CreateSpectatorProxy, 1);
+    SpawnEscrows();
 
     if (NavMesh.GetNavAreaCount() == 0) {
         ClientPrint(null, HUD_PRINTCENTER, "[WARNING] The map contains no nav mesh! Statues will appear where the player has died, even if that spot is invalid (mid-air or out of reach)");
