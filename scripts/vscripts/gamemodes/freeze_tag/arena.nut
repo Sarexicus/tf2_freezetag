@@ -55,7 +55,7 @@ EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam1", mainLogicEntity.GetName(), "Ru
 EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam2", mainLogicEntity.GetName(), "RunScriptCode", "WinRound(Constants.ETFTeam.TF_TEAM_BLUE)", 0, -1);
 
 // player count flags
-escrow_playercount <- { [TF_TEAM_RED] = null, [TF_TEAM_BLUE] = null };
+::escrow_playercount <- { [TF_TEAM_RED] = null, [TF_TEAM_BLUE] = null };
 
 local round_scored = false;
 local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
@@ -136,7 +136,7 @@ function SpawnEscrowPlayercountFlag(team) {
     return flag;
 }
 
-function UpdateTeamEscrows() {
+::UpdateTeamEscrows <- function() {
     local alive = {
         [TF_TEAM_RED] = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_RED),
         [TF_TEAM_BLUE] = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_BLUE)
@@ -149,7 +149,7 @@ function UpdateTeamEscrows() {
     UpdateTeamEscrow(TF_TEAM_RED, alive[TF_TEAM_RED]);
 }
 
-function UpdateTeamEscrow(team, score) {
+::UpdateTeamEscrow <- function(team, score) {
     local escrow = escrow_playercount[team];
     SetPropInt(escrow, "m_nPointValue", score);
 
