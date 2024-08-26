@@ -144,7 +144,7 @@ enum LIFE_STATE
 }
 
 ::GetAllPlayers <- function() {
-    for (local i = 0; i < MaxClients(); i++) {
+    for (local i = 0; i <= MaxClients(); i++) {
         local player = PlayerInstanceFromIndex(i);
         if (!IsValidPlayer(player)) continue;
 
