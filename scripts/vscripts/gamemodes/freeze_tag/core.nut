@@ -70,7 +70,6 @@ function OnPostSpawn() {
 function RoundStart() {
     foreach (player in GetAllPlayers()) {
         local scope = player.GetScriptScope();
-        if (scope.desired_player_class != null) SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", scope.desired_player_class);
         ResetPlayer(player);
         SetupPlayer(player);
     }
@@ -100,7 +99,6 @@ function SetupPlayer(player) {
     scope.late_joiner <- false;
     scope.frozen <- false;
     scope.frozen_player_model <- null;
-    scope.desired_player_class <- null;
 
     scope.freeze_positions <- [];
     scope.position_index <- 0;

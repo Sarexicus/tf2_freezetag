@@ -13,9 +13,10 @@ function UnfreezePlayer(player, no_respawn=false) {
 
     if (!no_respawn) {
         player.SetPlayerClass(scope.player_class);
-        scope.desired_player_class <- GetPropInt(player, "m_Shared.m_iDesiredPlayerClass");
+        local desired_player_class = GetPropInt(player, "m_Shared.m_iDesiredPlayerClass");
         SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", scope.player_class);
         CleanRespawn(player);
+        SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", desired_player_class);
     }
     RunWithDelay(function(player) { player.SetHealth(player.GetMaxHealth() * health_multiplier_on_thaw) }, 0.01, [this, player]);
     player.AddCondEx(TF_COND_INVULNERABLE_USER_BUFF, 1.0, player);
