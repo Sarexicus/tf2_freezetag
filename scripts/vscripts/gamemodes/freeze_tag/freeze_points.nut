@@ -13,12 +13,7 @@ local unique_distance_points_threshold = 0.5;   // fraction of freeze points whi
 function CalculatePlayerFreezePoint(player) {
     player.ValidateScriptScope();
     local scope = player.GetScriptScope();
-
-    if(!scope.rawin("freeze_positions")) {
-        scope.freeze_positions <- [];
-        scope.position_index <- 0;
-    }
-
+    
     local traceTable = {
         "start": player.GetOrigin() + Vector(0, 0, 32)
         "end": player.GetOrigin() + Vector(0, 0, -10000),

@@ -67,11 +67,6 @@ function OnPostSpawn() {
     }
 }
 
-function RecordPlayerTeam(player, params) {
-    local scope = player.GetScriptScope();
-    scope.team <- player.GetTeam();
-}
-
 function RoundStart() {
     for (local i = 1; i <= MaxPlayers; i++)
     {
@@ -80,7 +75,6 @@ function RoundStart() {
 
         ResetPlayer(player);
         SetupPlayer(player);
-        RecordPlayerTeam(player, {});
     }
 }
 
@@ -105,19 +99,28 @@ function Think() {
 
 function SetupPlayer(player) {
     local scope = player.GetScriptScope();
+    scope.late_joiner <- false;
     scope.frozen <- false;
+    scope.frozen_player_model <- null;
+
     scope.freeze_positions <- [];
     scope.position_index <- 0;
+    scope.freeze_point <- null;
+    
     scope.revive_playercount <- 0;
     scope.revive_players <- [];
-    scope.frozen_player_model <- null;
+    
+    scope.player_class <- 0;
     scope.ammo <- {};
+    scope.ang <- null;
+    scope.eye_ang <- null;
+    
     scope.thaw_time_penalty <- 0;
     scope.last_thaw_time <- 0;
-    scope.did_force_spectate <- false;
     scope.last_freeze_time <- 0;
 
     scope.spectate_origin <- null;
+    scope.did_force_spectate <- false;
     scope.spectating_self <- false;
 }
 
@@ -136,9 +139,9 @@ function OnGameEvent_player_team(params) {
     local player = GetPlayerFromUserID(params.userid);
     if (player == null) return;
 
-    local scope = player.GetScriptScope();
     if (params.team != params.oldteam) {
         ResetPlayer(player);
+        player.GetScriptScope().frozen = true;
     }
 }
 
@@ -147,17 +150,20 @@ function OnGameEvent_player_spawn(params) {
     if (player == null) return;
 
     player.ValidateScriptScope();
+    local scope = player.GetScriptScope();
     if (params.team == 0) {
         SetupPlayer(player);
+    } else if (STATE == GAMESTATES.SETUP) {
+        scope.late_joiner <- false;
     } else if (STATE == GAMESTATES.ROUND) {
         // if someone spawns mid-round and they weren't just thawed,
         //  then they're joining mid-round, so we silently kill them.
-        local scope = player.GetScriptScope();
-
-        if (!scope.rawin("frozen") || !scope.frozen) {
+        if (!scope.frozen) {
+            scope.late_joiner <- true;
             RunWithDelay(function() {
                 scope.frozen = true;
                 KillPlayerSilent(player);
+                SetRespawnTime(player, 99999);
                 // SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", TF_CLASS_SCOUT);
             }, 0.1);
         }

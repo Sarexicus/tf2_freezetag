@@ -146,7 +146,6 @@ function GetWeaponModel(wep_idx)
 }
 
 function CreateFrozenPlayerModel(pos, player, scope) {
-    if (!scope.rawin("cosmetics")) scope.cosmetics <- [];
     // Reestablish this when we have found a way to get the disguise's animation
     local friendly_disguised = false; // player.InCond(TF_COND_DISGUISED) && GetPropInt(player, "m_Shared.m_nDisguiseTeam") == player.GetTeam();
 
@@ -240,8 +239,6 @@ function CreateFrozenPlayerModel(pos, player, scope) {
                 skin = player.GetSkin()
             });
             EntFireByHandle(cosmetic_model, "SetAttached", "!activator", 0.05, frozen_player_model, null);
-
-            scope.cosmetics.push(cosmetic_model);
         }
     }
 

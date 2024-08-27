@@ -194,10 +194,11 @@ function WinRound(winnerTeam) {
 
     foreach (player in GetAllPlayers()) {
         local team = player.GetTeam();
+        local scope = player.GetScriptScope();
         if (!winnerTeam || team != winnerTeam) {
             if (IsPlayerAlive(player)) StunPlayer(player, 9999);
         } else {
-            if (!IsPlayerAlive(player)) UnfreezePlayer(player);
+            if (!IsPlayerAlive(player) && !scope.late_joiner) UnfreezePlayer(player);
             // Delay is necessary because of the potential respawn
             RunWithDelay(function(player) {
                 player.AddCondEx(Constants.ETFCond.TF_COND_CRITBOOSTED_FIRST_BLOOD, 9999, null)

@@ -144,7 +144,7 @@ enum LIFE_STATE
 }
 
 ::GetAllPlayers <- function() {
-    for (local i = 0; i <= MaxClients(); i++) {
+    for (local i = 0; i <= MaxPlayers; i++) {
         local player = PlayerInstanceFromIndex(i);
         if (!IsValidPlayer(player)) continue;
 
@@ -193,4 +193,8 @@ enum LIFE_STATE
     player.Weapon_Equip(GetPropEntityArray(player, "m_hMyWeapons", 0));
     RunWithDelay(function(player) { player.Regenerate(true) }, 0, [this, player]);
     RunWithDelay(CountAlivePlayers, 0.05);
+}
+
+::SetRespawnTime <- function(player, time) {
+    NetProps.SetPropFloatArray(GAMERULES, "m_flNextRespawnWave", time, player.entindex());
 }

@@ -12,30 +12,25 @@ function UnfreezePlayer(player, no_respawn=false) {
     local scope = player.GetScriptScope();
 
     if (!no_respawn) {
-        if (scope.rawin("player_class")) {
-            player.SetPlayerClass(scope.player_class);
-            SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", scope.player_class);
-        }
+        player.SetPlayerClass(scope.player_class);
+        SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", scope.player_class);
         CleanRespawn(player);
     }
     RunWithDelay(function(player) { player.SetHealth(player.GetMaxHealth() * health_multiplier_on_thaw) }, 0.01, [this, player]);
     player.AddCondEx(TF_COND_INVULNERABLE_USER_BUFF, 1.0, player);
     player.AcceptInput("SpeakResponseConcept", "TLK_RESURRECTED", null, null);
-    if (scope.rawin("ang") && scope.ang) player.SetAbsAngles(scope.ang);
-    if (scope.rawin("eye_ang") && scope.eye_ang) player.SnapEyeAngles(scope.eye_ang);
+    player.SetAbsAngles(scope.ang);
+    player.SnapEyeAngles(scope.eye_ang);
     scope.last_thaw_time <- Time();
 
-    if (scope.rawin("ammo") && scope.ammo)
-        foreach (i, num in scope.ammo)
-            SetPropIntArray(player, "localdata.m_iAmmo", num, i);
+    foreach (i, num in scope.ammo)
+        SetPropIntArray(player, "localdata.m_iAmmo", num, i);
 
     // put the player at the freeze point where they died if it exists.
     //  it should do this nearly every time, but as a failsafe it'll put them in the spawn room
-    if (scope.rawin("freeze_point") && scope.freeze_point) {
-        player.SetOrigin(scope.freeze_point);
-    }
+    if (scope.freeze_point) player.SetOrigin(scope.freeze_point);
 
-    if ("revive_players" in scope && scope.revive_players != null && scope.revive_players.len() > 0) GenerateThawKillfeedEvent(scope.revive_players, player);
+    if (scope.revive_players.len() > 0) GenerateThawKillfeedEvent(scope.revive_players, player);
 
     ResetPlayer(player);
     PlayThawSound(player);
@@ -102,8 +97,14 @@ function RemoveFrozenPlayerModel(player) {
 
 function ForceSpectateFrozenPlayer(player) {
     local scope = player.GetScriptScope();
-    SetPropEntity(player, "m_hObserverTarget", scope.spectate_origin);
-    scope.spectating_self <- true;
+    
+    local target = scope.spectate_origin;
+    if (!target || !target.IsValid())
+        target = FindFirstAlivePlayerOnTeam(player.GetTeam());
+    else
+        scope.spectating_self <- true;
+
+    SetPropEntity(player, "m_hObserverTarget", target);
 }
 
 function FrozenPlayerSpectate(player) {
