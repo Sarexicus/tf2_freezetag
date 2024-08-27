@@ -1,6 +1,5 @@
 // FREEZE TAG SCRIPT
 // by Sarexicus and Le Codex
-// version 1.0
 // -----------------------------------------------
 
 ::VSCRIPT_PATH <- "gamemodes/freeze_tag/";

@@ -98,7 +98,6 @@ function ChangeStateToRound() {
 
     UpdateTeamEscrows();
     RunWithDelay(CountAlivePlayers, 0.1);
-    ForEachAlivePlayer(RecordPlayerTeam, {})
 }
 
 function SpawnEscrows() {
