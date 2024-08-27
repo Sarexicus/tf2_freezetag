@@ -16,16 +16,6 @@ local setup_length = 15;    // how long setup lasts, in seconds
     targetname = "game_timer"
 });
 
-::TEXT_PLAYERCOUNT <- {
-    [TF_TEAM_RED] = SpawnEntityFromTable("game_text", {
-        channel = 1, color = "255 0 0", fadein = 0, fadeout = 0, holdtime = 9999,
-        targetname = "text_playercounter_red", x = 0.55, y = 0.1, spawnflags = 1
-    }),
-    [TF_TEAM_BLUE] = SpawnEntityFromTable("game_text", {
-        channel = 2, color = "0 0 255", fadein = 0, fadeout = 0, holdtime = 9999,
-        targetname = "text_playercounter_blu", x = -0.55, y = 0.1, spawnflags = 1
-    })
-};
 ::TEXT_WIN <- {
     [TF_TEAM_RED] = SpawnEntityFromTable("game_text", {
         channel = 3, color = "255 0 0", fadein = 0.5, fadeout = 0.5, holdtime = 5,
@@ -166,19 +156,6 @@ function SpawnEscrowPlayercountFlag(team) {
     local alive = {
         [TF_TEAM_RED] = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_RED),
         [TF_TEAM_BLUE] = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_BLUE)
-    }
-
-    local text = {
-        [TF_TEAM_RED] = alive[TF_TEAM_RED],
-        [TF_TEAM_BLUE] = alive[TF_TEAM_BLUE]
-    };
-    foreach (player in GetAllPlayers())
-        if (player.InCond(TF_COND_FEIGN_DEATH))
-            text[player.GetTeam()]--;
-
-    foreach (team in [TF_TEAM_RED, TF_TEAM_BLUE]) {
-        SetPropString(TEXT_PLAYERCOUNT[team], "m_iszMessage", text[team].tostring());
-        EntFireByHandle(TEXT_PLAYERCOUNT[team], "Display", "", 0, null, null);
     }
 
     if (checkForGameEnd) {

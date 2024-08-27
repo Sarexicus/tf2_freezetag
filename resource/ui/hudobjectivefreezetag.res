@@ -520,42 +520,6 @@
 				"enabled"		"1"
 			}
 
-			// "EscrowBlue" // The available points number for Blue (hidden)
-			// {
-			// 	"ControlName"	"CExLabel"
-			// 	"fieldName"		"EscrowBlue"
-			// 	"xpos"			"40"
-			// 	"ypos"			"7"
-			// 	"zpos"			"4"
-			// 	"wide"			"25"
-			// 	"tall"			"16"
-			// 	"visible"		"0"
-			// 	"enabled"		"1"
-			// 	"textAlignment"	"center"	
-			// 	"labelText"		"%blue_escrow%"
-			// 	"font"			"HudFontMediumSmallBold"
-			// 	"fgcolor"		"TanLight"		
-			// 	"proportionalToParent"	"1"
-			// }
-			
-			// "EscrowBlueShadow"
-			// {
-			// 	"ControlName"	"CExLabel"
-			// 	"fieldName"		"EscrowBlueShadow"
-			// 	"xpos"			"41"
-			// 	"ypos"			"8"
-			// 	"zpos"			"4"
-			// 	"wide"			"25"
-			// 	"tall"			"16"
-			// 	"visible"		"0"
-			// 	"enabled"		"1"
-			// 	"textAlignment"	"center"	
-			// 	"labelText"		"%blue_escrow%"
-			// 	"font"			"HudFontMediumSmallBold"
-			// 	"fgcolor"		"Black"		
-			// 	"proportionalToParent"	"1"
-			// }
-
 			"FlagImageRed"
 			{
 				"ControlName"	"ImagePanel"
@@ -572,43 +536,7 @@
 				"proportionalToParent"	"1"
 			}
 
-			// "EscrowRed" //The available points number for Red (hidden)
-			// {
-			// 	"ControlName"	"CExLabel"
-			// 	"fieldName"		"EscrowRed"
-			// 	"xpos"			"235"
-			// 	"ypos"			"7"
-			// 	"zpos"			"4"
-			// 	"wide"			"25"
-			// 	"tall"			"16"
-			// 	"visible"		"0"
-			// 	"enabled"		"1"
-			// 	"textAlignment"	"center"	
-			// 	"labelText"		"%red_escrow%"
-			// 	"font"			"HudFontMediumSmallBold"
-			// 	"fgcolor"		"TanLight"		
-			// 	"proportionalToParent"	"1"
-			// }
-			
-			// "EscrowRedShadow"
-			// {
-			// 	"ControlName"	"CExLabel"
-			// 	"fieldName"		"EscrowRedShadow"
-			// 	"xpos"			"236"
-			// 	"ypos"			"8"
-			// 	"zpos"			"4"
-			// 	"wide"			"25"
-			// 	"tall"			"16"
-			// 	"visible"		"0"
-			// 	"enabled"		"1"
-			// 	"textAlignment"	"center"	
-			// 	"labelText"		"%red_escrow%"
-			// 	"font"			"HudFontMediumSmallBold"
-			// 	"fgcolor"		"Black"		
-			// 	"proportionalToParent"	"1"
-			// }
-
-			"BlueVictoryContainer"
+			"BlueVictoryContainer" // 'blu wins in X' panel (hidden)
 			{
 				"fieldName"				"BlueVictoryContainer"
 				"ControlName"			"EditablePanel"
@@ -702,7 +630,7 @@
 				}
 			}
 
-			"BlueProgressBarFill" // The meter that fills up when Blue scores a point (hidden)
+			"BlueProgressBarFill" // blu score progress bar (hidden)
 			{
 				"fieldName"				"BlueProgressBarFill"
 				"ControlName"			"ImagePanel"
@@ -727,7 +655,7 @@
 				"blink_rate"			"10"
 			}
 
-			"BlueProgressBarEscrow" // The meter that fills up when Blue has available points to score (hidden)
+			"BlueProgressBarEscrow" // blu escrow progress bar (hidden)
 			{
 				"fieldName"				"BlueProgressBarEscrow"
 				"ControlName"			"ImagePanel"
@@ -752,7 +680,7 @@
 				"blink_rate"			"20"
 			}
 
-			"RedVictoryContainer"
+			"RedVictoryContainer" // 'red wins in X' panel (hidden)
 			{
 				"fieldName"				"RedVictoryContainer"
 				"ControlName"			"EditablePanel"
@@ -846,7 +774,7 @@
 				}
 			}
 
-			"RedProgressBarFill" // The meter that fills up when Red scores a point. Hide this
+			"RedProgressBarFill" // red score progress bar (hidden)
 			{
 				"fieldName"				"RedProgressBarFill"
 				"ControlName"			"ImagePanel"
@@ -871,7 +799,7 @@
 				"blink_rate"			"10"
 			}
 
-			"RedProgressBarEscrow" // The meter that fills up when Blue has available points to score. Hide this
+			"RedProgressBarEscrow" // red escrow progress bar (hidden)
 			{
 				"fieldName"				"RedProgressBarEscrow"
 				"ControlName"			"ImagePanel"
@@ -1208,18 +1136,11 @@
 		}
 		
 	}
-	
-	
 
 	"CountdownContainer"
 	{
 		"ControlName"			"EditablePanel"
 		"fieldName"				"CountdownContainer"
-		"xpos"					"c-150"
-		"ypos"					"r110"
-		"zpos"					"1"
-		"wide"					"300"
-		"tall"					"110"
 		"visible"				"0"
 		"enabled"				"1"
 
