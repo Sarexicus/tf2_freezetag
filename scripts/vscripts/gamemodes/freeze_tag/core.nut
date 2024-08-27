@@ -68,11 +68,9 @@ function OnPostSpawn() {
 }
 
 function RoundStart() {
-    for (local i = 1; i <= MaxPlayers; i++)
-    {
-        local player = PlayerInstanceFromIndex(i)
-        if (player == null) continue;
-
+    foreach (player in GetAllPlayers()) {
+        local scope = player.GetScriptScope();
+        if (scope.desired_player_class != null) SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", scope.desired_player_class);
         ResetPlayer(player);
         SetupPlayer(player);
     }
@@ -102,6 +100,7 @@ function SetupPlayer(player) {
     scope.late_joiner <- false;
     scope.frozen <- false;
     scope.frozen_player_model <- null;
+    scope.desired_player_class <- null;
 
     scope.freeze_positions <- [];
     scope.position_index <- 0;
@@ -142,6 +141,7 @@ function OnGameEvent_player_team(params) {
     if (params.team != params.oldteam) {
         ResetPlayer(player);
         player.GetScriptScope().frozen = true;
+        player.GetScriptScope().late_joiner = true; // Not strictly true, but a nice safety
     }
 }
 
@@ -154,7 +154,7 @@ function OnGameEvent_player_spawn(params) {
     if (params.team == 0) {
         SetupPlayer(player);
     } else if (STATE == GAMESTATES.SETUP) {
-        scope.late_joiner <- false;
+        scope.late_joiner <- false;  // Just in case
     } else if (STATE == GAMESTATES.ROUND) {
         // if someone spawns mid-round and they weren't just thawed,
         //  then they're joining mid-round, so we silently kill them.

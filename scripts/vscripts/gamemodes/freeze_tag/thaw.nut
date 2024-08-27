@@ -13,6 +13,7 @@ function UnfreezePlayer(player, no_respawn=false) {
 
     if (!no_respawn) {
         player.SetPlayerClass(scope.player_class);
+        scope.desired_player_class <- GetPropInt(player, "m_Shared.m_iDesiredPlayerClass");
         SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", scope.player_class);
         CleanRespawn(player);
     }
