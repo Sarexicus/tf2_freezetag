@@ -185,7 +185,6 @@ function ThawThink() {
 
             // force a player to spectate their statue if they begin thawing
             if (!scope.did_force_spectate && GetPropInt(player, "m_iObserverMode") != 1) {
-                printl("FORCING CHANGE")
                 ForceSpectateFrozenPlayer(player);
                 scope.did_force_spectate = true;
             }

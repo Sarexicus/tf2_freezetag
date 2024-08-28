@@ -172,7 +172,6 @@ function CreateFrozenPlayerModel(pos, player, scope) {
     }
 
     // HACK: tint player for now if we don't have the frozen player model yet
-    printl("FOUND: " + fpm.find("_frozen"));
     if (fpm.find("_frozen") == null) {
         frozen_player_model.KeyValueFromString("rendercolor", frozen_color[player.GetTeam()]);
     }
@@ -223,8 +222,6 @@ function CreateFrozenPlayerModel(pos, player, scope) {
                 continue;
 
             local wearable_modelname = wearable.GetModelName();
-            printl(wearable_modelname);
-
             if (wearable_modelname == null || wearable_modelname == "")
                 continue;
 
@@ -351,6 +348,8 @@ deadRingerSpies <- [];
 function OnGameEvent_player_death(params)
 {
     local player = GetPlayerFromUserID(params.userid);
+    if (player.GetTeam() < 2) return;
+
     if (STATE == GAMESTATES.SETUP) {
         RunWithDelay(function() {
             CleanRespawn(player);
