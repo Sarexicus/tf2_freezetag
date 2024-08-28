@@ -176,8 +176,9 @@ function CreateFrozenPlayerModel(pos, player, scope) {
         frozen_player_model.KeyValueFromString("rendercolor", frozen_color[player.GetTeam()]);
     }
 
-    local sequenceName = player.GetSequenceName(player.GetSequence());
-    frozen_player_model.ResetSequence(frozen_player_model.LookupSequence(sequenceName));
+    local sequence_name = GetGroundedSequenceName(player);
+    printl(sequence_name);
+    frozen_player_model.ResetSequence(frozen_player_model.LookupSequence(sequence_name));
     frozen_player_model.SetCycle(player.GetCycle());
     frozen_player_model.SetPlaybackRate(0.001);
     SetPropBool(frozen_player_model, "m_bClientSideAnimation", false);
@@ -240,6 +241,27 @@ function CreateFrozenPlayerModel(pos, player, scope) {
     }
 
     return frozen_player_model;
+}
+
+function GetGroundedSequenceName(player) {
+    local sequence_name = player.GetSequenceName(player.GetSequence());
+    if (GetPropEntity(player, "m_hGroundEntity") != null) return sequence_name;
+
+    local arr = split(sequence_name, "_");
+    if (arr.len() >= 2) return "run_" + arr[arr.len() - 1];
+    
+    local weapon = player.GetActiveWeapon();
+    if (!weapon) return sequence_name;
+
+    local slot = weapon.GetSlot();
+    if (slot < 0 || slot > 4) return sequence_name;
+    return "run_" + [
+        "PRIMARY",
+        "SECONDARY",
+        "MELEE",
+        "PDA",
+        "PDA"
+    ][slot];
 }
 
 function CreateFreezeParticles(pos, player, scope) {

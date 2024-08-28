@@ -62,7 +62,7 @@ function ChangeStateToSetup() {
 
     round_scored = false;
     EntFireByHandle(GAME_TIMER, "Enable", "", -1, null, null);
-    EntFireByHandle(GAME_TIMER, "RoundSpawn", "", 0, null, null);
+    EntFireByHandle(GAME_TIMER, "SetTime", setup_length.tostring(), 0, null, null);
 
     EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins10Seconds", setup_length - 11, null, null);
     EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins5Seconds", setup_length - 6, null, null);
