@@ -13,11 +13,7 @@ function FreezePlayer(player) {
     EntFireByHandle(player, "RunScriptCode", "GetPropEntity(self, `m_hRagdoll`).Destroy()", 0.01, player, player);
 
     local freeze_point = FindFreezePoint(player);
-    if (freeze_point != null) {
-        player.Teleport(true, freeze_point, false, QAngle(0, 0, 0), true, Vector(0, 0, 0));
-    } else {
-        freeze_point = player.GetOrigin();
-    }
+    player.Teleport(true, freeze_point, false, QAngle(0, 0, 0), true, Vector(0, 0, 0));
 
     local scope = player.GetScriptScope();
 

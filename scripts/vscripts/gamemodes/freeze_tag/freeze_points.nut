@@ -63,9 +63,11 @@ function SpaceAvailableForFreezePoint(location, player) {
         "start": location,
         "end": location,
         "hullmin": player.GetPlayerMins(),
-        "hullmax": player.GetPlayerMaxs()
+        "hullmax": player.GetPlayerMaxs(),
+        "ignore": player
     }
     TraceHull(traceTable);
+    printl(("enthit" in traceTable) && traceTable.enthit);
     return !("enthit" in traceTable);
 }
 
@@ -100,7 +102,7 @@ function SearchForFreezePoint(player) {
         local navPosition = NavMesh.GetNearestNavArea(player.GetOrigin(), nav_threshold_is_grounded, true, true);
         if(navPosition != null && SpaceAvailableForFreezePoint(player.GetOrigin(), player)) {
             scope.solid <- players_solid_when_frozen;
-            return null;
+            return player.GetOrigin();
         }
     }
 
