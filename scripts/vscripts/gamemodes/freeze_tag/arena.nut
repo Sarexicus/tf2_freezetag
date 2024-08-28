@@ -215,6 +215,7 @@ function ChangeStateToRoundEnd() {
         if (GetRoundState() == Constants.ERoundState.GR_STATE_RND_RUNNING) ChangeStateToSetup();
     }, 5);
 
+    EntFireByHandle(CENTRAL_CP, "SetUnlockTime", "9999", -1, null, null);
     EntFireByHandle(CENTRAL_CP, "SetOwner", "0", 3, mainLogicEntity, mainLogicEntity);
     EntFire("cp1_prop", "Skin", "0", 3, null);
     EntFireByHandle(CENTRAL_CP, "SetLocked", "1", 0, null, null);
