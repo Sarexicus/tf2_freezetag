@@ -135,8 +135,10 @@ function OnGameEvent_player_team(params) {
     local player = GetPlayerFromUserID(params.userid);
     if (player == null) return;
 
+    local scope = player.GetScriptScope();
     if (params.team != params.oldteam && STATE == GAMESTATES.ROUND) {
         ResetPlayer(player);
+        SetupPlayer(player);
         MarkAsLateJoiner(player);
     }
 }
@@ -154,7 +156,7 @@ function OnGameEvent_player_spawn(params) {
     } else if (STATE == GAMESTATES.ROUND) {
         // if someone spawns mid-round and they weren't just thawed,
         //  then they're joining mid-round, so we silently kill them.
-        if (!scope.frozen) MarkAsLateJoiner(player);
+        if (!scope.frozen || scope.late_joiner) MarkAsLateJoiner(player);
     }
 }
 

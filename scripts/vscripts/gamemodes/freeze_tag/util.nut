@@ -181,6 +181,7 @@ enum LIFE_STATE
 }
 
 ::KillPlayerSilent <- function(player) {
+    if (!IsPlayerAlive(player)) return;
     NetProps.SetPropInt(player, "m_iObserverLastMode", 5);
     local team = NetProps.GetPropInt(player, "m_iTeamNum");
     NetProps.SetPropInt(player, "m_iTeamNum", 1);

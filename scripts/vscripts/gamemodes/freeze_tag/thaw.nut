@@ -114,7 +114,7 @@ function FrozenPlayerSpectate(player) {
     local observer = GetPropEntity(player, "m_hObserverTarget");
     if (observer == null || !observer.IsValid()) return;
 
-    if(!scope.spectating_self) {
+    if (!scope.spectating_self) {
         if (observer == spectator_proxy) {
             ForceSpectateFrozenPlayer(player);
             return;
@@ -155,10 +155,7 @@ function GenerateThawKillfeedEvent(thawing_players, thawed_player) {
 }
 
 function ThawThink() {
-    for (local i = 1; i <= MaxPlayers; i++) {
-        local player = PlayerInstanceFromIndex(i)
-        if (player == null) continue;
-
+    foreach (player in GetAllPlayers()) {
         local scope = player.GetScriptScope();
         if (!scope.frozen) continue;
 
