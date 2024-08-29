@@ -178,7 +178,7 @@ function ThawThink() {
         if (scope.revive_playercount > 0) {
             local penalized_thaw_time = thaw_time + scope.thaw_time_penalty;
             if (!was_being_thawed)
-                ShowPlayerAnnotation(player, "You are being thawed!", penalized_thaw_time, scope.frozen_player_model);
+                ShowPlayerAnnotation(player, "You are being thawed!", penalized_thaw_time + 1, scope.frozen_player_model);
 
             local rate = 0.57721 + log(scope.revive_playercount + 0.5); // Using real approximation for Medigun partial cap rates
             scope.revive_progress += (1 / penalized_thaw_time) * tick_rate * rate;

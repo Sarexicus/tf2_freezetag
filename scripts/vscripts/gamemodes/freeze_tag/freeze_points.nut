@@ -8,6 +8,8 @@ local nav_threshold_is_grounded = 48;           // check this far away for a nav
 local max_freeze_points = 50;                   // maximum number of spots to check per-player for safe freezing on death
 local unique_distance_points_threshold = 0.5;   // fraction of freeze points which will enforce a minimum distance to all others
 
+local hull_trace_margin = Vector(5, 5, 0);      // expand the player's hull by this amount to check if a freeze spot is valid to avoid getting stuck from imprecision. DON'T EXPAND VERTICALLY
+
 // --------------------------------------
 
 function CalculatePlayerFreezePoint(player) {
@@ -62,8 +64,8 @@ function SpaceAvailableForFreezePoint(location, player) {
     local traceTable = {
         "start": location,
         "end": location,
-        "hullmin": player.GetPlayerMins(),
-        "hullmax": player.GetPlayerMaxs(),
+        "hullmin": player.GetPlayerMins() - hull_trace_margin,
+        "hullmax": player.GetPlayerMaxs() + hull_trace_margin,
         "ignore": player
     }
     TraceHull(traceTable);
