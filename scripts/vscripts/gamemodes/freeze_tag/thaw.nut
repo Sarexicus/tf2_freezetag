@@ -247,7 +247,7 @@ function UpdateReviveProgressSprite(player) {
 }
 
 function CanThaw(player) {
-    local no_thaw_conditions = [TF_COND_STEALTHED, TF_COND_INVULNERABLE];
+    local no_thaw_conditions = [TF_COND_STEALTHED, TF_COND_INVULNERABLE, TF_COND_PHASE, TF_COND_MEGAHEAL];
     foreach (cond in no_thaw_conditions)
         if (player.InCond(cond)) return false;
 
