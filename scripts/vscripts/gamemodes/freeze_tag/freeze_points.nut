@@ -9,6 +9,7 @@ local max_freeze_points = 50;                   // maximum number of spots to ch
 local unique_distance_points_threshold = 0.5;   // fraction of freeze points which will enforce a minimum distance to all others
 
 local hull_trace_margin = Vector(5, 5, 0);      // expand the player's hull by this amount to check if a freeze spot is valid to avoid getting stuck from imprecision. DON'T EXPAND VERTICALLY
+local offground_leniency = Vector(0, 0, 5);    // raise the hull by this much, to prevent margins colliding with complex geometry like displacements
 
 // --------------------------------------
 
@@ -64,7 +65,7 @@ function SpaceAvailableForFreezePoint(location, player) {
     local traceTable = {
         "start": location,
         "end": location,
-        "hullmin": player.GetPlayerMins() - hull_trace_margin,
+        "hullmin": player.GetPlayerMins() - hull_trace_margin + offground_leniency,
         "hullmax": player.GetPlayerMaxs() + hull_trace_margin,
         "ignore": player
     }
