@@ -61,8 +61,10 @@ function FakeFreezePlayer(player) {
     local fake_revive_marker = CreateReviveMarker(freeze_point, player);
     local fake_frozen_player_model = CreateFrozenPlayerModel(freeze_point, player, scope);
     local fake_particles = CreateFreezeParticles(freeze_point, player, scope);
-    EntFireByHandle(fake_frozen_player_model, "SetParent", "!activator", -1, fake_revive_marker, fake_revive_marker);
-    EntFireByHandle(fake_particles, "SetParent", "!activator", -1, fake_revive_marker, fake_revive_marker);
+    local fake_revive_progress_sprite = CreateFakeReviveProgressSprite(freeze_point, player);
+    fake_frozen_player_model.AcceptInput("SetParent", "!activator", fake_revive_marker, fake_revive_marker);
+    fake_particles.AcceptInput("SetParent", "!activator", fake_revive_marker, fake_revive_marker);
+    fake_revive_progress_sprite.AcceptInput("SetParent", "!activator", fake_revive_marker, fake_revive_marker);
     fake_revive_marker.SetSolid(0);
 
     fake_revive_marker.ValidateScriptScope();
@@ -309,13 +311,29 @@ function CreateGlow(player, prop) {
 
 function CreateReviveProgressSprite(pos, player) {
     local sprite = SpawnEntityFromTable("env_sprite", {
-        "origin": player.GetOrigin() + player.GetClassEyeHeight() + Vector(0, 0, 32),
+        "origin": pos + player.GetClassEyeHeight() + Vector(0, 0, 32),
         "model": "freeze_tag/revive_bar.vmt",
         "framerate": 0,
         "targetname": "revive_progress_sprite",
         "rendermode": 4,
         "rendercolor": player.GetTeam() == TF_TEAM_RED ? "255 0 0" : "100 100 255",
         "scale": 0.25,
+        "spawnflags": 1,
+        "teamnum": player.GetTeam()
+    });
+
+    UnpreserveEntity(sprite);
+    return sprite;
+}
+
+function CreateFakeReviveProgressSprite(pos, player) {
+    local sprite = SpawnEntityFromTable("env_sprite", {
+        "origin": pos + player.GetClassEyeHeight() + Vector(0, 0, 32),
+        "model": "freeze_tag/dead_ringer_icon.vmt",
+        "targetname": "revive_progress_sprite",
+        "rendermode": 1,
+        "renderamt": 128,
+        "scale": 0.125,
         "spawnflags": 1,
         "teamnum": player.GetTeam()
     });
