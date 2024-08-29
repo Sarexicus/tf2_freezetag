@@ -95,7 +95,7 @@ function Think() {
 
 function SetupPlayer(player) {
     local scope = player.GetScriptScope();
-    scope.late_joiner <- false;
+    scope.late_joiner <- true;
     scope.frozen <- false;
     scope.frozen_player_model <- null;
 
@@ -139,7 +139,7 @@ function OnGameEvent_player_team(params) {
     if (params.team != params.oldteam && STATE == GAMESTATES.ROUND) {
         ResetPlayer(player);
         SetupPlayer(player);
-        MarkAsLateJoiner(player);
+        scope.frozen = true;
     }
 }
 
@@ -152,23 +152,19 @@ function OnGameEvent_player_spawn(params) {
     if (params.team == 0) {
         SetupPlayer(player);
     } else if (STATE == GAMESTATES.SETUP) {
-        scope.late_joiner <- false;  // Just in case
+        scope.late_joiner <- false;
     } else if (STATE == GAMESTATES.ROUND) {
         // if someone spawns mid-round and they weren't just thawed,
         //  then they're joining mid-round, so we silently kill them.
-        if (!scope.frozen || scope.late_joiner) MarkAsLateJoiner(player);
+        if (scope.late_joiner) {
+            scope.frozen = true;
+            RunWithDelay(function() {
+                KillPlayerSilent(player);
+                SetRespawnTime(player, 99999);
+                // SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", TF_CLASS_SCOUT);
+            }, 0.1);
+        }
     }
-}
-
-function MarkAsLateJoiner(player) {
-    local scope = player.GetScriptScope();
-    scope.late_joiner = true;
-    scope.frozen = true;
-    RunWithDelay(function() {
-        KillPlayerSilent(player);
-        SetRespawnTime(player, 99999);
-        // SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", TF_CLASS_SCOUT);
-    }, 0.1);
 }
 
 function OnGameEvent_player_disconnect(params) {
