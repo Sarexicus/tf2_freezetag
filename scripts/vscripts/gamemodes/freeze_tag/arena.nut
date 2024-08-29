@@ -71,6 +71,7 @@ function ChangeStateToSetup() {
     EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins2Seconds", setup_length - 3, null, null);
     EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins1Seconds", setup_length - 2, null, null);
 
+    EntFire("tf_dropped_weapon", "Kill", "", 0, null);
     EntFire("template_ft_preround", "ForceSpawn", "", 0, null);
     EntFire("setupgate*", "Close", "", 0, null);
     EntFire("game_forcerespawn", "ForceRespawn", "", 0.3, null);
