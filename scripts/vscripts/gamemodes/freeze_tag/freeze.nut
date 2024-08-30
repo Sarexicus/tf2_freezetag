@@ -13,8 +13,6 @@ function FreezePlayer(player) {
     EntFireByHandle(player, "RunScriptCode", "GetPropEntity(self, `m_hRagdoll`).Destroy()", 0.01, player, player);
 
     local freeze_point = FindFreezePoint(player);
-    player.Teleport(true, freeze_point, false, QAngle(0, 0, 0), true, Vector(0, 0, 0));
-
     local scope = player.GetScriptScope();
 
     PlayFreezeSound(player);
@@ -39,11 +37,13 @@ function FreezePlayer(player) {
 
     RunWithDelay(function() {
         scope.revive_marker <- CreateReviveMarker(freeze_point, player);
-        scope.frozen_player_model <- CreateFrozenPlayerModel(freeze_point, player, scope);
+        local sequence_name = GetGroundedSequenceName(player);
+        scope.frozen_player_model <- CreateFrozenPlayerModel(freeze_point, player, sequence_name);
         scope.frozen_player_model.AcceptInput("SetParent", "!activator", scope.revive_marker, scope.revive_marker);
 
+        player.Teleport(true, freeze_point + Vector(0, 0, 48), false, QAngle(0, 0, 0), true, Vector(0, 0, 0));
         scope.spectate_origin <- CreateSpectateOrigin(freeze_point + Vector(0, 0, 48));
-        scope.particles <- CreateFreezeParticles(freeze_point, player, scope);
+        scope.particles <- CreateFreezeParticles(freeze_point, player);
         scope.glow <- CreateGlow(player, scope.frozen_player_model);
         scope.revive_progress_sprite <- CreateReviveProgressSprite(freeze_point, player);
     }, 0);
@@ -59,8 +59,9 @@ function FakeFreezePlayer(player) {
     PlayFreezeSound(player);
 
     local fake_revive_marker = CreateReviveMarker(freeze_point, player);
-    local fake_frozen_player_model = CreateFrozenPlayerModel(freeze_point, player, scope);
-    local fake_particles = CreateFreezeParticles(freeze_point, player, scope);
+    local sequence_name = GetGroundedSequenceName(player);
+    local fake_frozen_player_model = CreateFrozenPlayerModel(freeze_point, player, sequence_name);
+    local fake_particles = CreateFreezeParticles(freeze_point, player);
     local fake_revive_progress_sprite = CreateFakeReviveProgressSprite(freeze_point, player);
     fake_frozen_player_model.AcceptInput("SetParent", "!activator", fake_revive_marker, fake_revive_marker);
     fake_particles.AcceptInput("SetParent", "!activator", fake_revive_marker, fake_revive_marker);
@@ -143,9 +144,10 @@ function GetWeaponModel(wep_idx)
     return name;
 }
 
-function CreateFrozenPlayerModel(pos, player, scope) {
+function CreateFrozenPlayerModel(pos, player, sequence_name) {
     // Reestablish this when we have found a way to get the disguise's animation
     local friendly_disguised = false; // player.InCond(TF_COND_DISGUISED) && GetPropInt(player, "m_Shared.m_nDisguiseTeam") == player.GetTeam();
+    local scope = player.GetScriptScope();
 
     local player_class = player.GetPlayerClass();
     if (friendly_disguised) player_class = GetPropInt(player, "m_Shared.m_nDisguiseClass");
@@ -174,7 +176,6 @@ function CreateFrozenPlayerModel(pos, player, scope) {
         frozen_player_model.KeyValueFromString("rendercolor", frozen_color[player.GetTeam()]);
     }
 
-    local sequence_name = GetGroundedSequenceName(player);
     printl(sequence_name);
     frozen_player_model.ResetSequence(frozen_player_model.LookupSequence(sequence_name));
     frozen_player_model.SetCycle(player.GetCycle());
@@ -243,26 +244,17 @@ function CreateFrozenPlayerModel(pos, player, scope) {
 
 function GetGroundedSequenceName(player) {
     local sequence_name = player.GetSequenceName(player.GetSequence());
-    if (GetPropEntity(player, "m_hGroundEntity") != null) return sequence_name;
+    local fraction = TraceLine(player.GetOrigin() - Vector(0, 0, 8), player.GetOrigin() - Vector(0, 0, 24), player);
+    if (fraction < 1.0) return sequence_name;
 
     local arr = split(sequence_name, "_");
-    if (arr.len() >= 2) return "run_" + arr[arr.len() - 1];
+    if (arr.len() == 2) return "run_" + arr[arr.len() - 1];
     
-    local weapon = player.GetActiveWeapon();
-    if (!weapon) return sequence_name;
-
-    local slot = weapon.GetSlot();
-    if (slot < 0 || slot > 4) return sequence_name;
-    return "run_" + [
-        "PRIMARY",
-        "SECONDARY",
-        "MELEE",
-        "PDA",
-        "PDA"
-    ][slot];
+    return sequence_name;
 }
 
-function CreateFreezeParticles(pos, player, scope) {
+function CreateFreezeParticles(pos, player) {
+    local scope = player.GetScriptScope();
     local particle_name = "ft_thawzone_" + ((player.GetTeam() == 2) ? "red" : "blu");
 
     local particles = SpawnEntityFromTable("info_particle_system", {

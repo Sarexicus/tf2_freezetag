@@ -70,7 +70,6 @@ function SpaceAvailableForFreezePoint(location, player) {
         "ignore": player
     }
     TraceHull(traceTable);
-    printl(("enthit" in traceTable) && traceTable.enthit);
     return !("enthit" in traceTable);
 }
 
