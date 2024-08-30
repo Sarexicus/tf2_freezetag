@@ -65,11 +65,11 @@ function ChangeStateToSetup() {
     EntFireByHandle(GAME_TIMER, "SetTime", setup_length.tostring(), 0, null, null);
 
     EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins10Seconds", setup_length - 11, null, null);
-    EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins5Seconds", setup_length - 6, null, null);
-    EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins4Seconds", setup_length - 5, null, null);
-    EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins3Seconds", setup_length - 4, null, null);
-    EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins2Seconds", setup_length - 3, null, null);
-    EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins1Seconds", setup_length - 2, null, null);
+    EntityOutputs.AddOutput(GAME_TIMER, "On10SecRemain", GAMERULES.GetName(), "PlayVO", "Announcer.RoundBegins5Seconds", 4, 1);
+    EntityOutputs.AddOutput(GAME_TIMER, "On5SecRemain", GAMERULES.GetName(), "PlayVO", "Announcer.RoundBegins4Seconds", 0, 1);
+    EntityOutputs.AddOutput(GAME_TIMER, "On4SecRemain", GAMERULES.GetName(), "PlayVO", "Announcer.RoundBegins3Seconds", 0, 1);
+    EntityOutputs.AddOutput(GAME_TIMER, "On3SecRemain", GAMERULES.GetName(), "PlayVO", "Announcer.RoundBegins2Seconds", 0, 1);
+    EntityOutputs.AddOutput(GAME_TIMER, "On2SecRemain", GAMERULES.GetName(), "PlayVO", "Announcer.RoundBegins1Seconds", 0, 1);
 
     EntFire("tf_dropped_weapon", "Kill", "", 0, null);
     EntFire("template_ft_preround", "ForceSpawn", "", 0, null);
