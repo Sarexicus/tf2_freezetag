@@ -99,7 +99,7 @@ function RemoveFrozenPlayerModel(player) {
 
 function ForceSpectateFrozenPlayer(player) {
     local scope = player.GetScriptScope();
-    
+
     local target = scope.spectate_origin;
     if (!target || !target.IsValid())
         target = FindFirstAlivePlayerOnTeam(player.GetTeam());
@@ -135,7 +135,7 @@ function GenerateThawKillfeedEvent(thawing_players, thawed_player) {
     foreach (player in thawing_players)
         if (player != thawed_player)
             credits.push(player);
-    
+
     // Safety: if the player was thawed miracurously, make it so they thawed themselves
     if (credits.len() == 0) credits = [thawed_player];
 
@@ -275,6 +275,14 @@ function GetPlayerThawSpeed(player) {
     return 1;
 }
 
+function StatueDistanceCheck(point_a, point_b, distance) {
+    local adjusted_z = Vector(point_a.x, point_a.y, point_b.z);
+    if (Distance(adjusted_z, point_b) > distance) return false;
+    if (abs(point_a.z - point_b.z) > distance) return false;
+
+    return true;
+}
+
 function ThawCheck(player, params) {
     if (!CanThaw(player)) return;
 
@@ -287,7 +295,7 @@ function ThawCheck(player, params) {
     local frozen_player = params.frozen_player;
     if (scope.revive_playercount == -1) return;
 
-    if (Distance(frozen_statue_location, player.GetCenter()) > thaw_distance) {
+    if (!StatueDistanceCheck(frozen_statue_location, player.GetCenter(), thaw_distance)) {
         local weapon = player.GetActiveWeapon();
         if (GetPropEntity(weapon, "m_hHealingTarget") == revive_marker) {
             scope.revive_playercount += medigun_thawing_efficiency;
