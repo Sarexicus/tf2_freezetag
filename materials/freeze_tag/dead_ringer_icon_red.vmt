@@ -1,6 +1,6 @@
 "UnlitGeneric"
 {
-	"$basetexture" "freeze_tag/dead_ringer_icon"
+	"$basetexture" "freeze_tag/dead_ringer_icon_red"
 	"$translucent" 1
 	"$spriteorigin" "[ 0.50 0.50 ]"
 	"$vertexcolor" "1"

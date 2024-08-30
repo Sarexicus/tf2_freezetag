@@ -40,7 +40,7 @@ function FreezePlayer(player) {
     RunWithDelay(function() {
         scope.revive_marker <- CreateReviveMarker(freeze_point, player);
         scope.frozen_player_model <- CreateFrozenPlayerModel(freeze_point, player, scope);
-        EntFireByHandle(scope.frozen_player_model, "SetParent", "!activator", -1, scope.revive_marker, scope.revive_marker);
+        scope.frozen_player_model.AcceptInput("SetParent", "!activator", scope.revive_marker, scope.revive_marker);
 
         scope.spectate_origin <- CreateSpectateOrigin(freeze_point + Vector(0, 0, 48));
         scope.particles <- CreateFreezeParticles(freeze_point, player, scope);
@@ -297,7 +297,7 @@ function CreateGlow(player, prop) {
     SetPropInt(proxy_entity, "m_fEffects", 129);
     SetPropInt(proxy_entity, "m_nNextThinkTick", 0x7FFFFFFF);
     SetPropEntity(proxy_entity, "m_hBuilder", player);
-    EntFireByHandle(proxy_entity, "SetParent", "!activator", -1, prop, prop);
+    proxy_entity.AcceptInput("SetParent", "!activator", prop, prop);
 
     // tf_glow entity
     local glow = SpawnEntityFromTable("tf_glow", {
@@ -329,7 +329,7 @@ function CreateReviveProgressSprite(pos, player) {
 function CreateFakeReviveProgressSprite(pos, player) {
     local sprite = SpawnEntityFromTable("env_sprite", {
         "origin": pos + player.GetClassEyeHeight() + Vector(0, 0, 32),
-        "model": "freeze_tag/dead_ringer_icon.vmt",
+        "model": "freeze_tag/dead_ringer_icon_" + (player.GetTeam() == TF_TEAM_RED ? "red" : "blu") + ".vmt",
         "targetname": "revive_progress_sprite",
         "rendermode": 1,
         "renderamt": 128,

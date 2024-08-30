@@ -35,9 +35,9 @@ local setup_length = 15;    // how long setup lasts, in seconds
 };
 
 // pseudo-arena setup
-EntFireByHandle(GAMERULES, "SetRedTeamRespawnWaveTime", "99999", -1, null, null);
-EntFireByHandle(GAMERULES, "SetBlueTeamRespawnWaveTime", "99999", -1, null, null);
-EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "SetPointsOnPlayerDeath", "0", -1, null, null);
+GAMERULES.AcceptInput("SetRedTeamRespawnWaveTime", "99999", null, null);
+GAMERULES.AcceptInput("SetBlueTeamRespawnWaveTime", "99999", null, null);
+PLAYER_DESTRUCTION_LOGIC.AcceptInput("SetPointsOnPlayerDeath", "0", null, null);
 EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "EnableMaxScoreUpdating", "0", -1, null, null);
 EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "DisableMaxScoreUpdating", "0", 1, null, null);
 
@@ -61,8 +61,8 @@ function ChangeStateToSetup() {
     STATE = GAMESTATES.SETUP;
 
     round_scored = false;
-    EntFireByHandle(GAME_TIMER, "Enable", "", -1, null, null);
-    EntFireByHandle(GAME_TIMER, "SetTime", setup_length.tostring(), 0, null, null);
+    GAME_TIMER.AcceptInput("Enable", "", null, null);
+    GAME_TIMER.AcceptInput("SetTime", setup_length.tostring(), null, null);
 
     EntFireByHandle(GAMERULES, "PlayVO", "Announcer.RoundBegins10Seconds", setup_length - 11, null, null);
     EntityOutputs.AddOutput(GAME_TIMER, "On10SecRemain", GAMERULES.GetName(), "PlayVO", "Announcer.RoundBegins5Seconds", 4, 1);
@@ -84,18 +84,18 @@ function ChangeStateToSetup() {
 
 function ChangeStateToRound() {
     STATE = GAMESTATES.ROUND;
-    EntFireByHandle(GAME_TIMER, "Disable", "", 0, null, null);
-    EntFireByHandle(CENTRAL_CP, "SetLocked", "1", 0, null, null);
-    EntFireByHandle(CENTRAL_CP, "SetUnlockTime", point_unlock_timer.tostring(), 0, null, null);
-    EntFireByHandle(CENTRAL_CP, "HideModel", "", 0, null, null);
+    GAME_TIMER.AcceptInput("Disable", "", null, null);
+    CENTRAL_CP.AcceptInput("SetLocked", "1", null, null);
+    CENTRAL_CP.AcceptInput("HideModel", "", null, null);
+    CENTRAL_CP.AcceptInput("SetUnlockTime", point_unlock_timer.tostring(), null, null);
 
     EntFire("ft_preround*", "Kill", "", 0, null);
     EntFire("setupgate*", "Open", "", 0, null);
     EntFire("game_forcerespawn", "ForceTeamRespawn", "2", 0.3, null);
     EntFire("game_forcerespawn", "ForceTeamRespawn", "3", 0.3, null);
 
-    EntFireByHandle(GAMERULES, "PlayVO", "Announcer.AM_RoundStartRandom", 0, null, null);
-    EntFireByHandle(GAMERULES, "PlayVO", "Ambient.Siren", 0, null, null);
+    GAMERULES.AcceptInput("PlayVO", "Announcer.AM_RoundStartRandom", null, null);
+    GAMERULES.AcceptInput("PlayVO", "Ambient.Siren", null, null);
 
     UpdateTeamEscrows();
     RunWithDelay(CountAlivePlayers, 0.1);
@@ -174,22 +174,22 @@ function WinRound(winnerTeam) {
     EntFire("freeze_particles", "Kill", null, 0, null);
     EntFire("revive_progress_sprite", "Kill", null, 0, null);
 
-    EntFireByHandle(GAMERULES, "PlayVO", "Hud.EndRoundScored", 0, null, null);
+    GAMERULES.AcceptInput("PlayVO", "Hud.EndRoundScored", null, null);
     if (winnerTeam) {
-        EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "Score"+TeamName(winnerTeam, true)+"Points", "", 0, null, null);
+        PLAYER_DESTRUCTION_LOGIC.AcceptInput("Score"+TeamName(winnerTeam, true)+"Points", "", null, null);
         scores[winnerTeam]++;
     } else {
-        EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "ScoreRedPoints", "", 0, null, null);
-        EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "ScoreBluePoints", "", 0, null, null);
+        PLAYER_DESTRUCTION_LOGIC.AcceptInput("ScoreRedPoints", "", null, null);
+        PLAYER_DESTRUCTION_LOGIC.AcceptInput("ScoreBluePoints", "", null, null);
         scores[TF_TEAM_RED]++; scores[TF_TEAM_BLUE]++;
     }
 
     if (scores[TF_TEAM_RED] < 3 && scores[TF_TEAM_BLUE] < 3) {
-        EntFireByHandle(TEXT_WIN[winnerTeam], "Display", "", 0, null, null);
+        TEXT_WIN[winnerTeam].AcceptInput("Display", "", null, null);
     }
 
     for (local ent; ent = Entities.FindByClassname(ent, "obj_sentrygun");) {
-        if (ent.GetTeam() != winnerTeam) EntFireByHandle(ent, "Disable", "", 0, null, null);
+        if (ent.GetTeam() != winnerTeam) ent.AcceptInput("Disable", "", null, null);
     }
 
     foreach (player in GetAllPlayers()) {
@@ -216,8 +216,8 @@ function ChangeStateToRoundEnd() {
         if (GetRoundState() == Constants.ERoundState.GR_STATE_RND_RUNNING) ChangeStateToSetup();
     }, 5);
 
-    EntFireByHandle(CENTRAL_CP, "SetUnlockTime", "9999", -1, null, null);
+    CENTRAL_CP.AcceptInput("SetUnlockTime", "9999", null, null);
+    CENTRAL_CP.AcceptInput("SetLocked", "1", null, null);
     EntFireByHandle(CENTRAL_CP, "SetOwner", "0", 3, mainLogicEntity, mainLogicEntity);
     EntFire("cp1_prop", "Skin", "0", 3, null);
-    EntFireByHandle(CENTRAL_CP, "SetLocked", "1", 0, null, null);
 }
