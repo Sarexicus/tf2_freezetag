@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8868"
-	"mapversion" "28"
+	"mapversion" "31"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "28"
+	"mapversion" "31"
 	"classname" "worldspawn"
 	"_minlight" "0.0"
 	"detailmaterial" "detailsprites"
@@ -336,7 +336,7 @@ world
 	}
 	solid
 	{
-		"id" "1198"
+		"id" "1200"
 		side
 		{
 			"id" "432"
@@ -447,7 +447,7 @@ world
 		}
 		editor
 		{
-			"color" "0 221 250"
+			"color" "0 128 113"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -455,7 +455,7 @@ world
 	}
 	solid
 	{
-		"id" "1196"
+		"id" "1198"
 		side
 		{
 			"id" "438"
@@ -566,7 +566,7 @@ world
 		}
 		editor
 		{
-			"color" "0 221 250"
+			"color" "0 128 113"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -574,7 +574,7 @@ world
 	}
 	solid
 	{
-		"id" "1194"
+		"id" "1196"
 		side
 		{
 			"id" "444"
@@ -685,7 +685,7 @@ world
 		}
 		editor
 		{
-			"color" "0 221 250"
+			"color" "0 128 113"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -693,7 +693,7 @@ world
 	}
 	solid
 	{
-		"id" "1192"
+		"id" "1194"
 		side
 		{
 			"id" "450"
@@ -804,7 +804,7 @@ world
 		}
 		editor
 		{
-			"color" "0 221 250"
+			"color" "0 128 113"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -812,7 +812,7 @@ world
 	}
 	solid
 	{
-		"id" "1190"
+		"id" "1192"
 		side
 		{
 			"id" "456"
@@ -923,7 +923,7 @@ world
 		}
 		editor
 		{
-			"color" "0 221 250"
+			"color" "0 128 113"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -931,7 +931,7 @@ world
 	}
 	solid
 	{
-		"id" "1188"
+		"id" "1190"
 		side
 		{
 			"id" "462"
@@ -1042,7 +1042,7 @@ world
 		}
 		editor
 		{
-			"color" "0 221 250"
+			"color" "0 128 113"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -2258,7 +2258,7 @@ entity
 	connections
 	{
 		"OnCapTeam1" "cp1_propSkin10-1"
-		"OnCapTeam1" "cp1_propSkin20-1"
+		"OnCapTeam2" "cp1_propSkin20-1"
 	}
 	"origin" "0 0 0"
 	editor

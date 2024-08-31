@@ -39,6 +39,7 @@ function CalculatePlayerFreezePoint(player) {
                     local previous_position = scope.freeze_positions[j];
 
                     if(Distance(freeze_position, previous_position) < 24) {
+                        if (i > 0) scope.position_index = RollingPush(scope.freeze_positions, previous_position, scope.position_index, max_freeze_points);
                         return;
                     }
 
@@ -49,16 +50,19 @@ function CalculatePlayerFreezePoint(player) {
             if (developer() >= 2) DebugDrawBox(freeze_position, vectriple(-4), vectriple(4), 255, 0, 0, 100, 5)
 
             // rolling array - only store a fixed amount maximum, start replacing above maximum size
-            if(scope.freeze_positions.len() <= scope.position_index) {
-                scope.freeze_positions.push(freeze_position)
-            } else {
-                scope.freeze_positions[scope.position_index] = freeze_position;
-            }
-
-            scope.position_index += 1;
-            if(scope.position_index >= max_freeze_points) scope.position_index = 0;
+            scope.position_index = RollingPush(scope.freeze_positions, freeze_position, scope.position_index, max_freeze_points);
         }
     }
+}
+
+function RollingPush(arr, element, index, max_size) {
+    if (arr.len() <= index) {
+        arr.push(element);
+    } else {
+        arr[index] = element;
+    }
+
+    return (index + 1) % max_size;
 }
 
 function SpaceAvailableForFreezePoint(location, player) {
