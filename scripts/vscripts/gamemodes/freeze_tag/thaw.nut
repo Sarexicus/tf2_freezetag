@@ -37,6 +37,7 @@ function UnfreezePlayer(player, no_respawn=false) {
     ResetPlayer(player);
     PlayThawSound(player);
     ShowThawParticle(player);
+    StartRegenerating(player);
 }
 
 function ResetPlayer(player) {
@@ -154,60 +155,57 @@ function GenerateThawKillfeedEvent(thawing_players, thawed_player) {
     SendGlobalGameEvent("player_death", params)
 }
 
-function ThawThink() {
-    foreach (player in GetAllPlayers()) {
-        local scope = player.GetScriptScope();
-        if (!scope.frozen) continue;
+function ThawThink(player) {
+    if (!scope.frozen) return;
 
-        if (developer() >= 2) DebugDrawBox(scope.freeze_point, vectriple(-4), vectriple(4), 0, 255, 0, 128, 0.5);
+    if (developer() >= 2) DebugDrawBox(scope.freeze_point, vectriple(-4), vectriple(4), 0, 255, 0, 128, 0.5);
 
-        FrozenPlayerSpectate(player);
+    FrozenPlayerSpectate(player);
 
-        local was_being_thawed = scope.revive_playercount > 0;
-        scope.revive_playercount <- 0;
-        scope.revive_players <- [];
-        ForEachAlivePlayer(ThawCheck, {
-            "frozen_player": player,
-            "scope": scope
-        });
+    local was_being_thawed = scope.revive_playercount > 0;
+    scope.revive_playercount <- 0;
+    scope.revive_players <- [];
+    ForEachAlivePlayer(ThawCheck, {
+        "frozen_player": player,
+        "scope": scope
+    });
 
-        scope.revive_playercount = min(scope.revive_playercount, 3);
-        if (scope.revive_playercount > 0) {
-            local penalized_thaw_time = thaw_time + scope.thaw_time_penalty;
-            if (!was_being_thawed)
-                ShowPlayerAnnotation(player, "You are being thawed!", penalized_thaw_time + 1, scope.frozen_player_model);
+    scope.revive_playercount = min(scope.revive_playercount, 3);
+    if (scope.revive_playercount > 0) {
+        local penalized_thaw_time = thaw_time + scope.thaw_time_penalty;
+        if (!was_being_thawed)
+            ShowPlayerAnnotation(player, "You are being thawed!", penalized_thaw_time + 1, scope.frozen_player_model);
 
-            local rate = 0.57721 + log(scope.revive_playercount + 0.5); // Using real approximation for Medigun partial cap rates
-            scope.revive_progress += (1 / penalized_thaw_time) * tick_rate * rate;
+        local rate = 0.57721 + log(scope.revive_playercount + 0.5); // Using real approximation for Medigun partial cap rates
+        scope.revive_progress += (1 / penalized_thaw_time) * tick_rate * rate;
 
-            // force a player to spectate their statue if they begin thawing
-            if (!scope.did_force_spectate && GetPropInt(player, "m_iObserverMode") != 1) {
-                ForceSpectateFrozenPlayer(player);
-                scope.did_force_spectate = true;
-            }
-        } else if (scope.revive_playercount == 0) {
-            if (was_being_thawed)
-                ShowPlayerAnnotation(player, "", 0.1);
-
-            scope.revive_progress -= (1 / decay_time) * tick_rate;
-            if (scope.revive_progress < 0) {
-                scope.did_force_spectate = false;
-                scope.revive_progress = 0;
-            }
+        // force a player to spectate their statue if they begin thawing
+        if (!scope.did_force_spectate && GetPropInt(player, "m_iObserverMode") != 1) {
+            ForceSpectateFrozenPlayer(player);
+            scope.did_force_spectate = true;
         }
+    } else if (scope.revive_playercount == 0) {
+        if (was_being_thawed)
+            ShowPlayerAnnotation(player, "", 0.1);
 
-        SetReviveMarkerHealth(player);
-        UpdateGlowColor(player);
-        UpdateReviveProgressSprite(player);
-        ChangeFrozenPlayerModelSolidity(scope);
-
-        // HACK: medics healing frozen players' revive markers can sometimes outpace the tickrate.
-        //  check if the frozen player is otherwise alive (because they've been revived) and manually thaw in that case
-        local medic_hack = (IsPlayerAlive(player) && scope.revive_progress > 0.9);
-
-        if (scope.revive_progress >= 1 || medic_hack) {
-            UnfreezePlayer(player, medic_hack);
+        scope.revive_progress -= (1 / decay_time) * tick_rate;
+        if (scope.revive_progress < 0) {
+            scope.did_force_spectate = false;
+            scope.revive_progress = 0;
         }
+    }
+
+    SetReviveMarkerHealth(player);
+    UpdateGlowColor(player);
+    UpdateReviveProgressSprite(player);
+    ChangeFrozenPlayerModelSolidity(scope);
+
+    // HACK: medics healing frozen players' revive markers can sometimes outpace the tickrate.
+    //  check if the frozen player is otherwise alive (because they've been revived) and manually thaw in that case
+    local medic_hack = IsPlayerAlive(player);
+
+    if (scope.revive_progress >= 1 || medic_hack) {
+        UnfreezePlayer(player, medic_hack);
     }
 }
 

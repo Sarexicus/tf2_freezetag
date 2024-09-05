@@ -34,6 +34,7 @@ tick_rate <- 0.1; // how often the base think rate polls
 
 IncludeScript(VSCRIPT_PATH + "freeze.nut", this);
 IncludeScript(VSCRIPT_PATH + "thaw.nut", this);
+IncludeScript(VSCRIPT_PATH + "regen.nut", this);
 
 function PrecacheParticle(particle_name) {
     PrecacheEntityFromTable({
@@ -79,12 +80,17 @@ function Think() {
     // skip running any thinks when WFP is going
     if (IsInWaitingForPlayers()) return;
 
-    // only run the freeze think every second tick, for performance's sake
-    if (_ticks % (tick_rate * 2) == 0) {
-        FreezeThink();
-    }
+    foreach(player in GetAllPlayers()) {
+        // only run the freeze think every second tick, for performance's sake
+        if (_ticks % (tick_rate * 2) == 0) {
+            FreezeThink(player);
+        }
 
-    if (STATE == GAMESTATES.ROUND) ThawThink();
+        if (STATE == GAMESTATES.ROUND) {
+            ThawThink(player);
+            RegenThink(player);
+        }
+    }
 
     deadRingerSpies.clear();
 
@@ -102,6 +108,9 @@ function SetupPlayer(player) {
     scope.freeze_positions <- [];
     scope.position_index <- 0;
     scope.freeze_point <- null;
+
+    scope.regen_amount <- 0;
+    scope.regen_particle <- null;
     
     scope.revive_playercount <- 0;
     scope.revive_players <- [];

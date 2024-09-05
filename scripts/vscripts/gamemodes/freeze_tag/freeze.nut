@@ -248,7 +248,7 @@ function GetGroundedSequenceName(player) {
     if (fraction < 1.0) return sequence_name;
 
     local arr = split(sequence_name, "_");
-    if (arr.len() == 2) return "run_" + arr[arr.len() - 1];
+    if (arr.len() >= 2) return "run_" + arr[arr.len() - 1];
     
     return sequence_name;
 }
@@ -343,18 +343,12 @@ function CreateSpectateOrigin(pos) {
     return spec_origin;
 }
 
-function FreezeThink() {
-    for (local i = 1; i <= MaxPlayers; i++)
-    {
-        local player = PlayerInstanceFromIndex(i);
-        if (player == null) continue;
+function FreezeThink(player) {
+    if (!IsPlayerAlive(player)) return;
 
-        if(!IsPlayerAlive(player)) continue;
-
-        CalculatePlayerFreezePoint(player);
-        GetPlayerWeaponIndex(player);
-        GetPlayerPoseParameters(player);
-    }
+    CalculatePlayerFreezePoint(player);
+    GetPlayerWeaponIndex(player);
+    GetPlayerPoseParameters(player);
 }
 
 function GetPlayerWeaponIndex(player) {

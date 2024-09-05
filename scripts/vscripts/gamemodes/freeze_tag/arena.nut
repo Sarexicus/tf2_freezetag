@@ -195,6 +195,8 @@ function WinRound(winnerTeam) {
     foreach (player in GetAllPlayers()) {
         local team = player.GetTeam();
         local scope = player.GetScriptScope();
+
+        StopRegenerating(player);
         if (!winnerTeam || team != winnerTeam) {
             if (IsPlayerAlive(player)) StunPlayer(player, 9999);
         } else {
