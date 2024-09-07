@@ -18,7 +18,7 @@ function UnfreezePlayer(player, no_respawn=false) {
         CleanRespawn(player);
         SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", desired_player_class);
     }
-    RunWithDelay(function(player) { player.SetHealth(player.GetMaxHealth() * health_multiplier_on_thaw) }, 0.01, [this, player]);
+    RunWithDelay(function(player) { player.SetHealth(player.GetMaxHealth() * health_multiplier_on_thaw); StartRegenerating(player); }, 0.01, [this, player]);
     player.AddCondEx(TF_COND_INVULNERABLE_USER_BUFF, 1.0, player);
     player.AcceptInput("SpeakResponseConcept", "TLK_RESURRECTED", null, null);
     player.SetAbsAngles(scope.ang);
@@ -37,7 +37,6 @@ function UnfreezePlayer(player, no_respawn=false) {
     ResetPlayer(player);
     PlayThawSound(player);
     ShowThawParticle(player);
-    StartRegenerating(player);
 }
 
 function ResetPlayer(player) {
@@ -156,6 +155,7 @@ function GenerateThawKillfeedEvent(thawing_players, thawed_player) {
 }
 
 function ThawThink(player) {
+    local scope = player.GetScriptScope();
     if (!scope.frozen) return;
 
     if (developer() >= 2) DebugDrawBox(scope.freeze_point, vectriple(-4), vectriple(4), 0, 255, 0, 128, 0.5);

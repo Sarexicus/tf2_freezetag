@@ -130,7 +130,7 @@ function SpawnEscrowPlayercountFlag(team) {
     local alive = {
         [TF_TEAM_RED] = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_RED),
         [TF_TEAM_BLUE] = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_BLUE)
-    }
+    };
     foreach(player in GetAllPlayers()) {
         if (player.InCond(TF_COND_FEIGN_DEATH)) alive[player.GetTeam()]--;
     }
@@ -156,7 +156,7 @@ function SpawnEscrowPlayercountFlag(team) {
     local alive = {
         [TF_TEAM_RED] = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_RED),
         [TF_TEAM_BLUE] = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_BLUE)
-    }
+    };
 
     if (checkForGameEnd) {
         local redTeamDead = alive[TF_TEAM_RED] == 0;

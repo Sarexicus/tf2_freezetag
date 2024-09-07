@@ -111,6 +111,7 @@ function SetupPlayer(player) {
 
     scope.regen_amount <- 0;
     scope.regen_particle <- null;
+    scope.partial_regen <- 0;
     
     scope.revive_playercount <- 0;
     scope.revive_players <- [];
