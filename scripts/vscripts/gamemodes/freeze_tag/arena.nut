@@ -45,6 +45,8 @@ EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam1", mainLogicEntity.GetName(), "Ru
 EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam2", mainLogicEntity.GetName(), "RunScriptCode", "WinRound(TF_TEAM_BLUE)", 0, -1);
 
 // player count flags
+::initial_playercount <- { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
+::current_playercount <- { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
 ::escrow_playercount <- { [TF_TEAM_RED] = null, [TF_TEAM_BLUE] = null };
 
 local round_scored = false;
@@ -98,7 +100,7 @@ function ChangeStateToRound() {
     GAMERULES.AcceptInput("PlayVO", "Ambient.Siren", null, null);
 
     UpdateTeamEscrows();
-    RunWithDelay(CountAlivePlayers, 0.1);
+    RunWithDelay(function() { initial_playercount = CountAlivePlayers() }, 0.1);
 }
 
 function SpawnEscrows() {
@@ -166,6 +168,9 @@ function SpawnEscrowPlayercountFlag(team) {
         if (redTeamDead) return WinRound(Constants.ETFTeam.TF_TEAM_BLUE);
         if (bluTeamDead) return WinRound(Constants.ETFTeam.TF_TEAM_RED);
     }
+
+    current_playercount = clone alive;
+    return alive;
 }
 
 function WinRound(winnerTeam) {

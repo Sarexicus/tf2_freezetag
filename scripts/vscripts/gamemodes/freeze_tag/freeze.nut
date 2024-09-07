@@ -19,12 +19,9 @@ function FreezePlayer(player) {
 
     scope.player_class <- player.GetPlayerClass();
     scope.freeze_point <- freeze_point;
-    scope.revive_progress <- 0;
+    scope.revive_progress <- GetTeamMinProgress(player.GetTeam());
     scope.frozen <- true;
-    scope.last_freeze_time <- Time();
     scope.spectating_self <- false;
-    if (Time() - scope.last_thaw_time > penalty_grace_period)
-        scope.thaw_time_penalty <- scope.thaw_time_penalty + thaw_time_penalty;
 
     scope.ammo <- {};
     local length = NetProps.GetPropArraySize(player, "localdata.m_iAmmo");

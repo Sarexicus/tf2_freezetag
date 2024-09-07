@@ -23,7 +23,6 @@ function UnfreezePlayer(player, no_respawn=false) {
     player.AcceptInput("SpeakResponseConcept", "TLK_RESURRECTED", null, null);
     player.SetAbsAngles(scope.ang);
     player.SnapEyeAngles(scope.eye_ang);
-    scope.last_thaw_time <- Time();
 
     foreach (i, num in scope.ammo)
         SetPropIntArray(player, "localdata.m_iAmmo", num, i);
@@ -172,12 +171,11 @@ function ThawThink(player) {
 
     scope.revive_playercount = min(scope.revive_playercount, 3);
     if (scope.revive_playercount > 0) {
-        local penalized_thaw_time = thaw_time + scope.thaw_time_penalty;
         if (!was_being_thawed)
-            ShowPlayerAnnotation(player, "You are being thawed!", penalized_thaw_time + 1, scope.frozen_player_model);
+            ShowPlayerAnnotation(player, "You are being thawed!", max_thaw_time + 1, scope.frozen_player_model);
 
         local rate = 0.57721 + log(scope.revive_playercount + 0.5); // Using real approximation for Medigun partial cap rates
-        scope.revive_progress += (1 / penalized_thaw_time) * tick_rate * rate;
+        scope.revive_progress += (1 / max_thaw_time) * tick_rate * rate;
 
         // force a player to spectate their statue if they begin thawing
         if (!scope.did_force_spectate && GetPropInt(player, "m_iObserverMode") != 1) {
@@ -189,9 +187,10 @@ function ThawThink(player) {
             ShowPlayerAnnotation(player, "", 0.1);
 
         scope.revive_progress -= (1 / decay_time) * tick_rate;
-        if (scope.revive_progress < 0) {
+        local min_progress = GetTeamMinProgress(player.GetTeam());
+        if (scope.revive_progress < min_progress) {
             scope.did_force_spectate = false;
-            scope.revive_progress = 0;
+            scope.revive_progress = min_progress;
         }
     }
 
@@ -207,6 +206,12 @@ function ThawThink(player) {
     if (scope.revive_progress >= 1 || medic_hack) {
         UnfreezePlayer(player, medic_hack);
     }
+}
+
+function GetTeamMinProgress(team) {
+    local ratio = current_playercount[team].tofloat() / initial_playercount[team];
+    printl(ratio);
+    return (max_thaw_time - min_thaw_time) / max_thaw_time * (1 - max(0.0, min((ratio - min_thaw_time_percent) / (max_thaw_time_percent - min_thaw_time_percent), 1.0)));
 }
 
 function ChangeFrozenPlayerModelSolidity(scope) {

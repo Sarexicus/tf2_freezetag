@@ -13,9 +13,10 @@ if (developer() >= 1) printl("[FREEZE TAG LOADED] Version " + version);
 // CONFIG
 // -----------------------------------------------
 health_multiplier_on_thaw <- 0.5;       // how much health a frozen player gets when they thaw (fraction of max hp)
-thaw_time_penalty <- 1.0;               // how many seconds are added to the thaw time, per death
-penalty_grace_period <- 3.0;            // how many seconds can you die after thawing without applying the penalty
-thaw_time <- 3.0 - thaw_time_penalty;   // how many seconds it takes for one player to thaw a frozen player
+min_thaw_time <- 1.0;                   // how many seconds it takes for one player to thaw a frozen player at best
+max_thaw_time <- 5.0;                   // how many seconds it takes for one player to thaw a frozen player at worst
+min_thaw_time_percent <- 0.2;           // how much of a team's players have to be alive at most for the thaw time to be minimal
+max_thaw_time_percent <- 0.75;          // how much of a team's players have to be alive at least for the thaw time to be maximal
 decay_time <- 8.0;                      // how many seconds it takes for thawing progress to decay from full to empty
 thaw_distance <- 128.0;                 // how close to a frozen player on your team you have to be to start thawing them
 medigun_thawing_efficiency <- 0.66;     // how efficient is thawing with a Medigun outside the thaw distance
@@ -120,10 +121,6 @@ function SetupPlayer(player) {
     scope.ammo <- {};
     scope.ang <- null;
     scope.eye_ang <- null;
-    
-    scope.thaw_time_penalty <- 0;
-    scope.last_thaw_time <- 0;
-    scope.last_freeze_time <- 0;
 
     scope.spectate_origin <- null;
     scope.did_force_spectate <- false;
