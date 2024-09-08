@@ -114,6 +114,7 @@ function SetupPlayer(player) {
     scope.regen_particle <- null;
     scope.partial_regen <- 0;
 
+    scope.revive_progress <- 0;
     scope.revive_playercount <- 0;
     scope.revive_players <- [];
 
@@ -125,6 +126,8 @@ function SetupPlayer(player) {
     scope.spectate_origin <- null;
     scope.did_force_spectate <- false;
     scope.spectating_self <- false;
+
+    scope.highest_thawing_player <- null;
 }
 
 // EVENTS

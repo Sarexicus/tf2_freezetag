@@ -2,6 +2,7 @@
 // by Sarexicus and Le Codex
 // -------------------------------
 
+IncludeScript(VSCRIPT_PATH + "thaw_meter.nut", this);
 revive_sprite_frames <- 40; // number of frames in the revive sprite's animation. need to set this manually, I think
 
 // -------------------------------
@@ -43,6 +44,7 @@ function ResetPlayer(player) {
     scope.frozen <- false;
     scope.revive_progress <- 0;
     scope.revive_players <- [];
+    scope.highest_thawing_player <- null;
 
     RemoveFrozenPlayerModel(player);
     RemoveReviveProgressSprite(scope);
@@ -194,6 +196,8 @@ function ThawThink(player) {
         }
     }
 
+    UpdateHighestThawedPlayer(player, scope);
+    UpdateThawHUDs(player, scope);
     SetReviveMarkerHealth(player);
     UpdateGlowColor(player);
     UpdateReviveProgressSprite(player);
@@ -205,6 +209,32 @@ function ThawThink(player) {
 
     if (scope.revive_progress >= 1 || medic_hack) {
         UnfreezePlayer(player, medic_hack);
+    }
+}
+
+function UpdateHighestThawedPlayer(player, scope) {
+    foreach(revive_player in scope.revive_players) {
+        local rp_scope = revive_player.GetScriptScope();
+        local htp = rp_scope.highest_thawing_player;
+        if (htp == null) {
+            rp_scope.highest_thawing_player = player;
+            return;
+        }
+
+        local htp_scope = htp.GetScriptScope();
+        if (htp_scope.revive_progress < scope.revive_progress) {
+            rp_scope.highest_thawing_player = player;
+            return;
+        }
+    }
+}
+
+function UpdateThawHUDs(player, scope) {
+    foreach(revive_player in scope.revive_players) {
+        local rp_scope = revive_player.GetScriptScope();
+        if (rp_scope.highest_thawing_player == player) {
+            ShowThawMeterText(revive_player, scope.revive_progress * max_thaw_time, max_thaw_time, scope.revive_playercount);
+        }
     }
 }
 
