@@ -21,7 +21,7 @@ decay_time <- 8.0;                      // how many seconds it takes for thawing
 thaw_distance <- 128.0;                 // how close to a frozen player on your team you have to be to start thawing them
 medigun_thawing_efficiency <- 0.66;     // how efficient is thawing with a Medigun outside the thaw distance
 players_solid_when_frozen <- false;     // whether frozen players have collisions
-point_unlock_timer <- 90;               // how many seconds it takes the point to unlock
+point_unlock_timer <- 75;               // how many seconds it takes the point to unlock
 
 ::freeze_sound <- "Icicle.TurnToIce";
 ::thaw_sound <- "Icicle.Melt";
@@ -113,10 +113,10 @@ function SetupPlayer(player) {
     scope.regen_amount <- 0;
     scope.regen_particle <- null;
     scope.partial_regen <- 0;
-    
+
     scope.revive_playercount <- 0;
     scope.revive_players <- [];
-    
+
     scope.player_class <- 0;
     scope.ammo <- {};
     scope.ang <- null;
