@@ -3,6 +3,7 @@
 // -------------------------------
 
 IncludeScript(VSCRIPT_PATH + "thaw_meter.nut", this);
+IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
 revive_sprite_frames <- 40; // number of frames in the revive sprite's animation. need to set this manually, I think
 
 // -------------------------------
@@ -98,37 +99,6 @@ function RemoveFrozenPlayerModel(player) {
     SafeDeleteFromScope(scope, "frozen_weapon_model");
 }
 
-function ForceSpectateFrozenPlayer(player) {
-    local scope = player.GetScriptScope();
-
-    local target = scope.spectate_origin;
-    if (!target || !target.IsValid())
-        target = FindFirstAlivePlayerOnTeam(player.GetTeam());
-    else
-        scope.spectating_self <- true;
-
-    SetPropEntity(player, "m_hObserverTarget", target);
-}
-
-function FrozenPlayerSpectate(player) {
-    local scope = player.GetScriptScope();
-    local observer = GetPropEntity(player, "m_hObserverTarget");
-    if (observer == null || !observer.IsValid()) return;
-
-    if (!scope.spectating_self) {
-        if (observer == spectator_proxy) {
-            ForceSpectateFrozenPlayer(player);
-            return;
-        }
-    } else if (observer != scope.spectate_origin) {
-        scope.spectating_self <- false;
-        SetPropEntity(player, "m_hObserverTarget", FindFirstAlivePlayerOnTeam(player.GetTeam()));
-        // if (observer.GetClassname() == "info_observer_point") {
-        //     SetPropEntity(player, "m_hObserverTarget", FindFirstAlivePlayerOnTeam(player.GetTeam()));
-        // }
-    }
-}
-
 function GenerateThawKillfeedEvent(thawing_players, thawed_player) {
     local revive_icon = (thawed_player.GetTeam() == 2) ? "redcapture" : "bluecapture";
 
@@ -161,7 +131,9 @@ function ThawThink(player) {
 
     if (developer() >= 2) DebugDrawBox(scope.freeze_point, vectriple(-4), vectriple(4), 0, 255, 0, 128, 0.5);
 
-    FrozenPlayerSpectate(player);
+    // spectating (cycle and forced)
+    ForcePlayerSpectateRules(player);
+    FrozenPlayerSpectatorCycle(player);
 
     local was_being_thawed = scope.revive_playercount > 0;
     scope.revive_playercount <- 0;
@@ -179,11 +151,6 @@ function ThawThink(player) {
         local rate = 0.57721 + log(scope.revive_playercount + 0.5); // Using real approximation for Medigun partial cap rates
         scope.revive_progress += (1 / max_thaw_time) * tick_rate * rate;
 
-        // force a player to spectate their statue if they begin thawing
-        if (!scope.did_force_spectate && GetPropInt(player, "m_iObserverMode") != 1) {
-            ForceSpectateFrozenPlayer(player);
-            scope.did_force_spectate = true;
-        }
     } else if (scope.revive_playercount == 0) {
         if (was_being_thawed)
             ShowPlayerAnnotation(player, "", 0.1);
