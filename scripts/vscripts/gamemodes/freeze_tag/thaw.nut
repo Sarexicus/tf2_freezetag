@@ -210,7 +210,6 @@ function ThawThink(player) {
 
 function GetTeamMinProgress(team) {
     local ratio = current_playercount[team].tofloat() / initial_playercount[team];
-    printl(ratio);
     return (max_thaw_time - min_thaw_time) / max_thaw_time * (1 - max(0.0, min((ratio - min_thaw_time_percent) / (max_thaw_time_percent - min_thaw_time_percent), 1.0)));
 }
 

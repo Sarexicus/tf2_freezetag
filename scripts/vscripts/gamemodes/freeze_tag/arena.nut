@@ -2,7 +2,7 @@
 // by Sarexicus and Le Codex
 // --------------------------------------
 
-local setup_length = 15;    // how long setup lasts, in seconds
+local setup_length = 10;    // how long setup lasts, in seconds
 
 // --------------------------------------
 
