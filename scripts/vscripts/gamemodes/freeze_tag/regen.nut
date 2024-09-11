@@ -39,6 +39,8 @@ regen_rate <- 10;   // how much health you'll be regenerating per second
     scope.regen_amount -= regen_amount;
     scope.partial_regen += regen_amount;
 
+    scope.regen_particle.AcceptInput(player.InCond(TF_COND_STEALTHED) || player.InCond(TF_COND_DISGUISED) ? "Stop" : "Start", "", null, null);
+
     local max_health = player.GetMaxHealth();
     local health = player.GetHealth();
     while (scope.partial_regen > 1) {
