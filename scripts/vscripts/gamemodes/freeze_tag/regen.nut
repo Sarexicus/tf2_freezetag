@@ -11,6 +11,7 @@ function StartRegenerating(player) {
     scope.regen_amount = player.GetMaxHealth() - player.GetHealth() + 1;  // +1 so it's a full heal, for some reason it doesn't fully heal otherwise
 
     local sprite_particle = SpawnEntityFromTable("info_particle_system", {
+        targetname = "regen_particle"
         effect_name = "powerup_icon_regen_" + (player.GetTeam() == TF_TEAM_RED ? "red": "blue"),
         origin = player.GetOrigin() + Vector(0, 0, 96)
         start_active = 1

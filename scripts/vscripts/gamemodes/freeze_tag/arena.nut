@@ -23,7 +23,7 @@ local setup_length = 10;    // how long setup lasts, in seconds
         targetname = "text_win_red", x = -1, y = -1, spawnflags = 1
     }),
     [TF_TEAM_BLUE] = SpawnEntityFromTable("game_text", {
-        channel = 3, color = "0 0 255", fadein = 0.5, fadeout = 0.5, holdtime = 5,
+        channel = 3, color = "0 128 255", fadein = 0.5, fadeout = 0.5, holdtime = 5,
         message = "BLU wins the round!"
         targetname = "text_win_blu", x = -1, y = -1, spawnflags = 1
     }),
@@ -178,6 +178,7 @@ function WinRound(winnerTeam) {
 
     EntFire("freeze_particles", "Kill", null, 0, null);
     EntFire("revive_progress_sprite", "Kill", null, 0, null);
+    EntFire("regen_particle", "Kill", null, 0, null);
 
     GAMERULES.AcceptInput("PlayVO", "Hud.EndRoundScored", null, null);
     if (winnerTeam) {
