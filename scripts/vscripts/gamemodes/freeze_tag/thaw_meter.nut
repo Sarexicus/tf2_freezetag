@@ -56,6 +56,7 @@ function TestShowThawMeterText(seconds, max_seconds, rate) {
 
 function ShowThawMeterText(player, seconds, max_seconds, rate) {
     if (seconds < 0 || seconds >= max_seconds) return;
+    if (rate == -1) rate = 0;
 
     local percentage = seconds / max_seconds;
     local seconds_text = format("%s ₍⤫%s₎", ToSubscript(format("%1.1f", max_seconds - seconds)), ToSubscript(format("%1.0f", rate)));

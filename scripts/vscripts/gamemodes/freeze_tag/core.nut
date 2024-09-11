@@ -188,7 +188,7 @@ getroottable()[EventsID].OnGameEvent_player_disconnect <- function(params) {
 
     // remove their statue if they were frozen
     local player = GetPlayerFromUserID(params.userid);
-    local scope = player.GetScriptScope();
+    if (!IsValidPlayer(player)) return;  // What happens then?
     ResetPlayer(player);
 }
 
