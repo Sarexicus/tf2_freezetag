@@ -6,7 +6,12 @@
 IncludeScript(VSCRIPT_PATH + "util.nut", this);
 IncludeScript(VSCRIPT_PATH + "arena.nut", this);
 
-ClearGameEventCallbacks();
+local EventsID = UniqueString();
+getroottable()[EventsID] <- {
+    // Cleanup events on round restart
+    OnGameEvent_scorestats_accumulated_update = function(_) { delete getroottable()[EventsID]; }
+};
+
 version <- "1.4";                       // Current version. DO NOT MODIFY
 if (developer() >= 1) printl("[FREEZE TAG LOADED] Version " + version);
 
@@ -132,7 +137,7 @@ function SetupPlayer(player) {
 
 // EVENTS
 // -----------------------------
-function OnGameEvent_teamplay_round_start(params) {
+getroottable()[EventsID].OnGameEvent_teamplay_round_start <- function(params) {
     if(IsInWaitingForPlayers()) {
         EntFire("setupgate*", "Open", "", 0, null);
         return;
@@ -140,7 +145,7 @@ function OnGameEvent_teamplay_round_start(params) {
     ChangeStateToSetup();
 }
 
-function OnGameEvent_player_team(params) {
+getroottable()[EventsID].OnGameEvent_player_team <- function(params) {
     // if a player changes team, remove their statue
     local player = GetPlayerFromUserID(params.userid);
     if (player == null) return;
@@ -153,7 +158,7 @@ function OnGameEvent_player_team(params) {
     }
 }
 
-function OnGameEvent_player_spawn(params) {
+getroottable()[EventsID].OnGameEvent_player_spawn <- function(params) {
     local player = GetPlayerFromUserID(params.userid);
     if (player == null) return;
 
@@ -177,7 +182,7 @@ function OnGameEvent_player_spawn(params) {
     }
 }
 
-function OnGameEvent_player_disconnect(params) {
+getroottable()[EventsID].OnGameEvent_player_disconnect <- function(params) {
     // check if this means a round would end
     if (STATE == GAMESTATES.ROUND) RunWithDelay(CountAlivePlayers, 0.1, [this, true]);
 
@@ -187,4 +192,4 @@ function OnGameEvent_player_disconnect(params) {
     ResetPlayer(player);
 }
 
-__CollectGameEventCallbacks(this);
+__CollectGameEventCallbacks(getroottable()[EventsID]);

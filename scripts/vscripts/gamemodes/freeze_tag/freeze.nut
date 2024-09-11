@@ -364,7 +364,7 @@ function GetPlayerPoseParameters(player) {
 // -----------------------------
 
 deadRingerSpies <- [];
-function OnGameEvent_player_death(params)
+getroottable()[EventsID].OnGameEvent_player_death <- function(params)
 {
     local player = GetPlayerFromUserID(params.userid);
     if (player.GetTeam() < 2) return;
