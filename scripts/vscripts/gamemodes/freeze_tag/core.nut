@@ -2,31 +2,34 @@
 // by Sarexicus and Le Codex
 // -----------------------------------------------
 
+if (!getroottable().rawin("EventsID")) {
+    ::EventsID <- UniqueString();
+} else {
+    delete getroottable()[EventsID];
+}
+
+if (developer() >= 1) printl("[FREEZE TAG] Event namespace: " + EventsID);
+getroottable()[EventsID] <- {};
+
 ::VSCRIPT_PATH <- "gamemodes/freeze_tag/";
 IncludeScript(VSCRIPT_PATH + "util.nut", this);
 IncludeScript(VSCRIPT_PATH + "arena.nut", this);
-
-local EventsID = UniqueString();
-getroottable()[EventsID] <- {
-    // Cleanup events on round restart
-    OnGameEvent_scorestats_accumulated_update = function(_) { delete getroottable()[EventsID]; }
-};
 
 version <- "1.4";                       // Current version. DO NOT MODIFY
 if (developer() >= 1) printl("[FREEZE TAG LOADED] Version " + version);
 
 // CONFIG
 // -----------------------------------------------
-health_multiplier_on_thaw <- 0.5;       // how much health a frozen player gets when they thaw (fraction of max hp)
-min_thaw_time <- 1.0;                   // how many seconds it takes for one player to thaw a frozen player at best
-max_thaw_time <- 5.0;                   // how many seconds it takes for one player to thaw a frozen player at worst
-min_thaw_time_percent <- 0.2;           // how much of a team's players have to be alive at most for the thaw time to be minimal
-max_thaw_time_percent <- 0.75;          // how much of a team's players have to be alive at least for the thaw time to be maximal
-decay_time <- 8.0;                      // how many seconds it takes for thawing progress to decay from full to empty
-thaw_distance <- 128.0;                 // how close to a frozen player on your team you have to be to start thawing them
-medigun_thawing_efficiency <- 0.66;     // how efficient is thawing with a Medigun outside the thaw distance
-players_solid_when_frozen <- false;     // whether frozen players have collisions
-point_unlock_timer <- 75;               // how many seconds it takes the point to unlock
+::health_multiplier_on_thaw <- 0.5;     // how much health a frozen player gets when they thaw (fraction of max hp)
+::min_thaw_time <- 1.0;                 // how many seconds it takes for one player to thaw a frozen player at best
+::max_thaw_time <- 5.0;                 // how many seconds it takes for one player to thaw a frozen player at worst
+::min_thaw_time_percent <- 0.2;         // how much of a team's players have to be alive at most for the thaw time to be minimal
+::max_thaw_time_percent <- 0.75;        // how much of a team's players have to be alive at least for the thaw time to be maximal
+::decay_time <- 8.0;                    // how many seconds it takes for thawing progress to decay from full to empty
+::thaw_distance <- 128.0;               // how close to a frozen player on your team you have to be to start thawing them
+::medigun_thawing_efficiency <- 0.66;   // how efficient is thawing with a Medigun outside the thaw distance
+::players_solid_when_frozen <- false;   // whether frozen players have collisions
+::point_unlock_timer <- 75;             // how many seconds it takes the point to unlock
 
 ::freeze_sound <- "Icicle.TurnToIce";
 ::thaw_sound <- "Icicle.Melt";
@@ -34,7 +37,7 @@ point_unlock_timer <- 75;               // how many seconds it takes the point t
 ::fake_thaw_sound <- "Halloween.spell_stealth";
 ::fake_disappear_particle <- "ghost_smoke";
 
-tick_rate <- 0.1; // how often the base think rate polls
+tick_rate <- 0.1;   // how often the base think rate polls
 
 // -----------------------------------------------
 
@@ -73,14 +76,6 @@ function OnPostSpawn() {
     }
 }
 
-function RoundStart() {
-    foreach (player in GetAllPlayers()) {
-        local scope = player.GetScriptScope();
-        ResetPlayer(player);
-        SetupPlayer(player);
-    }
-}
-
 local _ticks = 0;
 function Think() {
     // skip running any thinks when WFP is going
@@ -105,7 +100,15 @@ function Think() {
     return tick_rate;
 }
 
-function SetupPlayer(player) {
+::RoundStart <- function() {
+    foreach (player in GetAllPlayers()) {
+        local scope = player.GetScriptScope();
+        ResetPlayer(player);
+        SetupPlayer(player);
+    }
+}
+
+::SetupPlayer <- function(player) {
     local scope = player.GetScriptScope();
     scope.late_joiner <- true;
     scope.frozen <- false;

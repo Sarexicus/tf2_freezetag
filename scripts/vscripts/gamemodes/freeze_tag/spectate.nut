@@ -7,7 +7,7 @@ force_spectate_when_thawing <- 2;       // 0: don't force spectate. 1: force spe
 
 // -------------------------------
 
-function ForceSpectateFrozenPlayer(player) {
+::ForceSpectateFrozenPlayer <- function(player) {
     local scope = player.GetScriptScope();
 
     local target = scope.spectate_origin;
@@ -19,7 +19,7 @@ function ForceSpectateFrozenPlayer(player) {
     SetPropEntity(player, "m_hObserverTarget", target);
 }
 
-function FrozenPlayerSpectatorCycle(player) {
+::FrozenPlayerSpectatorCycle <- function(player) {
     local scope = player.GetScriptScope();
     local observer = GetPropEntity(player, "m_hObserverTarget");
     if (observer == null || !observer.IsValid()) return;
@@ -38,7 +38,7 @@ function FrozenPlayerSpectatorCycle(player) {
     }
 }
 
-function ForcePlayerSpectateRules(player) {
+::ForcePlayerSpectateRules <- function(player) {
     local scope = player.GetScriptScope();
     // don't force spectate during deathcam
     if (GetPropInt(player, "m_iObserverMode") == 1) return;

@@ -8,7 +8,7 @@ revive_sprite_frames <- 40; // number of frames in the revive sprite's animation
 
 // -------------------------------
 
-function UnfreezePlayer(player, no_respawn=false) {
+::UnfreezePlayer <- function(player, no_respawn=false) {
     // prevent the player from switching class while dead.
     // FIXME: this still lets players change weapons. can we fix this?
     local scope = player.GetScriptScope();
@@ -40,7 +40,7 @@ function UnfreezePlayer(player, no_respawn=false) {
     ShowThawParticle(player);
 }
 
-function ResetPlayer(player) {
+::ResetPlayer <- function(player) {
     local scope = player.GetScriptScope();
     scope.frozen <- false;
     scope.revive_progress <- 0;
@@ -55,7 +55,7 @@ function ResetPlayer(player) {
     RemoveSpectateOrigin(scope);
 }
 
-function PlayThawSound(player) {
+::PlayThawSound <- function(player) {
     EmitSoundEx({
         sound_name = thaw_sound,
         origin = player.GetCenter(),
@@ -63,7 +63,7 @@ function PlayThawSound(player) {
     });
 }
 
-function ShowThawParticle(player) {
+::ShowThawParticle <- function(player) {
     local particle = SpawnEntityFromTable("trigger_particle", {
         particle_name = thaw_particle,
         attachment_type = 1, // PATTACH_ABSORIGIN_FOLLOW,
@@ -73,33 +73,33 @@ function ShowThawParticle(player) {
     particle.Kill();
 }
 
-function RemovePlayerReviveMarker(scope) {
+::RemovePlayerReviveMarker <- function(scope) {
     SafeDeleteFromScope(scope, "revive_marker");
 }
 
-function RemoveGlow(scope) {
+::RemoveGlow <- function(scope) {
     SafeDeleteFromScope(scope, "glow");
 }
 
-function RemoveReviveProgressSprite(scope) {
+::RemoveReviveProgressSprite <- function(scope) {
     SafeDeleteFromScope(scope, "revive_progress_sprite");
 }
 
-function RemoveParticles(scope) {
+::RemoveParticles <- function(scope) {
     SafeDeleteFromScope(scope, "particles");
 }
 
-function RemoveSpectateOrigin(scope) {
+::RemoveSpectateOrigin <- function(scope) {
     SafeDeleteFromScope(scope, "spectate_origin");
 }
 
-function RemoveFrozenPlayerModel(player) {
+::RemoveFrozenPlayerModel <- function(player) {
     local scope = player.GetScriptScope();
     SafeDeleteFromScope(scope, "frozen_player_model");
     SafeDeleteFromScope(scope, "frozen_weapon_model");
 }
 
-function GenerateThawKillfeedEvent(thawing_players, thawed_player) {
+::GenerateThawKillfeedEvent <- function(thawing_players, thawed_player) {
     local revive_icon = (thawed_player.GetTeam() == 2) ? "redcapture" : "bluecapture";
 
     local credits = [];
@@ -125,7 +125,7 @@ function GenerateThawKillfeedEvent(thawing_players, thawed_player) {
     SendGlobalGameEvent("player_death", params)
 }
 
-function ThawThink(player) {
+::ThawThink <- function(player) {
     local scope = player.GetScriptScope();
     if (!scope.frozen) return;
 
@@ -179,7 +179,7 @@ function ThawThink(player) {
     }
 }
 
-function UpdateHighestThawedPlayer(player, scope) {
+::UpdateHighestThawedPlayer <- function(player, scope) {
     foreach(revive_player in scope.revive_players) {
         local rp_scope = revive_player.GetScriptScope();
         local htp = rp_scope.highest_thawing_player;
@@ -196,7 +196,7 @@ function UpdateHighestThawedPlayer(player, scope) {
     }
 }
 
-function UpdateThawHUDs(player, scope) {
+::UpdateThawHUDs <- function(player, scope) {
     foreach(revive_player in scope.revive_players) {
         local rp_scope = revive_player.GetScriptScope();
         if (rp_scope.highest_thawing_player == player) {
@@ -205,18 +205,18 @@ function UpdateThawHUDs(player, scope) {
     }
 }
 
-function GetTeamMinProgress(team) {
+::GetTeamMinProgress <- function(team) {
     local ratio = current_playercount[team].tofloat() / initial_playercount[team];
     return (max_thaw_time - min_thaw_time) / max_thaw_time * (1 - max(0.0, min((ratio - min_thaw_time_percent) / (max_thaw_time_percent - min_thaw_time_percent), 1.0)));
 }
 
-function ChangeFrozenPlayerModelSolidity(scope) {
+::ChangeFrozenPlayerModelSolidity <- function(scope) {
     local frozen_player_model = scope.frozen_player_model;
     if (!frozen_player_model || !frozen_player_model.IsValid()) return;
     frozen_player_model.SetSolid(scope.solid ? 6 : 0);
 }
 
-function SetReviveMarkerHealth(player) {
+::SetReviveMarkerHealth <- function(player) {
     local scope = player.GetScriptScope();
     local revive_marker = scope.revive_marker;
 
@@ -227,7 +227,7 @@ function SetReviveMarkerHealth(player) {
     SetPropInt(revive_marker, "m_iHealth", max(1, player.GetMaxHealth() * scope.revive_progress * health_multiplier_on_thaw));
 }
 
-function UpdateGlowColor(player) {
+::UpdateGlowColor <- function(player) {
     local scope = player.GetScriptScope();
     local glow = scope.glow;
 
@@ -237,7 +237,7 @@ function UpdateGlowColor(player) {
     SetPropInt(glow, "m_glowColor", (goalColor[0]) | (goalColor[1] << 8) | (goalColor[2] << 16) | (255 << 24));
 }
 
-function UpdateReviveProgressSprite(player) {
+::UpdateReviveProgressSprite <- function(player) {
     local scope = player.GetScriptScope();
     local sprite = scope.revive_progress_sprite;
 
@@ -245,7 +245,7 @@ function UpdateReviveProgressSprite(player) {
     SetPropFloat(sprite, "m_flFrame", revive_sprite_frames * progress);
 }
 
-function CanThaw(player) {
+::CanThaw <- function(player) {
     local no_thaw_conditions = [TF_COND_STEALTHED, TF_COND_INVULNERABLE, TF_COND_INVULNERABLE_USER_BUFF, TF_COND_PHASE, TF_COND_MEGAHEAL];
     foreach (cond in no_thaw_conditions)
         if (player.InCond(cond)) return false;
@@ -256,7 +256,7 @@ function CanThaw(player) {
     return true;
 }
 
-function PlayerHasPainTrain(player) {
+::PlayerHasPainTrain <- function(player) {
     for (local i = 0; i < 7; i++){
         local weapon = NetProps.GetPropEntityArray(player, "m_hMyWeapons", i)
         if (!weapon || !weapon.IsValid()) continue;
@@ -267,14 +267,14 @@ function PlayerHasPainTrain(player) {
     return false;
 }
 
-function GetPlayerThawSpeed(player) {
+::GetPlayerThawSpeed <- function(player) {
     if (player.GetPlayerClass() == TF_CLASS_SCOUT) return 2;
     if (PlayerHasPainTrain(player)) return 2;
 
     return 1;
 }
 
-function StatueDistanceCheck(point_a, point_b, distance) {
+::StatueDistanceCheck <- function(point_a, point_b, distance) {
     local adjusted_z = Vector(point_a.x, point_a.y, point_b.z);
     if (Distance(adjusted_z, point_b) > distance) return false;
     if (abs(point_a.z - point_b.z) > distance) return false;
@@ -282,7 +282,7 @@ function StatueDistanceCheck(point_a, point_b, distance) {
     return true;
 }
 
-function ThawCheck(player, params) {
+::ThawCheck <- function(player, params) {
     if (!CanThaw(player)) return;
 
     local scope = params.scope;

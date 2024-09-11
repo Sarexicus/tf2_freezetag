@@ -34,14 +34,14 @@ text_thaw_timeleft <- SpawnEntityFromTable("game_text", {
     targetname = "text_thaw_timeleft", x = -1, y = 0.73, spawnflags = 0
 });
 
-function ToSubscript(text) {
+::ToSubscript <- function(text) {
     local out = "";
     foreach (char in text)
         out += small_numbers[char.tochar()];
     return out;
 }
 
-function GenerateMeterText(percent) {
+::GenerateMeterText <- function(percent) {
     local out = "";
     for (local i = 0; i < 1; i += 0.1) {
         out += (i+0.08 < percent) ? filled : unfilled;
@@ -49,12 +49,12 @@ function GenerateMeterText(percent) {
     return out;
 }
 
-function TestShowThawMeterText(seconds, max_seconds, rate) {
+::TestShowThawMeterText <- function(seconds, max_seconds, rate) {
     local player = activator;
     ShowThawMeterText(player, seconds, max_seconds, rate);
 }
 
-function ShowThawMeterText(player, seconds, max_seconds, rate) {
+::ShowThawMeterText <- function(player, seconds, max_seconds, rate) {
     if (seconds < 0 || seconds >= max_seconds) return;
     if (rate == -1) rate = 0;
 
@@ -70,7 +70,7 @@ function ShowThawMeterText(player, seconds, max_seconds, rate) {
     DisplayText(text_thaw_meter, player, percent_meter);
 }
 
-function DisplayText(entity, player, text) {
+::DisplayText <- function(entity, player, text) {
     entity.AcceptInput("AddOutput", "message " + text, null, null);
     entity.AcceptInput("Display", "", player, player);
 }

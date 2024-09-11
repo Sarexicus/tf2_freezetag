@@ -9,7 +9,7 @@ statue_color <- { [TF_TEAM_BLUE] = "225 240 255", [TF_TEAM_RED] = "255 225 240" 
 
 // -------------------------------
 
-function FreezePlayer(player) {
+::FreezePlayer <- function(player) {
     EntFireByHandle(player, "RunScriptCode", "GetPropEntity(self, `m_hRagdoll`).Destroy()", 0.01, player, player);
 
     local freeze_point = FindFreezePoint(player);
@@ -46,7 +46,7 @@ function FreezePlayer(player) {
     }, 0);
 }
 
-function FakeFreezePlayer(player) {
+::FakeFreezePlayer <- function(player) {
     // HACK: I don't think the fake ragdoll is stored anywhere, so we have to use that
     EntFire("tf_ragdoll", "Kill", "", 0.01, player);
 
@@ -81,7 +81,7 @@ function FakeFreezePlayer(player) {
     AddThinkToEnt(fake_revive_marker, "Think");
 }
 
-function PlayFreezeSound(player) {
+::PlayFreezeSound <- function(player) {
     EmitSoundEx({
         sound_name = freeze_sound,
         origin = player.GetCenter(),
@@ -89,7 +89,7 @@ function PlayFreezeSound(player) {
     });
 }
 
-function CreateReviveMarker(pos, player) {
+::CreateReviveMarker <- function(pos, player) {
     local revive_marker = SpawnEntityFromTable("entity_revive_marker", {
         "targetname": "player_revive",
         "origin": pos,
@@ -110,7 +110,7 @@ function CreateReviveMarker(pos, player) {
     return revive_marker;
 }
 
-function GetFrozenPlayerModel(player_class) {
+::GetFrozenPlayerModel <- function(player_class) {
     switch(player_class) {
         case TF_CLASS_SCOUT:         return "models/freezetag/player/scout_frozen.mdl";
         case TF_CLASS_SOLDIER:       return "models/freezetag/player/soldier_frozen.mdl";
@@ -126,7 +126,7 @@ function GetFrozenPlayerModel(player_class) {
 }
 
 // spawn a weapon from its item ID specifically to grab its modelname
-function GetWeaponModel(wep_idx)
+::GetWeaponModel <- function(wep_idx)
 {
     local wearable = Entities.CreateByClassname("tf_wearable");
     SetPropInt(wearable, "m_fEffects", 32);
@@ -141,7 +141,7 @@ function GetWeaponModel(wep_idx)
     return name;
 }
 
-function CreateFrozenPlayerModel(pos, player, sequence_name) {
+::CreateFrozenPlayerModel <- function(pos, player, sequence_name) {
     // Reestablish this when we have found a way to get the disguise's animation
     local friendly_disguised = false; // player.InCond(TF_COND_DISGUISED) && GetPropInt(player, "m_Shared.m_nDisguiseTeam") == player.GetTeam();
     local scope = player.GetScriptScope();
@@ -239,7 +239,7 @@ function CreateFrozenPlayerModel(pos, player, sequence_name) {
     return frozen_player_model;
 }
 
-function GetGroundedSequenceName(player) {
+::GetGroundedSequenceName <- function(player) {
     local sequence_name = player.GetSequenceName(player.GetSequence());
     local fraction = TraceLine(player.GetOrigin() - Vector(0, 0, 8), player.GetOrigin() - Vector(0, 0, 24), player);
     if (fraction < 1.0) return sequence_name;
@@ -250,7 +250,7 @@ function GetGroundedSequenceName(player) {
     return sequence_name;
 }
 
-function CreateFreezeParticles(pos, player) {
+::CreateFreezeParticles <- function(pos, player) {
     local scope = player.GetScriptScope();
     local particle_name = "ft_thawzone_" + ((player.GetTeam() == 2) ? "red" : "blu");
 
@@ -269,7 +269,7 @@ function CreateFreezeParticles(pos, player) {
     return particles;
 }
 
-function CreateGlow(player, prop) {
+::CreateGlow <- function(player, prop) {
     // "Prop" that will be glowing
     local proxy_entity = Entities.CreateByClassname("obj_teleporter");
     proxy_entity.SetAbsOrigin(prop.GetOrigin());
@@ -298,7 +298,7 @@ function CreateGlow(player, prop) {
     return glow;
 }
 
-function CreateReviveProgressSprite(pos, player) {
+::CreateReviveProgressSprite <- function(pos, player) {
     local sprite = SpawnEntityFromTable("env_sprite", {
         "origin": pos + player.GetClassEyeHeight() + Vector(0, 0, 32),
         "model": "freeze_tag/revive_bar.vmt",
@@ -315,7 +315,7 @@ function CreateReviveProgressSprite(pos, player) {
     return sprite;
 }
 
-function CreateFakeReviveProgressSprite(pos, player) {
+::CreateFakeReviveProgressSprite <- function(pos, player) {
     local sprite = SpawnEntityFromTable("env_sprite", {
         "origin": pos + player.GetClassEyeHeight() + Vector(0, 0, 32),
         "model": "freeze_tag/dead_ringer_icon_" + (player.GetTeam() == TF_TEAM_RED ? "red" : "blu") + ".vmt",
@@ -331,7 +331,7 @@ function CreateFakeReviveProgressSprite(pos, player) {
     return sprite;
 }
 
-function CreateSpectateOrigin(pos) {
+::CreateSpectateOrigin <- function(pos) {
     local spec_origin = SpawnEntityFromTable("prop_dynamic", {
         "targetname": "frozen_player_spectate_origin",
         "model": "models/empty.mdl",
@@ -340,7 +340,7 @@ function CreateSpectateOrigin(pos) {
     return spec_origin;
 }
 
-function FreezeThink(player) {
+::FreezeThink <- function(player) {
     if (!IsPlayerAlive(player)) return;
 
     CalculatePlayerFreezePoint(player);
@@ -348,12 +348,12 @@ function FreezeThink(player) {
     GetPlayerPoseParameters(player);
 }
 
-function GetPlayerWeaponIndex(player) {
+::GetPlayerWeaponIndex <- function(player) {
     local scope = player.GetScriptScope();
     scope.weapon_index <- GetPropInt(player.GetActiveWeapon(), "m_AttributeManager.m_Item.m_iItemDefinitionIndex");
 }
 
-function GetPlayerPoseParameters(player) {
+::GetPlayerPoseParameters <- function(player) {
     local scope = player.GetScriptScope();
     scope.ang <- player.GetAbsAngles();
     scope.eye_ang <- player.EyeAngles();

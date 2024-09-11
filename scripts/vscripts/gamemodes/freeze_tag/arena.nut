@@ -59,7 +59,7 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
 }
 ::STATE <- GAMESTATES.SETUP;
 
-function ChangeStateToSetup() {
+::ChangeStateToSetup <- function() {
     STATE = GAMESTATES.SETUP;
 
     round_scored = false;
@@ -84,7 +84,7 @@ function ChangeStateToSetup() {
     RoundStart();
 }
 
-function ChangeStateToRound() {
+::ChangeStateToRound <- function() {
     STATE = GAMESTATES.ROUND;
     GAME_TIMER.AcceptInput("Disable", "", null, null);
     CENTRAL_CP.AcceptInput("SetLocked", "1", null, null);
@@ -103,14 +103,14 @@ function ChangeStateToRound() {
     RunWithDelay(function() { initial_playercount = CountAlivePlayers() }, 0.1);
 }
 
-function SpawnEscrows() {
+::SpawnEscrows <- function() {
     escrow_playercount[TF_TEAM_BLUE] <- SpawnEscrowPlayercountFlag(TF_TEAM_BLUE);
     escrow_playercount[TF_TEAM_RED] <- SpawnEscrowPlayercountFlag(TF_TEAM_RED);
 
     RunWithDelay(UpdateTeamEscrows, 1);
 }
 
-function SpawnEscrowPlayercountFlag(team) {
+::SpawnEscrowPlayercountFlag <- function(team) {
     local player = FindFirstAlivePlayerOnTeam(team);
 
     local flag = SpawnEntityFromTable("item_teamflag", {
@@ -173,7 +173,7 @@ function SpawnEscrowPlayercountFlag(team) {
     return alive;
 }
 
-function WinRound(winnerTeam) {
+::WinRound <- function(winnerTeam) {
     if (round_scored) return;
 
     EntFire("freeze_particles", "Kill", null, 0, null);
@@ -218,7 +218,7 @@ function WinRound(winnerTeam) {
     ChangeStateToRoundEnd();
 }
 
-function ChangeStateToRoundEnd() {
+::ChangeStateToRoundEnd <- function() {
     STATE = GAMESTATES.ROUND_END;
     RunWithDelay(function() {
         if (GetRoundState() == Constants.ERoundState.GR_STATE_RND_RUNNING) ChangeStateToSetup();

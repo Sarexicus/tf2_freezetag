@@ -38,11 +38,11 @@ if (!("ConstantNamingConvention" in ROOT)) // make sure folding is only done onc
 }
 
 // change the classname of an entity to prevent preserving it
-function UnpreserveEntity(entity) {
+::UnpreserveEntity <- function(entity) {
     SetPropString(entity, "m_iClassname", "info_teleport_destination");
 }
 
-function ShowPlayerAnnotation(player, text, lifetime, follow_entity = null) {
+::ShowPlayerAnnotation <- function(player, text, lifetime, follow_entity = null) {
     local params = {
         text = text,
         id = player.entindex(),
@@ -61,20 +61,20 @@ function ShowPlayerAnnotation(player, text, lifetime, follow_entity = null) {
     SendGlobalGameEvent("show_annotation", params);
 }
 
-function SafeDeleteFromScope(scope, value) {
+::SafeDeleteFromScope <- function(scope, value) {
     if (scope.rawin(value) && scope[value] != null && scope[value].IsValid()) {
         scope[value].Kill();
     }
     scope[value] <- null;
 }
 
-function CreateSpectatorProxy() {
+::CreateSpectatorProxy <- function() {
     spectator_proxy = SpawnEntityFromTable("info_observer_point", {
         "targetname": "spectator_proxy"
     });
 }
 
-function ForEachAlivePlayer(callback, params = {}) {
+::ForEachAlivePlayer <- function(callback, params = {}) {
     for (local i = 1; i <= MaxPlayers; i++)
     {
         local player = PlayerInstanceFromIndex(i)
@@ -86,7 +86,7 @@ function ForEachAlivePlayer(callback, params = {}) {
     }
 }
 
-function FindFirstAlivePlayerOnTeam(team) {
+::FindFirstAlivePlayerOnTeam <- function(team) {
     for (local i = 1; i <= MaxPlayers; i++)
     {
         local player = PlayerInstanceFromIndex(i)
@@ -219,7 +219,7 @@ enum LIFE_STATE
 
 // Credit: Lizard of Oz
 ::detectedIssues <- {};
-::ErrorHandler <- function (e)
+::ErrorHandler <- function(e)
 {
     local stackInfo = getstackinfos(2);
     local key = format("'%s' @ %s#%d", e, stackInfo.src, stackInfo.line);
@@ -247,7 +247,7 @@ seterrorhandler(ErrorHandler);
     printfunc("CALLSTACK");
     local s, l = 3;
     while (s = getstackinfos(l++))
-        printfunc(format("*FUNCTION [%s()] %s line [%d]", s.func, s.src, s.line));
+        printfunc(format("*::[%s <- function()] %s line [%d]", s.func, s.src, s.line));
     printfunc("LOCALS");
     if (s = getstackinfos(3))
         foreach (n, v in s.locals)

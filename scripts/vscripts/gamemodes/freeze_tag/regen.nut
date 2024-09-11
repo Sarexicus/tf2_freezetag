@@ -6,7 +6,7 @@ regen_rate <- 10;   // how much health you'll be regenerating per second
 
 // -------------------------------
 
-function StartRegenerating(player) {
+::StartRegenerating <- function(player) {
     local scope = player.GetScriptScope();
     scope.regen_amount = player.GetMaxHealth() - player.GetHealth() + 1;  // +1 so it's a full heal, for some reason it doesn't fully heal otherwise
 
@@ -20,14 +20,14 @@ function StartRegenerating(player) {
     scope.regen_particle = sprite_particle;
 }
 
-function StopRegenerating(player) {
+::StopRegenerating <- function(player) {
     local scope = player.GetScriptScope();
     scope.regen_amount = 0;
     scope.partial_regen = 0;
     SafeDeleteFromScope(scope, "regen_particle");
 }
 
-function RegenThink(player) {
+::RegenThink <- function(player) {
     local scope = player.GetScriptScope();
     if (scope.regen_amount <= 0) return;
     if (!IsPlayerAlive(player)) {

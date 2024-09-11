@@ -13,7 +13,7 @@ local offground_leniency = Vector(0, 0, 5);     // raise the hull by this much, 
 
 // --------------------------------------
 
-function CalculatePlayerFreezePoint(player) {
+::CalculatePlayerFreezePoint <- function(player) {
     player.ValidateScriptScope();
     local scope = player.GetScriptScope();
     
@@ -55,7 +55,7 @@ function CalculatePlayerFreezePoint(player) {
     }
 }
 
-function RollingPush(arr, element, index, max_size) {
+::RollingPush <- function(arr, element, index, max_size) {
     if (arr.len() <= index) {
         arr.push(element);
     } else {
@@ -65,7 +65,7 @@ function RollingPush(arr, element, index, max_size) {
     return (index + 1) % max_size;
 }
 
-function SpaceAvailableForFreezePoint(location, player) {
+::SpaceAvailableForFreezePoint <- function(location, player) {
     local traceTable = {
         "start": location,
         "end": location,
@@ -77,7 +77,7 @@ function SpaceAvailableForFreezePoint(location, player) {
     return !("enthit" in traceTable);
 }
 
-function FindFreezePoint(player) {
+::FindFreezePoint <- function(player) {
     // Make special triggers collide with traces to invalidate any freeze points inside
     local collisionGroup = null;
     for (local ent; ent = Entities.FindByName(ent, "ft_func_nofreeze");) {
@@ -97,7 +97,7 @@ function FindFreezePoint(player) {
     return result;
 }
 
-function SearchForFreezePoint(player) {
+::SearchForFreezePoint <- function(player) {
     local scope = player.GetScriptScope();
 
     // don't find a freeze point for non-aerial players who are near the navmesh,
