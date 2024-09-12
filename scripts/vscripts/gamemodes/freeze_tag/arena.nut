@@ -72,7 +72,8 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
     EntityOutputs.AddOutput(GAME_TIMER, "On4SecRemain", GAMERULES.GetName(), "PlayVO", "Announcer.RoundBegins3Seconds", 0, 1);
     EntityOutputs.AddOutput(GAME_TIMER, "On3SecRemain", GAMERULES.GetName(), "PlayVO", "Announcer.RoundBegins2Seconds", 0, 1);
     EntityOutputs.AddOutput(GAME_TIMER, "On2SecRemain", GAMERULES.GetName(), "PlayVO", "Announcer.RoundBegins1Seconds", 0, 1);
-
+    
+    EntFire("regen_particle", "Kill", null, 0, null);
     EntFire("tf_dropped_weapon", "Kill", "", 0, null);
     EntFire("template_ft_preround", "ForceSpawn", "", 0, null);
     EntFire("setupgate*", "Close", "", 0, null);
@@ -95,7 +96,6 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
     EntFire("setupgate*", "Open", "", 0, null);
     EntFire("game_forcerespawn", "ForceTeamRespawn", "2", 0.3, null);
     EntFire("game_forcerespawn", "ForceTeamRespawn", "3", 0.3, null);
-    EntFire("regen_particle", "Kill", null, 0, null);
 
     GAMERULES.AcceptInput("PlayVO", "Announcer.AM_RoundStartRandom", null, null);
     GAMERULES.AcceptInput("PlayVO", "Ambient.Siren", null, null);
@@ -105,6 +105,9 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
 }
 
 ::SpawnEscrows <- function() {
+    foreach (team, escrow in escrow_playercount)
+        if (escrow && escrow.IsValid()) escrow.Destroy();
+    
     escrow_playercount[TF_TEAM_BLUE] <- SpawnEscrowPlayercountFlag(TF_TEAM_BLUE);
     escrow_playercount[TF_TEAM_RED] <- SpawnEscrowPlayercountFlag(TF_TEAM_RED);
 
@@ -146,9 +149,9 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
     local escrow = escrow_playercount[team];
     SetPropInt(escrow, "m_nPointValue", score);
 
-    // check if the player responsible for a team's score is disconnected
+    // check if the player responsible for a team's score is disconnected or has changed team
     local owner = GetPropEntity(escrow, "m_hPrevOwner");
-    if (owner == null || !owner.IsValid()) {
+    if (owner == null || !owner.IsValid() || owner.GetTeam() != team) {
         SetPropEntity(escrow, "m_hPrevOwner", FindFirstAlivePlayerOnTeam(team));
     }
 }
