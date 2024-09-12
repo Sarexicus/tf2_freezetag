@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8868"
-	"mapversion" "31"
+	"mapversion" "33"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "31"
+	"mapversion" "33"
 	"classname" "worldspawn"
 	"_minlight" "0.0"
 	"detailmaterial" "detailsprites"
@@ -336,10 +336,10 @@ world
 	}
 	solid
 	{
-		"id" "1200"
+		"id" "1220"
 		side
 		{
-			"id" "432"
+			"id" "468"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -357,7 +357,7 @@ world
 		}
 		side
 		{
-			"id" "431"
+			"id" "467"
 			"plane" "(-1024 1024 1024) (1024 1024 1024) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -375,7 +375,7 @@ world
 		}
 		side
 		{
-			"id" "430"
+			"id" "466"
 			"plane" "(-1024 -1024 -64) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -393,7 +393,7 @@ world
 		}
 		side
 		{
-			"id" "429"
+			"id" "465"
 			"plane" "(-1024 1024 1024) (-1024 -1024 1024) (-1024 -1024 -64)"
 			vertices_plus
 			{
@@ -411,7 +411,7 @@ world
 		}
 		side
 		{
-			"id" "428"
+			"id" "464"
 			"plane" "(1024 1024 -64) (1024 -1024 -64) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -429,7 +429,7 @@ world
 		}
 		side
 		{
-			"id" "427"
+			"id" "463"
 			"plane" "(-1024 -1024 1024) (-1024 -1024 -64) (1024 -1024 -64)"
 			vertices_plus
 			{
@@ -447,7 +447,7 @@ world
 		}
 		editor
 		{
-			"color" "0 128 113"
+			"color" "0 247 104"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -455,10 +455,10 @@ world
 	}
 	solid
 	{
-		"id" "1198"
+		"id" "1218"
 		side
 		{
-			"id" "438"
+			"id" "474"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -476,7 +476,7 @@ world
 		}
 		side
 		{
-			"id" "437"
+			"id" "473"
 			"plane" "(-1024 1024 1024) (1024 1024 1024) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -494,7 +494,7 @@ world
 		}
 		side
 		{
-			"id" "436"
+			"id" "472"
 			"plane" "(-1024 -1024 -64) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -512,7 +512,7 @@ world
 		}
 		side
 		{
-			"id" "435"
+			"id" "471"
 			"plane" "(-1024 1024 1024) (-1024 -1024 1024) (-1024 -1024 -64)"
 			vertices_plus
 			{
@@ -530,7 +530,7 @@ world
 		}
 		side
 		{
-			"id" "434"
+			"id" "470"
 			"plane" "(1024 1024 -64) (1024 -1024 -64) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -548,7 +548,7 @@ world
 		}
 		side
 		{
-			"id" "433"
+			"id" "469"
 			"plane" "(-1024 1024 -64) (-1024 1024 1024) (1024 1024 1024)"
 			vertices_plus
 			{
@@ -566,7 +566,7 @@ world
 		}
 		editor
 		{
-			"color" "0 128 113"
+			"color" "0 247 104"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -574,10 +574,10 @@ world
 	}
 	solid
 	{
-		"id" "1196"
+		"id" "1216"
 		side
 		{
-			"id" "444"
+			"id" "480"
 			"plane" "(16376 16376 -16376) (16376 -16376 -16376) (16376 -16376 16376)"
 			vertices_plus
 			{
@@ -595,7 +595,7 @@ world
 		}
 		side
 		{
-			"id" "443"
+			"id" "479"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -613,7 +613,7 @@ world
 		}
 		side
 		{
-			"id" "442"
+			"id" "478"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -631,7 +631,7 @@ world
 		}
 		side
 		{
-			"id" "441"
+			"id" "477"
 			"plane" "(-1024 1024 1024) (1024 1024 1024) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -649,7 +649,7 @@ world
 		}
 		side
 		{
-			"id" "440"
+			"id" "476"
 			"plane" "(-1024 -1024 -64) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -667,7 +667,7 @@ world
 		}
 		side
 		{
-			"id" "439"
+			"id" "475"
 			"plane" "(1024 -1024 1024) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -685,7 +685,7 @@ world
 		}
 		editor
 		{
-			"color" "0 128 113"
+			"color" "0 247 104"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -693,10 +693,10 @@ world
 	}
 	solid
 	{
-		"id" "1194"
+		"id" "1214"
 		side
 		{
-			"id" "450"
+			"id" "486"
 			"plane" "(-16376 16376 16376) (-16376 -16376 16376) (-16376 -16376 -16376)"
 			vertices_plus
 			{
@@ -714,7 +714,7 @@ world
 		}
 		side
 		{
-			"id" "449"
+			"id" "485"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -732,7 +732,7 @@ world
 		}
 		side
 		{
-			"id" "448"
+			"id" "484"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -750,7 +750,7 @@ world
 		}
 		side
 		{
-			"id" "447"
+			"id" "483"
 			"plane" "(-1024 1024 1024) (1024 1024 1024) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -768,7 +768,7 @@ world
 		}
 		side
 		{
-			"id" "446"
+			"id" "482"
 			"plane" "(-1024 -1024 -64) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -786,7 +786,7 @@ world
 		}
 		side
 		{
-			"id" "445"
+			"id" "481"
 			"plane" "(-1024 -1024 -64) (-1024 -1024 1024) (-1024 1024 1024)"
 			vertices_plus
 			{
@@ -804,7 +804,7 @@ world
 		}
 		editor
 		{
-			"color" "0 128 113"
+			"color" "0 247 104"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -812,10 +812,10 @@ world
 	}
 	solid
 	{
-		"id" "1192"
+		"id" "1212"
 		side
 		{
-			"id" "456"
+			"id" "492"
 			"plane" "(-16376 -16376 -16376) (16376 -16376 -16376) (16376 16376 -16376)"
 			vertices_plus
 			{
@@ -833,7 +833,7 @@ world
 		}
 		side
 		{
-			"id" "455"
+			"id" "491"
 			"plane" "(-16376 16376 16376) (-16376 -16376 16376) (-16376 -16376 -16376)"
 			vertices_plus
 			{
@@ -851,7 +851,7 @@ world
 		}
 		side
 		{
-			"id" "454"
+			"id" "490"
 			"plane" "(16376 16376 -16376) (16376 -16376 -16376) (16376 -16376 16376)"
 			vertices_plus
 			{
@@ -869,7 +869,7 @@ world
 		}
 		side
 		{
-			"id" "453"
+			"id" "489"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -887,7 +887,7 @@ world
 		}
 		side
 		{
-			"id" "452"
+			"id" "488"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -905,7 +905,7 @@ world
 		}
 		side
 		{
-			"id" "451"
+			"id" "487"
 			"plane" "(1024 1024 -64) (1024 -1024 -64) (-1024 -1024 -64)"
 			vertices_plus
 			{
@@ -923,7 +923,7 @@ world
 		}
 		editor
 		{
-			"color" "0 128 113"
+			"color" "0 247 104"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -931,10 +931,10 @@ world
 	}
 	solid
 	{
-		"id" "1190"
+		"id" "1210"
 		side
 		{
-			"id" "462"
+			"id" "498"
 			"plane" "(-16376 16376 16376) (16376 16376 16376) (16376 -16376 16376)"
 			vertices_plus
 			{
@@ -952,7 +952,7 @@ world
 		}
 		side
 		{
-			"id" "461"
+			"id" "497"
 			"plane" "(-16376 16376 16376) (-16376 -16376 16376) (-16376 -16376 -16376)"
 			vertices_plus
 			{
@@ -970,7 +970,7 @@ world
 		}
 		side
 		{
-			"id" "460"
+			"id" "496"
 			"plane" "(16376 16376 -16376) (16376 -16376 -16376) (16376 -16376 16376)"
 			vertices_plus
 			{
@@ -988,7 +988,7 @@ world
 		}
 		side
 		{
-			"id" "459"
+			"id" "495"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -1006,7 +1006,7 @@ world
 		}
 		side
 		{
-			"id" "458"
+			"id" "494"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1024,7 +1024,7 @@ world
 		}
 		side
 		{
-			"id" "457"
+			"id" "493"
 			"plane" "(1024 -1024 1024) (1024 1024 1024) (-1024 1024 1024)"
 			vertices_plus
 			{
@@ -1042,7 +1042,7 @@ world
 		}
 		editor
 		{
-			"color" "0 128 113"
+			"color" "0 247 104"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -1109,6 +1109,7 @@ entity
 	"id" "131"
 	"classname" "info_player_teamspawn"
 	"angles" "0 0 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1128,6 +1129,7 @@ entity
 	"id" "133"
 	"classname" "info_player_teamspawn"
 	"angles" "0 0 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1147,6 +1149,7 @@ entity
 	"id" "135"
 	"classname" "info_player_teamspawn"
 	"angles" "0 0 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1166,6 +1169,7 @@ entity
 	"id" "137"
 	"classname" "info_player_teamspawn"
 	"angles" "0 0 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1185,6 +1189,7 @@ entity
 	"id" "139"
 	"classname" "info_player_teamspawn"
 	"angles" "0 0 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1204,6 +1209,7 @@ entity
 	"id" "141"
 	"classname" "info_player_teamspawn"
 	"angles" "0 0 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1223,6 +1229,7 @@ entity
 	"id" "143"
 	"classname" "info_player_teamspawn"
 	"angles" "0 0 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1242,6 +1249,7 @@ entity
 	"id" "145"
 	"classname" "info_player_teamspawn"
 	"angles" "0 0 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1261,6 +1269,7 @@ entity
 	"id" "147"
 	"classname" "info_player_teamspawn"
 	"angles" "0 0 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1280,6 +1289,7 @@ entity
 	"id" "149"
 	"classname" "info_player_teamspawn"
 	"angles" "0 0 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1299,6 +1309,7 @@ entity
 	"id" "151"
 	"classname" "info_player_teamspawn"
 	"angles" "0 0 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1318,6 +1329,7 @@ entity
 	"id" "153"
 	"classname" "info_player_teamspawn"
 	"angles" "0 0 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1337,6 +1349,7 @@ entity
 	"id" "155"
 	"classname" "info_player_teamspawn"
 	"angles" "0 0 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1356,6 +1369,7 @@ entity
 	"id" "157"
 	"classname" "info_player_teamspawn"
 	"angles" "0 0 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1375,6 +1389,7 @@ entity
 	"id" "159"
 	"classname" "info_player_teamspawn"
 	"angles" "0 0 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1394,6 +1409,7 @@ entity
 	"id" "161"
 	"classname" "info_player_teamspawn"
 	"angles" "0 0 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1413,6 +1429,7 @@ entity
 	"id" "99"
 	"classname" "info_player_teamspawn"
 	"angles" "0 180 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1432,6 +1449,7 @@ entity
 	"id" "101"
 	"classname" "info_player_teamspawn"
 	"angles" "0 180 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1451,6 +1469,7 @@ entity
 	"id" "103"
 	"classname" "info_player_teamspawn"
 	"angles" "0 180 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1470,6 +1489,7 @@ entity
 	"id" "105"
 	"classname" "info_player_teamspawn"
 	"angles" "0 180 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1489,6 +1509,7 @@ entity
 	"id" "107"
 	"classname" "info_player_teamspawn"
 	"angles" "0 180 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1508,6 +1529,7 @@ entity
 	"id" "109"
 	"classname" "info_player_teamspawn"
 	"angles" "0 180 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1527,6 +1549,7 @@ entity
 	"id" "111"
 	"classname" "info_player_teamspawn"
 	"angles" "0 180 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1546,6 +1569,7 @@ entity
 	"id" "113"
 	"classname" "info_player_teamspawn"
 	"angles" "0 180 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1565,6 +1589,7 @@ entity
 	"id" "115"
 	"classname" "info_player_teamspawn"
 	"angles" "0 180 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1584,6 +1609,7 @@ entity
 	"id" "117"
 	"classname" "info_player_teamspawn"
 	"angles" "0 180 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1603,6 +1629,7 @@ entity
 	"id" "119"
 	"classname" "info_player_teamspawn"
 	"angles" "0 180 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1622,6 +1649,7 @@ entity
 	"id" "121"
 	"classname" "info_player_teamspawn"
 	"angles" "0 180 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1641,6 +1669,7 @@ entity
 	"id" "123"
 	"classname" "info_player_teamspawn"
 	"angles" "0 180 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1660,6 +1689,7 @@ entity
 	"id" "125"
 	"classname" "info_player_teamspawn"
 	"angles" "0 180 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1679,6 +1709,7 @@ entity
 	"id" "127"
 	"classname" "info_player_teamspawn"
 	"angles" "0 180 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -1698,6 +1729,7 @@ entity
 	"id" "129"
 	"classname" "info_player_teamspawn"
 	"angles" "0 180 0"
+	"model" "models/editor-abs/dev_engy.mdl"
 	"spawnflags" "511"
 	"SpawnMode" "0"
 	"StartDisabled" "0"
@@ -2762,6 +2794,25 @@ entity
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1000]"
+	}
+}
+entity
+{
+	"id" "1166"
+	"classname" "logic_auto"
+	"spawnflags" "1"
+	connections
+	{
+		"OnMultiNewRound" "game_rulesSetRedTeamGoalStringKill all enemy players or capture the point! Dead players become ice statues that you can thaw by standing next to them!0-1"
+		"OnMultiNewRound" "game_rulesSetBlueTeamGoalStringKill all enemy players or capture the point! Dead players become ice statues that you can thaw by standing next to them!0-1"
+	}
+	"origin" "32 128 160"
+	editor
+	{
+		"color" "100 150 255"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 500]"
 	}
 }
 cameras
