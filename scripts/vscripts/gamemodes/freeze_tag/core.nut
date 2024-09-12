@@ -128,8 +128,8 @@ function Think() {
 
     scope.player_class <- 0;
     scope.ammo <- {};
-    scope.ang <- null;
-    scope.eye_ang <- null;
+    scope.ang <- QAngle(0, 0, 0);
+    scope.eye_ang <- QAngle(0, 0, 0);
 
     scope.spectate_origin <- null;
     scope.did_force_spectate <- false;

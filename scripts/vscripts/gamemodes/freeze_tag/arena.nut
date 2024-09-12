@@ -95,6 +95,7 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
     EntFire("setupgate*", "Open", "", 0, null);
     EntFire("game_forcerespawn", "ForceTeamRespawn", "2", 0.3, null);
     EntFire("game_forcerespawn", "ForceTeamRespawn", "3", 0.3, null);
+    EntFire("regen_particle", "Kill", null, 0, null);
 
     GAMERULES.AcceptInput("PlayVO", "Announcer.AM_RoundStartRandom", null, null);
     GAMERULES.AcceptInput("PlayVO", "Ambient.Siren", null, null);
@@ -178,7 +179,6 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
 
     EntFire("freeze_particles", "Kill", null, 0, null);
     EntFire("revive_progress_sprite", "Kill", null, 0, null);
-    EntFire("regen_particle", "Kill", null, 0, null);
 
     GAMERULES.AcceptInput("PlayVO", "Hud.EndRoundScored", null, null);
     if (winnerTeam) {

@@ -6,11 +6,21 @@
 	"$vertexcolor" "1"
 	"$vertexalpha" "1"
 
+	"$one" "1"
+	"$matches" "1"
+
 	"Proxies"
 	{
 		"PlayerTeamMatch"
 		{
-			"resultVar"  "$alpha"
+			"resultVar"  "$matches"
+		}
+
+		"Subtract"
+		{
+			"srcVar1" "$one"
+			"srcVar2" "$matches"
+			"resultVar" "$alpha"
 		}
 	}
 }

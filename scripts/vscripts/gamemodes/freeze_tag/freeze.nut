@@ -308,7 +308,7 @@ statue_color <- { [TF_TEAM_BLUE] = "225 240 255", [TF_TEAM_RED] = "255 225 240" 
         "rendercolor": player.GetTeam() == TF_TEAM_RED ? "255 0 0" : "100 100 255",
         "scale": 0.25,
         "spawnflags": 1,
-        "teamnum": player.GetTeam()
+        "teamnum": 5 - player.GetTeam()
     });
 
     UnpreserveEntity(sprite);
@@ -324,7 +324,7 @@ statue_color <- { [TF_TEAM_BLUE] = "225 240 255", [TF_TEAM_RED] = "255 225 240" 
         "renderamt": 128,
         "scale": 0.125,
         "spawnflags": 1,
-        "teamnum": player.GetTeam()
+        "teamnum": 5 - player.GetTeam()
     });
 
     UnpreserveEntity(sprite);
