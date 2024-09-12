@@ -138,6 +138,7 @@ revive_sprite_frames <- 40; // number of frames in the revive sprite's animation
     local was_being_thawed = scope.revive_playercount > 0;
     scope.revive_playercount <- 0;
     scope.revive_players <- [];
+    scope.is_medigun_revived <- false;
     ForEachAlivePlayer(ThawCheck, {
         "frozen_player": player,
         "scope": scope
@@ -299,6 +300,7 @@ revive_sprite_frames <- 40; // number of frames in the revive sprite's animation
         if (GetPropEntity(weapon, "m_hHealingTarget") == revive_marker) {
             scope.revive_playercount += medigun_thawing_efficiency;
             scope.revive_players.push(player);
+            scope.is_medigun_revived = true;
         }
         return;
     }
