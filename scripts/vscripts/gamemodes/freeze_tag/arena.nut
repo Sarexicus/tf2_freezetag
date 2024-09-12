@@ -2,8 +2,8 @@
 // by Sarexicus and Le Codex
 // --------------------------------------
 
-local setup_length = 10;            // how long setup lasts, in seconds
-local last_man_alive_cooldown = 10; // how long between each annoucner "last man alive" callouts, in seconds
+::setup_length <- 10;            // how long setup lasts, in seconds
+::last_man_alive_cooldown <- 10; // how long between each annoucner "last man alive" callouts, in seconds
 
 // --------------------------------------
 

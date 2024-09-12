@@ -2,7 +2,7 @@
 // by Sarexicus and Le Codex
 // -------------------------------
 
-regen_rate <- 10;   // how much health you'll be regenerating per second
+::regen_rate <- 10;   // how much health you'll be regenerating per second
 
 // -------------------------------
 

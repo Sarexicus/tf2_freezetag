@@ -16,7 +16,7 @@
 // this value allows us to detect and cancel custom death events
 ::custom_death_flags <- 16384;
 
-spectator_proxy <- null;
+::spectator_proxy <- null;
 
 // table folding (constants, netprops)
 if (!("ConstantNamingConvention" in ROOT)) // make sure folding is only done once

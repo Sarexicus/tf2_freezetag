@@ -37,7 +37,7 @@ if (developer() >= 1) printl("[FREEZE TAG LOADED] Version " + version);
 ::fake_thaw_sound <- "Halloween.spell_stealth";
 ::fake_disappear_particle <- "ghost_smoke";
 
-tick_rate <- 0.1;   // how often the base think rate polls
+::tick_rate <- 0.1;   // how often the base think rate polls
 
 // -----------------------------------------------
 

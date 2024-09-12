@@ -4,8 +4,8 @@
 
 IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
 
-frozen_color <- { [TF_TEAM_BLUE] = "0 228 255", [TF_TEAM_RED] = "255 128 228" };    // this is the color that will tint frozen weapons, cosmetics, and placeholder player models
-statue_color <- { [TF_TEAM_BLUE] = "225 240 255", [TF_TEAM_RED] = "255 225 240" };  // this is the color that will tint the frozen player models
+::frozen_color <- { [TF_TEAM_BLUE] = "0 228 255", [TF_TEAM_RED] = "255 128 228" };      // this is the color that will tint frozen weapons, cosmetics, and placeholder player models
+::statue_color <- { [TF_TEAM_BLUE] = "225 240 255", [TF_TEAM_RED] = "255 225 240" };    // this is the color that will tint the frozen player models
 
 // -------------------------------
 
@@ -363,7 +363,7 @@ statue_color <- { [TF_TEAM_BLUE] = "225 240 255", [TF_TEAM_RED] = "255 225 240" 
 // EVENTS
 // -----------------------------
 
-deadRingerSpies <- [];
+::deadRingerSpies <- [];
 getroottable()[EventsID].OnGameEvent_player_death <- function(params)
 {
     local player = GetPlayerFromUserID(params.userid);

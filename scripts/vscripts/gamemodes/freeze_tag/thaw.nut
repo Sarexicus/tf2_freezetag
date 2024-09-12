@@ -4,7 +4,7 @@
 
 IncludeScript(VSCRIPT_PATH + "thaw_meter.nut", this);
 IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
-revive_sprite_frames <- 40; // number of frames in the revive sprite's animation. need to set this manually, I think
+::revive_sprite_frames <- 40; // number of frames in the revive sprite's animation. need to set this manually, I think
 
 // -------------------------------
 
