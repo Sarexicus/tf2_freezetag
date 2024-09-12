@@ -23,7 +23,7 @@ local offground_leniency = Vector(0, 0, 5);     // raise the hull by this much, 
         "ignore": player,
         "hullmin": player.GetPlayerMins(),
         "hullmax": player.GetPlayerMaxs() - Vector(0, 0, 64),  // Make the hull shorter to avoid it getting stuck if the player is crouching
-        "mask": CONTENTS_SOLID
+        "mask": CONTENTS_SOLID | CONTENTS_PLAYERCLIP | CONTENTS_TRANSLUCENT
     }
     if(TraceHull(traceTable) && "hit" in traceTable) {
         local freeze_position = traceTable["endpos"];
