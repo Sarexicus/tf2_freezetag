@@ -2,7 +2,7 @@
 // by Sarexicus and Le Codex
 // -------------------------------
 
-force_spectate_when_thawing <- 2;       // 0: don't force spectate. 1: force spectate once when thaw starts.
+force_spectate_when_thawing <- 1;       // 0: don't force spectate. 1: force spectate once when thaw starts.
                                         // 2: force spectate while someone is thawing you. 3: force spectate while thaw has any progress. 4: always force spectate.
 
 // -------------------------------
