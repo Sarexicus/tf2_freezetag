@@ -59,6 +59,7 @@ function Precache() {
     PrecacheScriptSound(freeze_sound);
     PrecacheScriptSound(thaw_sound);
     PrecacheScriptSound(fake_thaw_sound);
+    for (local i = 1; i <= 4; i++) PrecacheScriptSound("Announcer.AM_LastManAlive0" + i);
 }
 
 function OnPostSpawn() {
@@ -136,6 +137,8 @@ function Think() {
     scope.spectating_self <- false;
 
     scope.highest_thawing_player <- null;
+
+    scope.last_man_alive_next_time <- 0;
 }
 
 // EVENTS
