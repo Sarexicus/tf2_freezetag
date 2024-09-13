@@ -393,6 +393,21 @@ getroottable()[EventsID].OnGameEvent_player_death <- function(params)
             if (spy) FakeFreezePlayer(spy);
         } else {
             FreezePlayer(player);
+
+            local alive = GetAliveTeamPlayerCount(player.GetTeam());
+            if (alive == 1) {
+                local last_man_alive = FindFirstAlivePlayerOnTeam(player.GetTeam());
+                local scope = last_man_alive.GetScriptScope();
+                if (scope.last_man_alive_next_time < Time()) {
+                    EmitSoundEx({
+                        sound_name = "Announcer.AM_LastManAlive0" + (rand() % 4 + 1),
+                        filter_type = RECIPIENT_FILTER_SINGLE_PLAYER,
+                        entity = last_man_alive
+                    });
+
+                    scope.last_man_alive_next_time = Time() + last_man_alive_cooldown;
+                }
+            }
         }
 
         RunWithDelay(CountAlivePlayers, 0.1, [this, true]);

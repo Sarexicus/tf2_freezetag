@@ -165,26 +165,6 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
         [TF_TEAM_BLUE] = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_BLUE)
     };
 
-    foreach (team, number in alive) {
-        if (number != 1) continue;
-
-        foreach (player in GetAllPlayers()) {
-            if (IsPlayerAlive(player) && player.GetTeam() == team) {
-                local scope = player.GetScriptScope();
-                if (scope.last_man_alive_next_time < Time()) {
-                    EmitSoundEx({
-                        sound_name = "Announcer.AM_LastManAlive0" + (rand() % 4 + 1),
-                        filter_type = RECIPIENT_FILTER_SINGLE_PLAYER,
-                        entity = player
-                    });
-
-                    scope.last_man_alive_next_time = Time() + last_man_alive_cooldown;
-                }
-                break;
-            }
-        }
-    }
-
     if (checkForGameEnd) {
         local redTeamDead = alive[TF_TEAM_RED] == 0;
         local bluTeamDead = alive[TF_TEAM_BLUE] == 0;
