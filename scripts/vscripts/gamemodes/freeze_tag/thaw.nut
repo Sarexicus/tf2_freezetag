@@ -138,6 +138,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     local was_being_thawed = scope.revive_playercount > 0;
     scope.revive_playercount <- 0;
     scope.revive_players <- [];
+    scope.revive_blocked <- false;
     scope.is_medigun_revived <- false;
     ForEachAlivePlayer(ThawCheck, {
         "frozen_player": player,
@@ -149,9 +150,8 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
         if (!was_being_thawed)
             ShowPlayerAnnotation(player, "You are being thawed!", max_thaw_time + 1, scope.frozen_player_model);
 
-        local rate = 0.57721 + log(scope.revive_playercount + 0.5); // Using real approximation for Medigun partial cap rates
+        local rate = scope.revive_blocked ? 0 : 0.57721 + log(scope.revive_playercount + 0.5);   // Using real approximation for Medigun partial cap rates
         scope.revive_progress += (1 / max_thaw_time) * tick_rate * rate;
-
     } else if (scope.revive_playercount == 0) {
         if (was_being_thawed)
             ShowPlayerAnnotation(player, "", 0.1);
@@ -293,17 +293,18 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
 
     local frozen_statue_location = frozen_statue.GetCenter();
     local frozen_player = params.frozen_player;
-    if (scope.revive_playercount == -1) return;
 
-    if (!StatueDistanceCheck(frozen_statue_location, player.GetCenter(), thaw_distance)) {
-        local weapon = player.GetActiveWeapon();
-        if (GetPropEntity(weapon, "m_hHealingTarget") == revive_marker) {
-            scope.revive_playercount += medigun_thawing_efficiency;
-            scope.revive_players.push(player);
-            scope.is_medigun_revived = true;
-        }
+    local within_radius = StatueDistanceCheck(frozen_statue_location, player.GetCenter(), thaw_distance);
+    
+    local weapon = player.GetActiveWeapon();
+    if (GetPropEntity(weapon, "m_hHealingTarget") == revive_marker) {
+        scope.revive_playercount += within_radius ? GetPlayerThawSpeed(player) : medigun_thawing_efficiency;
+        scope.revive_players.push(player);
+        scope.is_medigun_revived = true;
         return;
     }
+
+    if (!within_radius) return;
 
     // line-of-sight check
     if (TraceLine(player.GetOrigin() + player.GetClassEyeHeight(), frozen_statue_location, player) != 1) return;
@@ -315,6 +316,6 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
         scope.revive_playercount += GetPlayerThawSpeed(player);
         scope.revive_players.push(player);
     } else {
-        scope.revive_playercount = -1;
+        scope.revive_blocked = true;
     }
 }

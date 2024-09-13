@@ -129,6 +129,7 @@ function Think() {
     scope.revive_progress <- 0;
     scope.revive_playercount <- 0;
     scope.revive_players <- [];
+    scope.revive_blocked <- false;
     scope.is_medigun_revived <- false;
 
     scope.player_class <- 0;
