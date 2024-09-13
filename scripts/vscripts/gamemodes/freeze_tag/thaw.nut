@@ -221,6 +221,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
 ::SetReviveMarkerHealth <- function(player) {
     local scope = player.GetScriptScope();
     local revive_marker = scope.revive_marker;
+    if (!revive_marker || !revive_marker.IsValid()) return;
 
     SetPropInt(revive_marker, "m_iMaxHealth", player.GetMaxHealth() * health_multiplier_on_thaw);
 
@@ -298,7 +299,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     local within_radius = StatueDistanceCheck(frozen_statue_location, player.GetCenter(), thaw_distance);
     
     local weapon = player.GetActiveWeapon();
-    if (GetPropEntity(weapon, "m_hHealingTarget") == revive_marker) {
+    if (revive_marker && GetPropEntity(weapon, "m_hHealingTarget") == revive_marker) {
         scope.revive_playercount += within_radius ? GetPlayerThawSpeed(player) : medigun_thawing_efficiency;
         scope.revive_players.push(player);
         scope.is_medigun_revived = true;

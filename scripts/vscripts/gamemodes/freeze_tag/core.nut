@@ -189,6 +189,8 @@ getroottable()[EventsID].OnGameEvent_player_spawn <- function(params) {
                 SetRespawnTime(player, 99999);
                 // SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", TF_CLASS_SCOUT);
             }, 0.1);
+        } else {
+            SafeDeleteFromScope(scope, "revive_marker");
         }
     }
 }
