@@ -7,6 +7,7 @@
 ::max <- function(a, b) { return (a > b) ? a : b; }
 ::min <- function(a, b) { return (a < b) ? a : b; }
 ::playerManager <- Entities.FindByClassname(null, "tf_player_manager");
+// ::join <- function(a, d) { local s = ""; for (local i = 0; i < a.len(); i++) s += a[i] + (i < a.len() - 1 ? d : ""); return s; }
 
 ::mainLogic <- this;
 ::mainLogicEntity <- self;

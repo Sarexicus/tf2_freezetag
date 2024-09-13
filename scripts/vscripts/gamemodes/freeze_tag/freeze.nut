@@ -244,8 +244,10 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
     local fraction = TraceLine(player.GetOrigin() - Vector(0, 0, 8), player.GetOrigin() - Vector(0, 0, 24), player);
     if (fraction < 1.0) return sequence_name;
 
-    local arr = split(sequence_name, "_");
-    if (arr.len() >= 2) return "run_" + arr[arr.len() - 1];
+    local prefixes = ["run", "stand", "crouch_walk", "crouch", "airwalk", "swim", "jumpfloat", "jumpstart", "jump_float", "jump_start", "a_jumpfloat"];
+    foreach (prefix in prefixes)
+        if (startswith(sequence_name, prefix))
+            return "run" + sequence_name.slice(prefix.len());
     
     return sequence_name;
 }
