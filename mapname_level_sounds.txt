@@ -1,3 +1,5 @@
-"Regenerate.Touch" { "wave" "misc/null.wav"}
+"Regenerate.Touch" { "wave" "misc/null.wav" }
 
-"MVM.PlayerRevived" { "wave" "misc/null.wav"}
+"MVM.PlayerRevived" { "wave" "misc/null.wav" }
+
+"Halloween.PlayerScream" { "wave" "misc/null.wav" }
