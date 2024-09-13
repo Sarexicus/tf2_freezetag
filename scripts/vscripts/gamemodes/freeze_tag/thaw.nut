@@ -202,7 +202,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     foreach(revive_player in scope.revive_players) {
         local rp_scope = revive_player.GetScriptScope();
         if (rp_scope.highest_thawing_player == player) {
-            ShowThawMeterText(revive_player, scope.revive_progress * max_thaw_time, max_thaw_time, scope.revive_playercount);
+            ShowThawMeterText(revive_player, scope.revive_progress * max_thaw_time, max_thaw_time, scope.revive_playercount, scope.revive_blocked);
         }
     }
 }

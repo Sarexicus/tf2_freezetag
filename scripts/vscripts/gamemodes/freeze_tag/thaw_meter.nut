@@ -54,17 +54,24 @@ text_thaw_timeleft <- SpawnEntityFromTable("game_text", {
     ShowThawMeterText(player, seconds, max_seconds, rate);
 }
 
-::ShowThawMeterText <- function(player, seconds, max_seconds, rate) {
-    if (seconds < 0 || seconds >= max_seconds) return;
+::ShowThawMeterText <- function(player, seconds, max_seconds, rate, blocked) {
+    if (seconds < 0) return;
     if (rate == -1) rate = 0;
 
-    local percentage = seconds / max_seconds;
-    local seconds_text = format("%s ₍⤫%s₎", ToSubscript(format("%1.1f", max_seconds - seconds)), ToSubscript(format("%1.0f", rate)));
+    local seconds_text, percent_meter;
+    if (seconds >= max_seconds) {
+        percent_meter = "";
+        seconds_text = "ᵀᴴᴬᵂᴱᴰ!";
+    } else {
+        local percentage = seconds / max_seconds;
+        seconds_text = format("%s ₍⤫%s₎", ToSubscript(format("%1.1f", max_seconds - seconds)), ToSubscript(format("%1.0f", rate)));
 
-    local opt = "ᵀᴴᴬᵂᴵᴺᴳ\n";
-    if (show_thawing_text) seconds_text = opt + seconds_text;
-
-    local percent_meter = GenerateMeterText(percentage);
+        if (show_thawing_text) seconds_text = "ᵀᴴᴬᵂᴵᴺᴳ\n" + seconds_text;
+        if (blocked) seconds_text = "BLOCKED!";
+        text_thaw_meter.AcceptInput("AddOutput", "color " + (blocked ? "255 128 0" : "255 255 255"), null, null);
+        
+        percent_meter = GenerateMeterText(percentage);
+    }
 
     DisplayText(text_thaw_timeleft, player, seconds_text);
     DisplayText(text_thaw_meter, player, percent_meter);
