@@ -193,7 +193,6 @@ enum LIFE_STATE
     player.ForceRespawn();
     player.Weapon_Equip(GetPropEntityArray(player, "m_hMyWeapons", 0));
     RunWithDelay(function(player) { player.Regenerate(true) }, 0, [this, player]);
-    RunWithDelay(CountAlivePlayers, 0.05);
 }
 
 ::SetRespawnTime <- function(player, time) {

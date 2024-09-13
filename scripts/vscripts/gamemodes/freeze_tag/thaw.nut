@@ -38,6 +38,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     ResetPlayer(player);
     PlayThawSound(player);
     ShowThawParticle(player);
+    RunWithDelay(CountAlivePlayers, 0.05);
 }
 
 ::ResetPlayer <- function(player) {

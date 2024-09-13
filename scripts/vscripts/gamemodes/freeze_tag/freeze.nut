@@ -75,7 +75,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
             });
             DispatchParticleEffect(fake_disappear_particle, self.GetCenter(), vectriple(0));
             CountAlivePlayers();
-            self.Kill();
+            self.Destroy();
         }
     }
     AddThinkToEnt(fake_revive_marker, "Think");
