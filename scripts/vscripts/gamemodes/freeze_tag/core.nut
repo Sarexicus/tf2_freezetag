@@ -83,6 +83,9 @@ function Think() {
     if (IsInWaitingForPlayers()) return;
 
     foreach(player in GetAllPlayers()) {
+        local scope = player.GetScriptScope();
+        if (scope.late_joiner) continue;  // Don't process late joiners
+
         // only run the freeze think every second tick, for performance's sake
         if (_ticks % (tick_rate * 2) == 0) {
             FreezeThink(player);
