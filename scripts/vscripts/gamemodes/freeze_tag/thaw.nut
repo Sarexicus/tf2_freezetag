@@ -58,7 +58,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
 
 ::PlayThawSound <- function(player) {
     EmitSoundEx({
-        sound_name = thaw_finish_sound, channel = 4, sound_level = 70
+        sound_name = thaw_finish_sound, channel = 128 + player.entindex(), sound_level = 120
         origin = player.GetCenter(),
         filter_type = Constants.EScriptRecipientFilter.RECIPIENT_FILTER_GLOBAL
     });
@@ -152,10 +152,10 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
         if (!was_being_thawed)
             ShowPlayerAnnotation(player, "You are being thawed!", max_thaw_time + 1, scope.frozen_player_model);
 
-        if (scope.revive_blocked && !(was_being_blocked && was_being_thawed))
+        if (scope.revive_blocked && (!was_being_blocked || !was_being_thawed))
             PlayThawStateSound(player, thaw_block_sound);
 
-        if (!scope.revive_blocked && !(!was_being_blocked && was_being_thawed))
+        if (!scope.revive_blocked && (was_being_blocked || !was_being_thawed))
             PlayThawStateSound(player, thaw_start_sound);
 
         local rate = scope.revive_blocked ? 0 : 0.57721 + log(scope.revive_playercount + 0.5);   // Using real approximation for Medigun partial cap rates
@@ -193,7 +193,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     EmitSoundEx({
         sound_name = sound_name, channel = 128 + player.entindex(),
         origin = scope.frozen_player_model.GetOrigin(),
-        sound_level = 70, filter_type = RECIPIENT_FILTER_GLOBAL
+        sound_level = 80, filter_type = RECIPIENT_FILTER_GLOBAL
     });
 }
 
