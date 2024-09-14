@@ -32,7 +32,9 @@ if (developer() >= 1) printl("[FREEZE TAG LOADED] Version " + version);
 ::point_unlock_timer <- 75;             // how many seconds it takes the point to unlock
 
 ::freeze_sound <- "Icicle.TurnToIce";
-::thaw_sound <- "Icicle.Melt";
+::thaw_start_sound <- "freeze_tag/thawstart.wav";
+::thaw_block_sound <- "freeze_tag/thawblock.wav";
+::thaw_finish_sound <- "freeze_tag/thawfinish.wav";
 ::thaw_particle <- "ft_playerthaw";
 ::fake_thaw_sound <- "Halloween.spell_stealth";
 ::fake_disappear_particle <- "ghost_smoke";
@@ -57,7 +59,9 @@ function Precache() {
     PrecacheParticle(fake_disappear_particle);
 
     PrecacheScriptSound(freeze_sound);
-    PrecacheScriptSound(thaw_sound);
+    PrecacheScriptSound(thaw_start_sound);
+    PrecacheScriptSound(thaw_block_sound);
+    PrecacheScriptSound(thaw_finish_sound);
     PrecacheScriptSound(fake_thaw_sound);
     for (local i = 1; i <= 4; i++) PrecacheScriptSound("Announcer.AM_LastManAlive0" + i);
 }

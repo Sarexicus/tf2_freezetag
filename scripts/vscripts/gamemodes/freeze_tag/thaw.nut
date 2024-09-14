@@ -58,7 +58,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
 
 ::PlayThawSound <- function(player) {
     EmitSoundEx({
-        sound_name = thaw_sound,
+        sound_name = thaw_finish_sound, channel = 4, sound_level = 70
         origin = player.GetCenter(),
         filter_type = Constants.EScriptRecipientFilter.RECIPIENT_FILTER_GLOBAL
     });
@@ -137,6 +137,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     FrozenPlayerSpectatorCycle(player);
 
     local was_being_thawed = scope.revive_playercount > 0;
+    local was_being_blocked = scope.revive_blocked;
     scope.revive_playercount <- 0;
     scope.revive_players <- [];
     scope.revive_blocked <- false;
@@ -150,6 +151,12 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     if (scope.revive_playercount > 0) {
         if (!was_being_thawed)
             ShowPlayerAnnotation(player, "You are being thawed!", max_thaw_time + 1, scope.frozen_player_model);
+
+        if (scope.revive_blocked && !(was_being_blocked && was_being_thawed))
+            PlayThawStateSound(player, thaw_block_sound);
+
+        if (!scope.revive_blocked && !(!was_being_blocked && was_being_thawed))
+            PlayThawStateSound(player, thaw_start_sound);
 
         local rate = scope.revive_blocked ? 0 : 0.57721 + log(scope.revive_playercount + 0.5);   // Using real approximation for Medigun partial cap rates
         scope.revive_progress += (1 / max_thaw_time) * tick_rate * rate;
@@ -179,6 +186,15 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     if (scope.revive_progress >= 1 || medic_hack) {
         UnfreezePlayer(player, medic_hack);
     }
+}
+
+::PlayThawStateSound <- function(player, sound_name) {
+    local scope = player.GetScriptScope();
+    EmitSoundEx({
+        sound_name = sound_name, channel = 128 + player.entindex(),
+        origin = scope.frozen_player_model.GetOrigin(),
+        sound_level = 70, filter_type = RECIPIENT_FILTER_GLOBAL
+    });
 }
 
 ::UpdateHighestThawedPlayer <- function(player, scope) {
