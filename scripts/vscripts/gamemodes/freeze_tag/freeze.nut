@@ -166,9 +166,9 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
     });
 
     // bodygroups
-    // for (local i = 0; i < 8; i++) {
-    //     frozen_player_model.SetBodygroup(i, player.GetBodygroup(i));
-    // }
+    for (local i = 0; i < 8; i++) {
+        frozen_player_model.SetBodygroup(i, player.GetBodygroup(i));
+    }
 
     // HACK: tint player for now if we don't have the frozen player model yet
     if (fpm.find("_frozen") == null) {
