@@ -38,6 +38,7 @@ if (developer() >= 1) printl("[FREEZE TAG LOADED] Version " + version);
 ::thaw_particle <- "ft_playerthaw";
 ::fake_thaw_sound <- "Halloween.spell_stealth";
 ::fake_disappear_particle <- "ghost_smoke";
+::regen_particle <- "ft_playeraura";
 
 ::tick_rate <- 0.1;   // how often the base think rate polls
 
@@ -56,6 +57,7 @@ function PrecacheParticle(particle_name) {
 
 function Precache() {
     PrecacheParticle(thaw_particle);
+    PrecacheParticle(regen_particle);
     PrecacheParticle(fake_disappear_particle);
 
     PrecacheScriptSound(freeze_sound);
@@ -113,6 +115,7 @@ function Think() {
         local scope = player.GetScriptScope();
         ResetPlayer(player);
         SetupPlayer(player);
+        player.AcceptInput("DispatchEffect", "ParticleEffectStop", null, null);
     }
 }
 
@@ -127,7 +130,6 @@ function Think() {
     scope.freeze_point <- null;
 
     scope.regen_amount <- 0;
-    scope.regen_particle <- null;
     scope.partial_regen <- 0;
 
     scope.revive_progress <- 0;

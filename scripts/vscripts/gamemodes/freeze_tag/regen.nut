@@ -6,25 +6,23 @@
 
 // -------------------------------
 
+::regen_trigger_particle <- SpawnEntityFromTable("trigger_particle", {
+    particle_name = regen_particle,
+    attachment_type = 1, // PATTACH_ABSORIGIN_FOLLOW,
+    spawnflags = 64 // allow everything
+});
+
 ::StartRegenerating <- function(player) {
     local scope = player.GetScriptScope();
     scope.regen_amount = player.GetMaxHealth() - player.GetHealth() + 1;  // +1 so it's a full heal, for some reason it doesn't fully heal otherwise
-
-    local sprite_particle = SpawnEntityFromTable("info_particle_system", {
-        targetname = "regen_particle"
-        effect_name = "powerup_icon_regen_" + (player.GetTeam() == TF_TEAM_RED ? "red": "blue"),
-        origin = player.GetOrigin() + Vector(0, 0, 96)
-        start_active = 1
-    });
-    sprite_particle.AcceptInput("SetParent", "!activator", player, player);
-    scope.regen_particle = sprite_particle;
+    regen_trigger_particle.AcceptInput("StartTouch", "!activator", player, player);
 }
 
 ::StopRegenerating <- function(player) {
     local scope = player.GetScriptScope();
     scope.regen_amount = 0;
     scope.partial_regen = 0;
-    SafeDeleteFromScope(scope, "regen_particle");
+    player.AcceptInput("DispatchEffect", "ParticleEffectStop", null, null);
 }
 
 ::RegenThink <- function(player) {
@@ -38,8 +36,6 @@
     local regen_amount = min(scope.regen_amount, regen_rate * tick_rate);
     scope.regen_amount -= regen_amount;
     scope.partial_regen += regen_amount;
-
-    scope.regen_particle.AcceptInput(player.InCond(TF_COND_STEALTHED) || player.InCond(TF_COND_DISGUISED) ? "Stop" : "Start", "", null, null);
 
     local max_health = player.GetMaxHealth();
     local health = player.GetHealth();

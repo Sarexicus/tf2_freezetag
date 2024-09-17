@@ -164,9 +164,9 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
     });
 
     // bodygroups
-    for (local i = 0; i < 8; i++) {
-        frozen_player_model.SetBodygroup(i, player.GetBodygroup(i));
-    }
+    // for (local i = 0; i < 8; i++) {
+    //     frozen_player_model.SetBodygroup(i, player.GetBodygroup(i));
+    // }
 
     // HACK: tint player for now if we don't have the frozen player model yet
     if (fpm.find("_frozen") == null) {
@@ -210,31 +210,31 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
     }
 
     // cosmetics
-    local disguise_target = GetPropEntity(player, "m_Shared.m_hDisguiseTarget");
-    local origin = friendly_disguised ? (disguise_target.GetPlayerClass() == player_class ? disguise_target : null) : player;
-    if (origin) {
-        for (local wearable = origin.FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
-        {
-            if (wearable.GetClassname() != "tf_wearable")
-                continue;
+    // local disguise_target = GetPropEntity(player, "m_Shared.m_hDisguiseTarget");
+    // local origin = friendly_disguised ? (disguise_target.GetPlayerClass() == player_class ? disguise_target : null) : player;
+    // if (origin) {
+    //     for (local wearable = origin.FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
+    //     {
+    //         if (wearable.GetClassname() != "tf_wearable")
+    //             continue;
 
-            local wearable_modelname = wearable.GetModelName();
-            if (wearable_modelname == null || wearable_modelname == "")
-                continue;
+    //         local wearable_modelname = wearable.GetModelName();
+    //         if (wearable_modelname == null || wearable_modelname == "")
+    //             continue;
 
-            local cosmetic_model = SpawnEntityFromTable("prop_dynamic_ornament",
-            {
-                targetname = "frozen_wearable",
-                origin = frozen_player_model.GetOrigin(),
-                rendermode = 2,
-                renderamt = 192,
-                rendercolor = frozen_color[player.GetTeam()],
-                model = wearable.GetModelName(),
-                skin = player.GetSkin()
-            });
-            EntFireByHandle(cosmetic_model, "SetAttached", "!activator", 0.05, frozen_player_model, null);
-        }
-    }
+    //         local cosmetic_model = SpawnEntityFromTable("prop_dynamic_ornament",
+    //         {
+    //             targetname = "frozen_wearable",
+    //             origin = frozen_player_model.GetOrigin(),
+    //             rendermode = 2,
+    //             renderamt = 192,
+    //             rendercolor = frozen_color[player.GetTeam()],
+    //             model = wearable.GetModelName(),
+    //             skin = player.GetSkin()
+    //         });
+    //         EntFireByHandle(cosmetic_model, "SetAttached", "!activator", 0.05, frozen_player_model, null);
+    //     }
+    // }
 
     return frozen_player_model;
 }
