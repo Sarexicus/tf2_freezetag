@@ -4,8 +4,10 @@
 
 IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
 
-::frozen_color <- { [TF_TEAM_BLUE] = "0 228 255", [TF_TEAM_RED] = "255 128 228" };      // this is the color that will tint frozen weapons, cosmetics, and placeholder player models
-::statue_color <- { [TF_TEAM_BLUE] = "225 240 255", [TF_TEAM_RED] = "255 225 240" };    // this is the color that will tint the frozen player models
+::frozen_color <- { [TF_TEAM_BLUE] = "0 228 255", [TF_TEAM_RED] = "255 128 228" };          // this is the color that will tint frozen weapons, cosmetics, and placeholder player models
+::statue_color <- { [TF_TEAM_BLUE] = "225 240 255", [TF_TEAM_RED] = "255 225 240" };        // this is the color that will tint the frozen player models
+::allowed_cosmetic_bones <- [ "bip_head", "medal_bone" ]                                    // cosmetics with any of those bones are allowed (cosmetics are disallowed by default)
+::disallowed_cosmetic_bones <- [ "bip_spine0", "bip_spine1", "bip_spine2", "bip_spine3" ]   // cosmetics with any of those bones are disallowed
 
 // -------------------------------
 
@@ -210,31 +212,49 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
     }
 
     // cosmetics
-    // local disguise_target = GetPropEntity(player, "m_Shared.m_hDisguiseTarget");
-    // local origin = friendly_disguised ? (disguise_target.GetPlayerClass() == player_class ? disguise_target : null) : player;
-    // if (origin) {
-    //     for (local wearable = origin.FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
-    //     {
-    //         if (wearable.GetClassname() != "tf_wearable")
-    //             continue;
+    local disguise_target = GetPropEntity(player, "m_Shared.m_hDisguiseTarget");
+    local origin = friendly_disguised ? (disguise_target.GetPlayerClass() == player_class ? disguise_target : null) : player;
+    if (origin) {
+        for (local wearable = origin.FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
+        {
+            if (wearable.GetClassname() != "tf_wearable")
+                continue;
 
-    //         local wearable_modelname = wearable.GetModelName();
-    //         if (wearable_modelname == null || wearable_modelname == "")
-    //             continue;
+            local wearable_modelname = wearable.GetModelName();
+            if (wearable_modelname == null || wearable_modelname == "")
+                continue;
 
-    //         local cosmetic_model = SpawnEntityFromTable("prop_dynamic_ornament",
-    //         {
-    //             targetname = "frozen_wearable",
-    //             origin = frozen_player_model.GetOrigin(),
-    //             rendermode = 2,
-    //             renderamt = 192,
-    //             rendercolor = frozen_color[player.GetTeam()],
-    //             model = wearable.GetModelName(),
-    //             skin = player.GetSkin()
-    //         });
-    //         EntFireByHandle(cosmetic_model, "SetAttached", "!activator", 0.05, frozen_player_model, null);
-    //     }
-    // }
+            local cosmetic_model = SpawnEntityFromTable("prop_dynamic_ornament", {
+                targetname = "frozen_wearable",
+                origin = frozen_player_model.GetOrigin(),
+                rendermode = 2,
+                renderamt = 192,
+                rendercolor = frozen_color[player.GetTeam()],
+                model = wearable.GetModelName(),
+                skin = player.GetSkin()
+            });
+
+            local valid = false;
+            foreach (bone_name in allowed_cosmetic_bones) {
+                if (cosmetic_model.LookupBone(bone_name) > -1) {
+                    valid = true;
+                    break;
+                }
+            }
+            foreach (bone_name in disallowed_cosmetic_bones) {
+                if (cosmetic_model.LookupBone(bone_name) > -1) {
+                    valid = false;
+                    break;
+                }
+            }
+            if (!valid) {
+                cosmetic_model.Destroy();
+                continue;
+            }
+
+            EntFireByHandle(cosmetic_model, "SetAttached", "!activator", 0.05, frozen_player_model, null);
+        }
+    }
 
     return frozen_player_model;
 }
