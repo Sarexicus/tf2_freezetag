@@ -301,6 +301,9 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
     SetPropString(proxy_entity, "m_iName", UniqueString("glow_target"));
     SetPropBool(proxy_entity, "m_bPlacing", true);
     SetPropInt(proxy_entity, "m_fObjectFlags", 2);
+    for (local i = 0; i < 8; i++) {
+        proxy_entity.SetBodygroup(i, player.GetBodygroup(i));
+    }
 
     // Bonemerging
     proxy_entity.SetSolid(0);
