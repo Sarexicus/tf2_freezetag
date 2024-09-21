@@ -51,7 +51,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
         
         scope.particles.AcceptInput("SetParent", "!activator", scope.revive_marker, scope.revive_marker);
         scope.spectate_origin.AcceptInput("SetParent", "!activator", scope.revive_marker, scope.revive_marker);
-        scope.revive_progress_sprite.AcceptInput("SetParent", "!activator", scope.revive_marker, scope.revive_marker);
+        scope.revive_progress_sprite.AcceptInput("SetParent", "!activator", scope.particles, scope.particles);
     }, 0);
 }
 
