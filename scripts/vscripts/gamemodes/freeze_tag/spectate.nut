@@ -7,6 +7,14 @@
 
 // -------------------------------
 
+::spectator_proxy <- null;
+
+::CreateSpectatorProxy <- function() {
+    spectator_proxy = SpawnEntityFromTable("info_observer_point", {
+        "targetname": "spectator_proxy"
+    });
+}
+
 ::ForceSpectateFrozenPlayer <- function(player) {
     local scope = player.GetScriptScope();
 

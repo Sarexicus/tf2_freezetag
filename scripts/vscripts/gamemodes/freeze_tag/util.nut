@@ -7,7 +7,6 @@
 ::max <- function(a, b) { return (a > b) ? a : b; }
 ::min <- function(a, b) { return (a < b) ? a : b; }
 ::playerManager <- Entities.FindByClassname(null, "tf_player_manager");
-// ::join <- function(a, d) { local s = ""; for (local i = 0; i < a.len(); i++) s += a[i] + (i < a.len() - 1 ? d : ""); return s; }
 
 ::mainLogic <- this;
 ::mainLogicEntity <- self;
@@ -17,7 +16,7 @@
 // this value allows us to detect and cancel custom death events
 ::custom_death_flags <- 16384;
 
-::spectator_proxy <- null;
+IncludeScript(VSCRIPT_PATH + "error_handler.nut", this);
 
 // table folding (constants, netprops)
 if (!("ConstantNamingConvention" in ROOT)) // make sure folding is only done once
@@ -67,12 +66,6 @@ if (!("ConstantNamingConvention" in ROOT)) // make sure folding is only done onc
         scope[value].Kill();
     }
     scope[value] <- null;
-}
-
-::CreateSpectatorProxy <- function() {
-    spectator_proxy = SpawnEntityFromTable("info_observer_point", {
-        "targetname": "spectator_proxy"
-    });
 }
 
 ::ForEachAlivePlayer <- function(callback, params = {}) {
@@ -196,8 +189,8 @@ enum LIFE_STATE
     RunWithDelay(function(player) { player.Regenerate(true) }, 0, [this, player]);
 }
 
-::SetRespawnTime <- function(player, time) {
-    NetProps.SetPropFloatArray(GAMERULES, "m_flNextRespawnWave", time, player.entindex());
+::SetRespawnTime <- function(player, _time) {
+    NetProps.SetPropFloatArray(GAMERULES, "m_flNextRespawnWave", _time, player.entindex());
 }
 
 ::SOURCE_TV <- null;
@@ -217,46 +210,80 @@ enum LIFE_STATE
     return SOURCE_TV;
 }
 
-// Credit: Lizard of Oz
-::detectedIssues <- {};
-::ErrorHandler <- function(e)
-{
-    local stackInfo = getstackinfos(2);
-    local key = format("'%s' @ %s#%d", e, stackInfo.src, stackInfo.line);
-    local target = GetSourceTV() || GetListenServerHost();
-    if (!target) return;
-
-    if (!(key in detectedIssues))
-    {
-        detectedIssues[key] <- [e, 1];
-        PrintError(target, "A NEW ERROR HAS OCCURRED", e);
+::PlayerHasPainTrain <- function(player) {
+    for (local i = 0; i < 7; i++){
+        local weapon = NetProps.GetPropEntityArray(player, "m_hMyWeapons", i)
+        if (!weapon || !weapon.IsValid()) continue;
+        if (GetPropInt(weapon, "m_AttributeManager.m_Item.m_iItemDefinitionIndex") == 154) {
+            return true;
+        }
     }
-    else
-    {
-        detectedIssues[key][1]++;
-        ClientPrint(target, 3, format("A ERROR HAS OCCURRED [%d] TIMES: [%s]", detectedIssues[key][1], key));
+    return false;
+}
+
+::GetWeaponModel <- function(wep_idx)
+{
+    // spawn an econ entity weapon from its item ID specifically to grab its modelname
+    local wearable = Entities.CreateByClassname("tf_wearable");
+    SetPropInt(wearable, "m_fEffects", 32);
+    wearable.SetSolidFlags(4);
+    wearable.SetCollisionGroup(11);
+    SetPropInt(wearable, "m_AttributeManager.m_Item.m_bInitialized", 1);
+    SetPropInt(wearable, "m_AttributeManager.m_Item.m_iItemDefinitionIndex", wep_idx);
+    Entities.DispatchSpawn(wearable);
+
+    local name = wearable.GetModelName();
+    wearable.Kill();
+    return name;
+}
+
+::StorePlayerWeaponIndex <- function(player) {
+    local scope = player.GetScriptScope();
+    scope.weapon_index <- GetPropInt(player.GetActiveWeapon(), "m_AttributeManager.m_Item.m_iItemDefinitionIndex");
+}
+
+::GetGroundedSequenceName <- function(player) {
+    local sequence_name = player.GetSequenceName(player.GetSequence());
+    local fraction = TraceLine(player.GetOrigin() - Vector(0, 0, 8), player.GetOrigin() - Vector(0, 0, 24), player);
+    if (fraction < 1.0) return sequence_name;
+
+    local prefixes = ["run", "stand", "crouch_walk", "crouch", "airwalk", "swim", "jumpfloat", "jumpstart", "jump_float", "jump_start", "a_jumpfloat", "a_jumpstart"];
+    foreach (prefix in prefixes)
+        if (startswith(sequence_name.tolower(), prefix))
+            return "run" + sequence_name.slice(prefix.len());
+
+    return sequence_name;
+}
+
+::DetermineLastPlayerAlive <- function(player) {
+    local alive = GetAliveTeamPlayerCount(player.GetTeam());
+    if (alive == 1) {
+        local last_man_alive = FindFirstAlivePlayerOnTeam(player.GetTeam());
+        local scope = last_man_alive.GetScriptScope();
+        if (scope.last_man_alive_next_time < Time()) {
+            EmitSoundEx({
+                sound_name = "Announcer.AM_LastManAlive0" + (rand() % 4 + 1),
+                filter_type = RECIPIENT_FILTER_SINGLE_PLAYER,
+                entity = last_man_alive
+            });
+
+            scope.last_man_alive_next_time = Time() + last_man_alive_cooldown;
+        }
     }
 }
-seterrorhandler(ErrorHandler);
 
-::PrintError <- function(player, title, e, printfunc = null)
-{
-    if (!printfunc)
-        printfunc = @(m) ClientPrint(player, 3, m);
-    printfunc(format("\n%s [%s]", title, e));
-    printfunc("CALLSTACK");
-    local s, l = 3;
-    while (s = getstackinfos(l++))
-        printfunc(format("*::[%s <- function()] %s line [%d]", s.func, s.src, s.line));
-    printfunc("LOCALS");
-    if (s = getstackinfos(3))
-        foreach (n, v in s.locals)
-        {
-            local t = type(v);
-            t ==    "null" ? printfunc(format("[%s] NULL"  , n))    :
-            t == "integer" ? printfunc(format("[%s] %d"    , n, v)) :
-            t ==   "float" ? printfunc(format("[%s] %.14g" , n, v)) :
-            t ==  "string" ? printfunc(format("[%s] \"%s\"", n, v)) :
-                             printfunc(format("[%s] %s %s" , n, t, v.tostring()));
-        }
+::StorePlayerPoseParameters <- function(player) {
+    local scope = player.GetScriptScope();
+    scope.ang <- player.GetAbsAngles();
+    scope.eye_ang <- player.EyeAngles();
+    scope.vel <- player.GetAbsVelocity();
+}
+
+// distance check but the Z level is measured separately, forming a cylinder shape
+::CylindricalDistanceCheck <- function(point_a, point_b, distance) {
+    local adjusted_z = Vector(point_a.x, point_a.y, point_b.z);
+    if (Distance(adjusted_z, point_b) > distance) return false;
+    if (abs(point_a.z - point_b.z) > distance) return false;
+
+    return true;
 }

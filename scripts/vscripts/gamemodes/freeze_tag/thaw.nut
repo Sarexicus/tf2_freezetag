@@ -222,15 +222,6 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     }
 }
 
-::UpdateThawHUDs <- function(player, scope) {
-    foreach(revive_player in scope.revive_players) {
-        local rp_scope = revive_player.GetScriptScope();
-        if (rp_scope.highest_thawing_player == player) {
-            ShowThawMeterText(revive_player, scope.revive_progress * max_thaw_time, max_thaw_time, scope.revive_playercount, scope.revive_blocked);
-        }
-    }
-}
-
 ::GetTeamMinProgress <- function(team) {
     local ratio = current_playercount[team].tofloat() / initial_playercount[team];
     return (max_thaw_time - min_thaw_time) / max_thaw_time * (1 - max(0.0, min((ratio - min_thaw_time_percent) / (max_thaw_time_percent - min_thaw_time_percent), 1.0)));
@@ -283,30 +274,11 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     return true;
 }
 
-::PlayerHasPainTrain <- function(player) {
-    for (local i = 0; i < 7; i++){
-        local weapon = NetProps.GetPropEntityArray(player, "m_hMyWeapons", i)
-        if (!weapon || !weapon.IsValid()) continue;
-        if (GetPropInt(weapon, "m_AttributeManager.m_Item.m_iItemDefinitionIndex") == 154) {
-            return true;
-        }
-    }
-    return false;
-}
-
 ::GetPlayerThawSpeed <- function(player) {
     if (player.GetPlayerClass() == TF_CLASS_SCOUT) return 2;
     if (PlayerHasPainTrain(player)) return 2;
 
     return 1;
-}
-
-::StatueDistanceCheck <- function(point_a, point_b, distance) {
-    local adjusted_z = Vector(point_a.x, point_a.y, point_b.z);
-    if (Distance(adjusted_z, point_b) > distance) return false;
-    if (abs(point_a.z - point_b.z) > distance) return false;
-
-    return true;
 }
 
 ::ThawCheck <- function(player, params) {
@@ -320,8 +292,8 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     local frozen_statue_location = frozen_statue.GetCenter();
     local frozen_player = params.frozen_player;
 
-    local within_radius = StatueDistanceCheck(frozen_statue_location, player.GetCenter(), thaw_distance);
-    
+    local within_radius = CylindricalDistanceCheck(frozen_statue_location, player.GetCenter(), thaw_distance);
+
     local weapon = player.GetActiveWeapon();
     if (revive_marker && GetPropEntity(weapon, "m_hHealingTarget") == revive_marker) {
         scope.revive_playercount += within_radius ? GetPlayerThawSpeed(player) : medigun_thawing_efficiency;

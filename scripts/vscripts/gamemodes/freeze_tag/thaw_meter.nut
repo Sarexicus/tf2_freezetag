@@ -69,7 +69,7 @@ text_thaw_timeleft <- SpawnEntityFromTable("game_text", {
         if (show_thawing_text) seconds_text = "ᵀᴴᴬᵂᴵᴺᴳ\n" + seconds_text;
         if (blocked) seconds_text = "BLOCKED!";
         text_thaw_meter.AcceptInput("AddOutput", "color " + (blocked ? "255 128 0" : "255 255 255"), null, null);
-        
+
         percent_meter = GenerateMeterText(percentage);
     }
 
@@ -80,4 +80,13 @@ text_thaw_timeleft <- SpawnEntityFromTable("game_text", {
 ::DisplayText <- function(entity, player, text) {
     entity.AcceptInput("AddOutput", "message " + text, null, null);
     entity.AcceptInput("Display", "", player, player);
+}
+
+::UpdateThawHUDs <- function(player, scope) {
+    foreach(revive_player in scope.revive_players) {
+        local rp_scope = revive_player.GetScriptScope();
+        if (rp_scope.highest_thawing_player == player) {
+            ShowThawMeterText(revive_player, scope.revive_progress * max_thaw_time, max_thaw_time, scope.revive_playercount, scope.revive_blocked);
+        }
+    }
 }

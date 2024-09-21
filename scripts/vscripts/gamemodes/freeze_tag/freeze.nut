@@ -3,12 +3,9 @@
 // -------------------------------
 
 IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
+IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
 
-::frozen_color <- { [TF_TEAM_BLUE] = "0 228 255", [TF_TEAM_RED] = "255 128 228" };          // this is the color that will tint frozen weapons, cosmetics, and placeholder player models
-::statue_color <- { [TF_TEAM_BLUE] = "225 240 255", [TF_TEAM_RED] = "255 225 240" };        // this is the color that will tint the frozen player models
-::allowed_cosmetic_bones <- [ "bip_head", "medal_bone" ];                                   // cosmetics with any of those bones are allowed (cosmetics are disallowed by default)
-::disallowed_cosmetic_bones <- [ "bip_spine0", "bip_spine1", "bip_spine2", "bip_spine3" ];  // cosmetics with any of those bones are disallowed
-::revive_unlock_time <- 1;                                                                  // how long it takes players to become thawable after being frozen
+::revive_unlock_time <- 1;     // how long it takes players to become thawable after being frozen
 
 // -------------------------------
 
@@ -48,7 +45,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
         scope.particles <- CreateFreezeParticles(freeze_point, player);
         scope.glow <- CreateGlow(player, scope.frozen_player_model);
         scope.revive_progress_sprite <- CreateReviveProgressSprite(freeze_point, player);
-        
+
         scope.particles.AcceptInput("SetParent", "!activator", scope.revive_marker, scope.revive_marker);
         scope.spectate_origin.AcceptInput("SetParent", "!activator", scope.revive_marker, scope.revive_marker);
         scope.revive_progress_sprite.AcceptInput("SetParent", "!activator", scope.particles, scope.particles);
@@ -140,151 +137,6 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
     }
 }
 
-// spawn a weapon from its item ID specifically to grab its modelname
-::GetWeaponModel <- function(wep_idx)
-{
-    local wearable = Entities.CreateByClassname("tf_wearable");
-    SetPropInt(wearable, "m_fEffects", 32);
-    wearable.SetSolidFlags(4);
-    wearable.SetCollisionGroup(11);
-    SetPropInt(wearable, "m_AttributeManager.m_Item.m_bInitialized", 1);
-    SetPropInt(wearable, "m_AttributeManager.m_Item.m_iItemDefinitionIndex", wep_idx);
-    Entities.DispatchSpawn(wearable);
-
-    local name = wearable.GetModelName();
-    wearable.Kill();
-    return name;
-}
-
-::CreateFrozenPlayerModel <- function(pos, player, sequence_name) {
-    // Reestablish this when we have found a way to get the disguise's animation
-    local friendly_disguised = false; // player.InCond(TF_COND_DISGUISED) && GetPropInt(player, "m_Shared.m_nDisguiseTeam") == player.GetTeam();
-    local scope = player.GetScriptScope();
-
-    local player_class = player.GetPlayerClass();
-    if (friendly_disguised) player_class = GetPropInt(player, "m_Shared.m_nDisguiseClass");
-    local fpm = GetFrozenPlayerModel(player_class);
-
-    local frozen_player_model = SpawnEntityFromTable("prop_dynamic", {
-        targetname = "frozen_player",
-        model = fpm,
-        origin = pos,
-        angles = player.GetAbsAngles(),
-        skin = player.GetSkin(),
-        rendermode = 2,
-        rendercolor = statue_color[player.GetTeam()]
-        renderamt = 128
-        solid = scope.solid ? 6 : 0,
-        DisableBoneFollowers = true
-    });
-
-    // bodygroups
-    for (local i = 0; i < 8; i++) {
-        frozen_player_model.SetBodygroup(i, player.GetBodygroup(i));
-    }
-
-    // HACK: tint player for now if we don't have the frozen player model yet
-    if (fpm.find("_frozen") == null) {
-        frozen_player_model.KeyValueFromString("rendercolor", frozen_color[player.GetTeam()]);
-    }
-
-    printl(sequence_name);
-    frozen_player_model.ResetSequence(frozen_player_model.LookupSequence(sequence_name));
-    frozen_player_model.SetCycle(player.GetCycle());
-    frozen_player_model.SetPlaybackRate(0.001);
-    SetPropBool(frozen_player_model, "m_bClientSideAnimation", false);
-    frozen_player_model.SetCollisionGroup(COLLISION_GROUP_NONE);
-    frozen_player_model.SetMoveType(MOVETYPE_NONE, MOVECOLLIDE_FLY_BOUNCE);
-
-    // pose parameters
-    local ang = scope.ang;
-    local eye_ang = scope.eye_ang;
-    local vel = scope.vel;
-    local dir = Vector(vel.x, vel.y, vel.z);
-    local speed = dir.Norm() / 300.0;
-    frozen_player_model.SetPoseParameter(frozen_player_model.LookupPoseParameter("move_x"), dir.Dot(ang.Forward()) * speed);
-    frozen_player_model.SetPoseParameter(frozen_player_model.LookupPoseParameter("move_y"), dir.Dot(ang.Left()) * speed);
-    frozen_player_model.SetPoseParameter(frozen_player_model.LookupPoseParameter("body_pitch"), -eye_ang.x);
-    frozen_player_model.SetPoseParameter(frozen_player_model.LookupPoseParameter("body_yaw"), ang.y - eye_ang.y);
-
-    // Weapon model
-    local weapon_modelname = friendly_disguised ? GetPropEntity(player, "m_Shared.m_hDisguiseWeapon").GetModelName() : GetWeaponModel(scope.weapon_index);
-    local frozen_weapon_model = null;
-    if (weapon_modelname != null && weapon_modelname != "") {
-        frozen_weapon_model = SpawnEntityFromTable("prop_dynamic_ornament", {
-            "model": weapon_modelname,
-            "rendermode": 5,
-            "renderamt": 192,
-            "rendercolor": frozen_color[player.GetTeam()],
-            "targetname": "frozen_weapon_model",
-            "skin": player.GetSkin()
-        });
-        EntFireByHandle(frozen_weapon_model, "SetAttached", "!activator", 0.05, frozen_player_model, null);
-
-        scope.frozen_weapon_model <- frozen_weapon_model;
-    }
-
-    // cosmetics
-    local disguise_target = GetPropEntity(player, "m_Shared.m_hDisguiseTarget");
-    local origin = friendly_disguised ? (disguise_target.GetPlayerClass() == player_class ? disguise_target : null) : player;
-    if (origin) {
-        for (local wearable = origin.FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
-        {
-            if (wearable.GetClassname() != "tf_wearable")
-                continue;
-
-            local wearable_modelname = wearable.GetModelName();
-            if (wearable_modelname == null || wearable_modelname == "")
-                continue;
-
-            local cosmetic_model = SpawnEntityFromTable("prop_dynamic_ornament", {
-                targetname = "frozen_wearable",
-                origin = frozen_player_model.GetOrigin(),
-                rendermode = 2,
-                renderamt = 192,
-                rendercolor = frozen_color[player.GetTeam()],
-                model = wearable.GetModelName(),
-                skin = player.GetSkin()
-            });
-
-            local valid = false;
-            foreach (bone_name in allowed_cosmetic_bones) {
-                if (cosmetic_model.LookupBone(bone_name) > -1) {
-                    valid = true;
-                    break;
-                }
-            }
-            foreach (bone_name in disallowed_cosmetic_bones) {
-                if (cosmetic_model.LookupBone(bone_name) > -1) {
-                    valid = false;
-                    break;
-                }
-            }
-            if (!valid) {
-                cosmetic_model.Destroy();
-                continue;
-            }
-
-            EntFireByHandle(cosmetic_model, "SetAttached", "!activator", 0.05, frozen_player_model, null);
-        }
-    }
-
-    return frozen_player_model;
-}
-
-::GetGroundedSequenceName <- function(player) {
-    local sequence_name = player.GetSequenceName(player.GetSequence());
-    local fraction = TraceLine(player.GetOrigin() - Vector(0, 0, 8), player.GetOrigin() - Vector(0, 0, 24), player);
-    if (fraction < 1.0) return sequence_name;
-
-    local prefixes = ["run", "stand", "crouch_walk", "crouch", "airwalk", "swim", "jumpfloat", "jumpstart", "jump_float", "jump_start", "a_jumpfloat", "a_jumpstart"];
-    foreach (prefix in prefixes)
-        if (startswith(sequence_name.tolower(), prefix))
-            return "run" + sequence_name.slice(prefix.len());
-    
-    return sequence_name;
-}
-
 ::CreateFreezeParticles <- function(pos, player) {
     local scope = player.GetScriptScope();
     local particle_name = "ft_thawzone_" + ((player.GetTeam() == 2) ? "red" : "blu");
@@ -337,7 +189,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
 }
 
 ::CreateReviveProgressSprite <- function(pos, player) {
-    local sprite = SpawnEntityFromTable("env_sprite", {
+    local sprite = SpawnEntityFromTable("env_glow", {
         "origin": pos + player.GetClassEyeHeight() + Vector(0, 0, 32),
         "model": "freeze_tag/revive_bar.vmt",
         "framerate": 0,
@@ -353,7 +205,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
 }
 
 ::CreateFakeReviveProgressSprite <- function(pos, player) {
-    local sprite = SpawnEntityFromTable("env_sprite", {
+    local sprite = SpawnEntityFromTable("env_glow", {
         "origin": pos + player.GetClassEyeHeight() + Vector(0, 0, 32),
         "model": "freeze_tag/dead_ringer_icon_" + (player.GetTeam() == TF_TEAM_RED ? "red" : "blu") + ".vmt",
         "targetname": "revive_progress_sprite",
@@ -381,20 +233,8 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
     if (!IsPlayerAlive(player)) return;
 
     CalculatePlayerFreezePoint(player);
-    GetPlayerWeaponIndex(player);
-    GetPlayerPoseParameters(player);
-}
-
-::GetPlayerWeaponIndex <- function(player) {
-    local scope = player.GetScriptScope();
-    scope.weapon_index <- GetPropInt(player.GetActiveWeapon(), "m_AttributeManager.m_Item.m_iItemDefinitionIndex");
-}
-
-::GetPlayerPoseParameters <- function(player) {
-    local scope = player.GetScriptScope();
-    scope.ang <- player.GetAbsAngles();
-    scope.eye_ang <- player.EyeAngles();
-    scope.vel <- player.GetAbsVelocity();
+    StorePlayerWeaponIndex(player);
+    StorePlayerPoseParameters(player);
 }
 
 // EVENTS
@@ -430,23 +270,7 @@ getroottable()[EventsID].OnGameEvent_player_death <- function(params)
             if (spy) FakeFreezePlayer(spy);
         } else {
             FreezePlayer(player);
-
-            RunWithDelay(function() {
-                local alive = GetAliveTeamPlayerCount(player.GetTeam());
-                if (alive == 1) {
-                    local last_man_alive = FindFirstAlivePlayerOnTeam(player.GetTeam());
-                    local scope = last_man_alive.GetScriptScope();
-                    if (scope.last_man_alive_next_time < Time()) {
-                        EmitSoundEx({
-                            sound_name = "Announcer.AM_LastManAlive0" + (rand() % 4 + 1),
-                            filter_type = RECIPIENT_FILTER_SINGLE_PLAYER,
-                            entity = last_man_alive
-                        });
-
-                        scope.last_man_alive_next_time = Time() + last_man_alive_cooldown;
-                    }
-                }
-            }, 0.1)
+            RunWithDelay(function() { DetermineLastPlayerAlive(player); }, 0.1);
         }
 
         RunWithDelay(CountAlivePlayers, 0.1, [this, true]);
