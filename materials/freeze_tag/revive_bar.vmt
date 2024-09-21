@@ -5,6 +5,7 @@
 	"$spriteorigin" "[ 0.50 0.50 ]"
 	"$vertexcolor" "1"
 	"$vertexalpha" "1"
+	"$ignorez" "1"
 
 	"$one" 1
 	"$matches" 0
