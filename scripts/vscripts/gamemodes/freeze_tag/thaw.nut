@@ -139,6 +139,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     local new_unlock_time = scope.revive_unlock_time - tick_rate;
     if (new_unlock_time > 0) {
         scope.revive_unlock_time = new_unlock_time;
+        scope.revive_playercount <- 0;
         return;
     }
     if (scope.revive_unlock_time > 0) scope.revive_progress_sprite.AcceptInput("ShowSprite", "", null, null);
