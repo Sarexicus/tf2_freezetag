@@ -6,8 +6,9 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
 
 ::frozen_color <- { [TF_TEAM_BLUE] = "0 228 255", [TF_TEAM_RED] = "255 128 228" };          // this is the color that will tint frozen weapons, cosmetics, and placeholder player models
 ::statue_color <- { [TF_TEAM_BLUE] = "225 240 255", [TF_TEAM_RED] = "255 225 240" };        // this is the color that will tint the frozen player models
-::allowed_cosmetic_bones <- [ "bip_head", "medal_bone" ]                                    // cosmetics with any of those bones are allowed (cosmetics are disallowed by default)
-::disallowed_cosmetic_bones <- [ "bip_spine0", "bip_spine1", "bip_spine2", "bip_spine3" ]   // cosmetics with any of those bones are disallowed
+::allowed_cosmetic_bones <- [ "bip_head", "medal_bone" ];                                   // cosmetics with any of those bones are allowed (cosmetics are disallowed by default)
+::disallowed_cosmetic_bones <- [ "bip_spine0", "bip_spine1", "bip_spine2", "bip_spine3" ];  // cosmetics with any of those bones are disallowed
+::revive_unlock_time <- 1;                                                                  // how long it takes players to become thawable after being frozen
 
 // -------------------------------
 
@@ -25,6 +26,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
     scope.revive_progress <- GetTeamMinProgress(player.GetTeam());
     scope.frozen <- true;
     scope.spectating_self <- false;
+    scope.revive_unlock_time <- revive_unlock_time;
 
     scope.ammo <- {};
     local length = NetProps.GetPropArraySize(player, "localdata.m_iAmmo");
@@ -343,7 +345,6 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
         "rendermode": 4,
         "rendercolor": player.GetTeam() == TF_TEAM_RED ? "255 0 0" : "100 100 255",
         "scale": 0.25,
-        "spawnflags": 1,
         "teamnum": 5 - player.GetTeam()
     });
 

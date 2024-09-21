@@ -136,6 +136,13 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     ForcePlayerSpectateRules(player);
     FrozenPlayerSpectatorCycle(player);
 
+    local new_unlock_time = scope.revive_unlock_time - tick_rate;
+    if (new_unlock_time > 0) {
+        scope.revive_unlock_time = new_unlock_time;
+        return;
+    }
+    if (scope.revive_unlock_time > 0) scope.revive_progress_sprite.AcceptInput("ShowSprite", "", null, null);
+
     local was_being_thawed = scope.revive_playercount > 0;
     local was_being_blocked = scope.revive_blocked;
     scope.revive_playercount <- 0;

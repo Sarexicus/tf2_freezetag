@@ -131,23 +131,24 @@ function Think() {
     scope.marker_parent <- null;
     scope.solid <- false;
 
-    scope.regen_amount <- 0;
-    scope.partial_regen <- 0;
-
+    scope.revive_unlock_time <- 0;
     scope.revive_progress <- 0;
     scope.revive_playercount <- 0;
     scope.revive_players <- [];
     scope.revive_blocked <- false;
     scope.is_medigun_revived <- false;
 
+    scope.spectate_origin <- null;
+    scope.did_force_spectate <- false;
+    scope.spectating_self <- false;
+
     scope.player_class <- 0;
     scope.ammo <- {};
     scope.ang <- QAngle(0, 0, 0);
     scope.eye_ang <- QAngle(0, 0, 0);
 
-    scope.spectate_origin <- null;
-    scope.did_force_spectate <- false;
-    scope.spectating_self <- false;
+    scope.regen_amount <- 0;
+    scope.partial_regen <- 0;
 
     scope.highest_thawing_player <- null;
 
