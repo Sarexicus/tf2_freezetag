@@ -72,7 +72,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
     local fake_revive_progress_sprite = CreateFakeReviveProgressSprite(freeze_point, player);
     fake_frozen_player_model.AcceptInput("SetParent", "!activator", fake_revive_marker, fake_revive_marker);
     fake_particles.AcceptInput("SetParent", "!activator", fake_revive_marker, fake_revive_marker);
-    fake_revive_progress_sprite.AcceptInput("SetParent", "!activator", fake_revive_marker, fake_revive_marker);
+    fake_revive_progress_sprite.AcceptInput("SetParent", "!activator", fake_particles, fake_particles);
     fake_revive_marker.SetSolid(0);
 
     fake_revive_marker.ValidateScriptScope();
