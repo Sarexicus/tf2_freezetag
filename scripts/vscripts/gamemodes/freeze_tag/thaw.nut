@@ -201,7 +201,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     foreach(revive_player in scope.revive_players) {
         local rp_scope = revive_player.GetScriptScope();
         local htp = rp_scope.highest_thawing_player;
-        if (htp == null) {
+        if (htp == null || !htp.IsValid()) {
             rp_scope.highest_thawing_player = player;
             return;
         }
