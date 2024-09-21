@@ -112,6 +112,20 @@ local offground_leniency = Vector(0, 0, 5);     // raise the hull by this much, 
         }
     }
 
+    // if we're on or over a func_tracktrain, spawn the statue on it and parent it to it
+    local traceTable = {
+        "start": player.GetOrigin() + Vector(0, 0, 32)
+        "end": player.GetOrigin() + Vector(0, 0, -10000),
+        "ignore": player,
+        "hullmin": player.GetPlayerMins(),
+        "hullmax": player.GetPlayerMaxs() - Vector(0, 0, 64),  // Make the hull shorter to avoid it getting stuck if the player is crouching
+        "mask": CONTENTS_SOLID | CONTENTS_PLAYERCLIP | CONTENTS_TRANSLUCENT | CONTENTS_MOVEABLE
+    };
+    if (TraceHull(traceTable) && "enthit" in traceTable && traceTable.enthit.GetClassname() == "func_tracktrain") {
+        scope.marker_parent = traceTable.enthit;
+        return traceTable.endpos;
+    }
+
     local foundFreezePoint = false;
     local searchIndex = scope.position_index - 1;
     local maxSearchIndex = searchIndex;

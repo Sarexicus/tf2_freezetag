@@ -14,8 +14,9 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
 ::FreezePlayer <- function(player) {
     EntFireByHandle(player, "RunScriptCode", "GetPropEntity(self, `m_hRagdoll`).Destroy()", 0.01, player, player);
 
-    local freeze_point = FindFreezePoint(player);
     local scope = player.GetScriptScope();
+    scope.marker_parent <- null;
+    local freeze_point = FindFreezePoint(player);
 
     PlayFreezeSound(player);
 
@@ -45,6 +46,10 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
         scope.particles <- CreateFreezeParticles(freeze_point, player);
         scope.glow <- CreateGlow(player, scope.frozen_player_model);
         scope.revive_progress_sprite <- CreateReviveProgressSprite(freeze_point, player);
+        
+        scope.particles.AcceptInput("SetParent", "!activator", scope.revive_marker, scope.revive_marker);
+        scope.spectate_origin.AcceptInput("SetParent", "!activator", scope.revive_marker, scope.revive_marker);
+        scope.revive_progress_sprite.AcceptInput("SetParent", "!activator", scope.revive_marker, scope.revive_marker);
     }, 0);
 }
 
@@ -52,8 +57,9 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
     // HACK: I don't think the fake ragdoll is stored anywhere, so we have to use that
     EntFire("tf_ragdoll", "Kill", "", 0.01, player);
 
-    local freeze_point = FindFreezePoint(player);
     local scope = player.GetScriptScope();
+    scope.marker_parent <- null;
+    local freeze_point = FindFreezePoint(player);
 
     PlayFreezeSound(player);
 
@@ -109,6 +115,11 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
     revive_marker.SetMoveType(MOVETYPE_NONE, MOVECOLLIDE_FLY_BOUNCE);
     revive_marker.SetCollisionGroup(COLLISION_GROUP_DEBRIS);
     revive_marker.SetSolidFlags(0);
+
+    local scope = player.GetScriptScope();
+    if (scope.marker_parent && scope.marker_parent.IsValid())
+        revive_marker.AcceptInput("SetParent", "!activator", scope.marker_parent, scope.marker_parent);
+
     return revive_marker;
 }
 

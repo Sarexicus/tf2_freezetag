@@ -128,6 +128,8 @@ function Think() {
     scope.freeze_positions <- [];
     scope.position_index <- 0;
     scope.freeze_point <- null;
+    scope.marker_parent <- null;
+    scope.solid <- false;
 
     scope.regen_amount <- 0;
     scope.partial_regen <- 0;
@@ -195,8 +197,6 @@ getroottable()[EventsID].OnGameEvent_player_spawn <- function(params) {
                 SetRespawnTime(player, 99999);
                 // SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", TF_CLASS_SCOUT);
             }, 0.1);
-        } else {
-            SafeDeleteFromScope(scope, "revive_marker");
         }
     }
 }
