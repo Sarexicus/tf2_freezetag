@@ -279,7 +279,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
 
     local prefixes = ["run", "stand", "crouch_walk", "crouch", "airwalk", "swim", "jumpfloat", "jumpstart", "jump_float", "jump_start", "a_jumpfloat", "a_jumpstart"];
     foreach (prefix in prefixes)
-        if (startswith(sequence_name, prefix))
+        if (startswith(sequence_name.tolower(), prefix))
             return "run" + sequence_name.slice(prefix.len());
     
     return sequence_name;
