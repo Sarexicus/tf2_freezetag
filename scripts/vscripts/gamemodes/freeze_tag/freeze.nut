@@ -196,8 +196,10 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
         "framerate": 0,
         "targetname": "revive_progress_sprite",
         "rendermode": 4,
-        "rendercolor": player.GetTeam() == TF_TEAM_RED ? "255 0 0" : "100 100 255",
+        "rendercolor": "255 255 255",
+        // "renderamt": 255
         "scale": 0.25,
+        "spawnflags": 1
         "teamnum": 5 - player.GetTeam()
     });
 

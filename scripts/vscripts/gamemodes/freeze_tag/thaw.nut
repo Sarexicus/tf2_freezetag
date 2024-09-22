@@ -142,7 +142,11 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
         scope.revive_playercount <- 0;
         return;
     }
-    if (scope.revive_unlock_time > 0) scope.revive_progress_sprite.AcceptInput("ShowSprite", "", null, null);
+    if (scope.revive_unlock_time > 0) {
+        scope.revive_progress_sprite.KeyValueFromString("rendercolor", player.GetTeam() == TF_TEAM_RED ? "255 0 0" : "100 100 255");
+        // scope.revive_progress_sprite.KeyValueFromFloat("renderamt", 255.0);
+        scope.revive_unlock_time = new_unlock_time;
+    }
 
     local was_being_thawed = scope.revive_playercount > 0;
     local was_being_blocked = scope.revive_blocked;
@@ -173,11 +177,12 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
             ShowPlayerAnnotation(player, "", 0.1);
 
         scope.revive_progress -= (1 / decay_time) * tick_rate;
-        local min_progress = GetTeamMinProgress(player.GetTeam());
-        if (scope.revive_progress < min_progress) {
-            scope.did_force_spectate = false;
-            scope.revive_progress = min_progress;
-        }
+    }
+
+    local min_progress = GetTeamMinProgress(player.GetTeam());
+    if (scope.revive_progress < min_progress) {
+        scope.did_force_spectate = false;
+        scope.revive_progress = min_progress;
     }
 
     UpdateHighestThawedPlayer(player, scope);
