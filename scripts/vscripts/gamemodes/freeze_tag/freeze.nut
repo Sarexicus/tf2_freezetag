@@ -104,6 +104,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
         "solid": 0,
         "rendermode": 10
     });
+    revive_marker.SetModelSimple("models/empty.mdl");
 
     SetPropEntity(revive_marker, "m_hOwner", player);
     SetPropInt(revive_marker, "m_iTeamNum", player.GetTeam())
