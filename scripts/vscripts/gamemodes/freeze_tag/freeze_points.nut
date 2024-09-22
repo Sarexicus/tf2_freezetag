@@ -121,8 +121,10 @@ local offground_leniency = Vector(0, 0, 5);     // raise the hull by this much, 
         "hullmax": player.GetPlayerMaxs() - Vector(0, 0, 64),  // Make the hull shorter to avoid it getting stuck if the player is crouching
         "mask": CONTENTS_SOLID | CONTENTS_PLAYERCLIP | CONTENTS_TRANSLUCENT | CONTENTS_MOVEABLE
     };
-    if (TraceHull(traceTable) && "enthit" in traceTable && traceTable.enthit.GetClassname() == "func_tracktrain") {
-        scope.marker_parent = traceTable.enthit;
+    if (TraceHull(traceTable) && "enthit" in traceTable) {
+        local ent = traceTable.enthit
+        while (ent && ent.GetClassname() != "func_tracktrain") ent = ent.GetMoveParent();
+        if (ent.GetClassname() == "func_tracktrain") scope.marker_parent = traceTable.enthit;
         return traceTable.endpos;
     }
 
