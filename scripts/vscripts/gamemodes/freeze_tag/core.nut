@@ -196,6 +196,7 @@ getroottable()[EventsID].OnGameEvent_player_spawn <- function(params) {
             RunWithDelay(function() {
                 KillPlayerSilent(player);
                 SetRespawnTime(player, 99999);
+                ClientPrint(player, HUD_PRINTCENTER, "A round is in progress! You'll be able to join the next one.");
                 // SetPropInt(player, "m_Shared.m_iDesiredPlayerClass", TF_CLASS_SCOUT);
             }, 0.1);
         }
