@@ -107,8 +107,8 @@ if (!("ConstantNamingConvention" in ROOT)) // make sure folding is only done onc
 
 ::TeamName <- function(team, natural=false) {
     return natural ?
-        (team == Constants.ETFTeam.TF_TEAM_RED ? "Red" : "Blue") :
-        (team == Constants.ETFTeam.TF_TEAM_RED ? "red" : "blu")
+        (team == TF_TEAM_RED ? "Red" : "Blue") :
+        (team == TF_TEAM_RED ? "red" : "blu")
 }
 
 enum LIFE_STATE

@@ -60,7 +60,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     EmitSoundEx({
         sound_name = thaw_finish_sound, channel = 128 + player.entindex(), sound_level = 120
         origin = player.GetCenter(),
-        filter_type = Constants.EScriptRecipientFilter.RECIPIENT_FILTER_GLOBAL
+        filter_type = RECIPIENT_FILTER_GLOBAL
     });
 }
 

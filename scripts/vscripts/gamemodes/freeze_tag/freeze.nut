@@ -10,7 +10,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
 // -------------------------------
 
 ::FreezePlayer <- function(player) {
-    EntFireByHandle(player, "RunScriptCode", "GetPropEntity(self, `m_hRagdoll`).Destroy()", 0.01, player, player);
+    EntFireByHandle(player, "RunScriptCode", "GetPropEntity(self, `m_hRagdoll`).Destroy(); SetPropEntity(`m_hRagdoll`, null);", 0.01, player, player);
 
     local scope = player.GetScriptScope();
     scope.marker_parent <- null;
@@ -78,7 +78,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
             EmitSoundEx({
                 sound_name = fake_thaw_sound,
                 origin = self.GetCenter(),
-                filter_type = Constants.EScriptRecipientFilter.RECIPIENT_FILTER_GLOBAL
+                filter_type = RECIPIENT_FILTER_GLOBAL
             });
             DispatchParticleEffect(fake_disappear_particle, self.GetCenter(), vectriple(0));
             CountAlivePlayers();
@@ -92,7 +92,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     EmitSoundEx({
         sound_name = freeze_sound,
         origin = player.GetCenter(),
-        filter_type = Constants.EScriptRecipientFilter.RECIPIENT_FILTER_GLOBAL
+        filter_type = RECIPIENT_FILTER_GLOBAL
     });
 }
 
@@ -163,7 +163,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     proxy_entity.SetAbsOrigin(prop.GetOrigin());
     proxy_entity.DispatchSpawn();
     proxy_entity.SetModel(prop.GetModelName());
-    proxy_entity.AddEFlags(Constants.FEntityEFlags.EFL_NO_THINK_FUNCTION);
+    proxy_entity.AddEFlags(EFL_NO_THINK_FUNCTION);
     SetPropString(proxy_entity, "m_iName", UniqueString("glow_target"));
     SetPropBool(proxy_entity, "m_bPlacing", true);
     SetPropInt(proxy_entity, "m_fObjectFlags", 2);

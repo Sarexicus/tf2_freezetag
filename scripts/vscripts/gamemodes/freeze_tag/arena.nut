@@ -140,8 +140,8 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
 
 ::UpdateTeamEscrows <- function() {
     local alive = {
-        [TF_TEAM_RED] = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_RED),
-        [TF_TEAM_BLUE] = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_BLUE)
+        [TF_TEAM_RED] = GetAliveTeamPlayerCount(TF_TEAM_RED),
+        [TF_TEAM_BLUE] = GetAliveTeamPlayerCount(TF_TEAM_BLUE)
     };
     foreach(player in GetAllPlayers()) {
         if (player.InCond(TF_COND_FEIGN_DEATH)) alive[player.GetTeam()]--;
@@ -166,8 +166,8 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
     UpdateTeamEscrows();
 
     local alive = {
-        [TF_TEAM_RED] = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_RED),
-        [TF_TEAM_BLUE] = GetAliveTeamPlayerCount(Constants.ETFTeam.TF_TEAM_BLUE)
+        [TF_TEAM_RED] = GetAliveTeamPlayerCount(TF_TEAM_RED),
+        [TF_TEAM_BLUE] = GetAliveTeamPlayerCount(TF_TEAM_BLUE)
     };
 
     if (checkForGameEnd) {
@@ -175,8 +175,8 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
         local bluTeamDead = alive[TF_TEAM_BLUE] == 0;
 
         if (redTeamDead && bluTeamDead) return WinRound(0);
-        if (redTeamDead) return WinRound(Constants.ETFTeam.TF_TEAM_BLUE);
-        if (bluTeamDead) return WinRound(Constants.ETFTeam.TF_TEAM_RED);
+        if (redTeamDead) return WinRound(TF_TEAM_BLUE);
+        if (bluTeamDead) return WinRound(TF_TEAM_RED);
     }
 
     current_playercount = clone alive;
@@ -218,7 +218,7 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
             if (!IsPlayerAlive(player) && !scope.late_joiner) UnfreezePlayer(player);
             // Delay is necessary because of the potential respawn
             RunWithDelay(function(player) {
-                player.AddCondEx(Constants.ETFCond.TF_COND_CRITBOOSTED_FIRST_BLOOD, 9999, null)
+                player.AddCondEx(TF_COND_CRITBOOSTED_FIRST_BLOOD, 9999, null)
             }, 0.1, [this, player]);
         }
     }
@@ -230,7 +230,7 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
 ::ChangeStateToRoundEnd <- function() {
     STATE = GAMESTATES.ROUND_END;
     RunWithDelay(function() {
-        if (GetRoundState() == Constants.ERoundState.GR_STATE_RND_RUNNING) ChangeStateToSetup();
+        if (GetRoundState() == GR_STATE_RND_RUNNING) ChangeStateToSetup();
     }, 5);
 
     CENTRAL_CP.AcceptInput("SetUnlockTime", "9999", null, null);
