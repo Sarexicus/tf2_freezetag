@@ -75,6 +75,9 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
     EntityOutputs.AddOutput(GAME_TIMER, "On3SecRemain", GAMERULES.GetName(), "PlayVO", "Announcer.RoundBegins2Seconds", 0, 1);
     EntityOutputs.AddOutput(GAME_TIMER, "On2SecRemain", GAMERULES.GetName(), "PlayVO", "Announcer.RoundBegins1Seconds", 0, 1);
 
+    EntFireByHandle(FORCERESPAWN, "ForceTeamRespawn", "2", 4, null, null);
+    EntFireByHandle(FORCERESPAWN, "ForceTeamRespawn", "3", 4, null, null);
+
     EntFire("tf_dropped_weapon", "Kill", "", 0, null);
     EntFire("template_ft_preround", "ForceSpawn", "", 0, null);
     EntFire("setupgate*", "Close", "", 0, null);
