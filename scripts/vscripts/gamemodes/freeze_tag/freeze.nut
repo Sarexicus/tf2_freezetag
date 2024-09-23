@@ -10,7 +10,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
 // -------------------------------
 
 ::FreezePlayer <- function(player) {
-    EntFireByHandle(player, "RunScriptCode", "GetPropEntity(self, `m_hRagdoll`).Destroy(); SetPropEntity(`m_hRagdoll`, null);", 0.01, player, player);
+    EntFireByHandle(player, "RunScriptCode", "GetPropEntity(self, `m_hRagdoll`).Destroy(); SetPropEntity(self, `m_hRagdoll`, null);", 0.01, player, player);
 
     local scope = player.GetScriptScope();
     scope.marker_parent <- null;
