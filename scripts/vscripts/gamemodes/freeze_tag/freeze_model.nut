@@ -55,7 +55,7 @@
     frozen_player_model.SetPoseParameter(frozen_player_model.LookupPoseParameter("body_yaw"), ang.y - eye_ang.y);
 
     // Weapon model
-    local weapon_modelname = friendly_disguised ? GetPropEntity(player, "m_Shared.m_hDisguiseWeapon").GetModelName() : GetWeaponModel(scope.weapon_index);
+    /* local weapon_modelname = friendly_disguised ? GetPropEntity(player, "m_Shared.m_hDisguiseWeapon").GetModelName() : GetWeaponModel(scope.weapon_index);
     local frozen_weapon_model = null;
     if (weapon_modelname != null && weapon_modelname != "") {
         frozen_weapon_model = SpawnEntityFromTable("prop_dynamic_ornament", {
@@ -69,7 +69,7 @@
         EntFireByHandle(frozen_weapon_model, "SetAttached", "!activator", 0.05, frozen_player_model, null);
 
         scope.frozen_weapon_model <- frozen_weapon_model;
-    }
+    } */
 
     // cosmetics
     local disguise_target = GetPropEntity(player, "m_Shared.m_hDisguiseTarget");

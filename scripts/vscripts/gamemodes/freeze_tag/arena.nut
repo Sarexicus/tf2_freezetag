@@ -10,6 +10,7 @@
 ::GAMERULES <- Entities.FindByClassname(null, "tf_gamerules");
 ::CENTRAL_CP <- Entities.FindByClassname(null, "team_control_point");
 ::PLAYER_DESTRUCTION_LOGIC <- Entities.FindByClassname(null, "tf_logic_player_destruction");
+::FORCERESPAWN <- Entities.FindByClassname(null, "game_forcerespawn");
 
 ::GAME_TIMER <- SpawnEntityFromTable("team_round_timer", {
     auto_countdown = 0, start_paused = 0, show_in_hud = 1, show_time_remaining = 1, StartDisabled = 0
@@ -91,17 +92,19 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
     CENTRAL_CP.AcceptInput("SetLocked", "1", null, null);
     CENTRAL_CP.AcceptInput("HideModel", "", null, null);
     CENTRAL_CP.AcceptInput("SetUnlockTime", point_unlock_timer.tostring(), null, null);
+    FORCERESPAWN.AcceptInput("ForceTeamRespawn", "2", null, null);
+    FORCERESPAWN.AcceptInput("ForceTeamRespawn", "3", null, null);
 
     EntFire("ft_preround*", "Kill", "", 0, null);
     EntFire("setupgate*", "Open", "", 0, null);
-    EntFire("game_forcerespawn", "ForceTeamRespawn", "2", 0.3, null);
-    EntFire("game_forcerespawn", "ForceTeamRespawn", "3", 0.3, null);
 
     GAMERULES.AcceptInput("PlayVO", "Announcer.AM_RoundStartRandom", null, null);
     GAMERULES.AcceptInput("PlayVO", "Ambient.Siren", null, null);
 
-    UpdateTeamEscrows();
-    RunWithDelay(function() { initial_playercount = CountAlivePlayers() }, 0.1);
+    RunWithDelay(function() { 
+        UpdateTeamEscrows();
+        initial_playercount = CountAlivePlayers();
+    }, 0.1);
 }
 
 ::SpawnEscrows <- function() {
