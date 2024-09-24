@@ -4,8 +4,8 @@
 
 ::frozen_color <- { [TF_TEAM_BLUE] = "255 255 255", [TF_TEAM_RED] = "255 255 255" };        // this is the color that will tint frozen weapons and cosmetics
 ::statue_color <- { [TF_TEAM_BLUE] = "225 240 255", [TF_TEAM_RED] = "255 225 240" };        // this is the color that will tint the frozen player models
-::allowed_cosmetic_bones <- [ "bip_head", "medal_bone" ];                                   // cosmetics with any of those bones are allowed (cosmetics are disallowed by default)
-::disallowed_cosmetic_bones <- [ "bip_spine0", "bip_spine1", "bip_spine2", "bip_spine3" ];  // cosmetics with any of those bones are disallowed
+::allowed_cosmetic_bones <- [ "bip_head", "medal_bone", "prp_pack_back" ];                  // cosmetics with any of those bones are allowed (cosmetics are disallowed by default)
+::disallowed_cosmetic_bones <- [ "bip_spine0", "bip_spine1", "bip_spine2", "bip_spine3", "bip_pelvis", "bip_jacketcollar_0_R", "bip_jacketcollar_0_L", "bip_jacketcollar_0_B" ];  // cosmetics with any of those bones are disallowed
 
 // -------------------------------
 
@@ -108,6 +108,7 @@
                     break;
                 }
             }
+
             if (!valid) {
                 cosmetic_model.Destroy();
                 continue;
