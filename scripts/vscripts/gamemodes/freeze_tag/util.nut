@@ -252,6 +252,11 @@ enum LIFE_STATE
         if (startswith(sequence_name.tolower(), prefix))
             return "run" + sequence_name.slice(prefix.len());
 
+    local explosive_jumps_prefixes = [ "melee_fall", "primary_fall_stomp", "primary_float" ];
+    foreach (prefix in explosive_jumps_prefixes)
+        if (startswith(sequence_name.tolower(), prefix))
+            return "run_primary";
+
     return sequence_name;
 }
 

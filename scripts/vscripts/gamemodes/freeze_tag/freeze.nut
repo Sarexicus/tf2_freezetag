@@ -5,7 +5,7 @@
 IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
 IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
 
-::revive_unlock_time <- 1;     // how long it takes players to become thawable after being frozen
+::revive_unlock_time <- 2;     // how long it takes players to become thawable after being frozen
 
 // -------------------------------
 
@@ -36,8 +36,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
 
     RunWithDelay(function() {
         scope.revive_marker <- CreateReviveMarker(freeze_point, player);
-        local sequence_name = GetGroundedSequenceName(player);
-        scope.frozen_player_model <- CreateFrozenPlayerModel(freeze_point, player, sequence_name);
+        scope.frozen_player_model <- CreateFrozenPlayerModel(freeze_point, player);
         scope.frozen_player_model.AcceptInput("SetParent", "!activator", scope.revive_marker, scope.revive_marker);
 
         player.Teleport(true, freeze_point + Vector(0, 0, 48), false, QAngle(0, 0, 0), true, Vector(0, 0, 0));
@@ -63,8 +62,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     PlayFreezeSound(player);
 
     local fake_revive_marker = CreateReviveMarker(freeze_point, player);
-    local sequence_name = GetGroundedSequenceName(player);
-    local fake_frozen_player_model = CreateFrozenPlayerModel(freeze_point, player, sequence_name);
+    local fake_frozen_player_model = CreateFrozenPlayerModel(freeze_point, player);
     local fake_particles = CreateFreezeParticles(freeze_point, player);
     local fake_revive_progress_sprite = CreateFakeReviveProgressSprite(freeze_point, player);
     fake_frozen_player_model.AcceptInput("SetParent", "!activator", fake_revive_marker, fake_revive_marker);

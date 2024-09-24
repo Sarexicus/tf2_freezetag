@@ -4,6 +4,7 @@
 
 IncludeScript(VSCRIPT_PATH + "thaw_meter.nut", this);
 IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
+
 ::revive_sprite_frames <- 40; // number of frames in the revive sprite's animation. need to set this manually, I think
 
 // -------------------------------
@@ -139,11 +140,13 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     local new_unlock_time = scope.revive_unlock_time - tick_rate;
     if (new_unlock_time > 0) {
         scope.revive_unlock_time = new_unlock_time;
-        scope.revive_playercount <- 0;
+        scope.revive_playercount = 0;
+        scope.revive_progress = new_unlock_time / revive_unlock_time;
+        UpdateReviveProgressSprite(player);
         return;
     }
     if (scope.revive_unlock_time > 0) {
-        scope.revive_progress_sprite.KeyValueFromString("rendercolor", player.GetTeam() == TF_TEAM_RED ? "255 0 0" : "130 130 255");
+        scope.revive_progress_sprite.KeyValueFromString("rendercolor", player.GetTeam() == TF_TEAM_RED ? "255 0 0" : "135 135 255");
         // scope.revive_progress_sprite.KeyValueFromFloat("renderamt", 255.0);
         scope.revive_unlock_time = new_unlock_time;
     }

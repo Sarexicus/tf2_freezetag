@@ -9,7 +9,7 @@
 
 // -------------------------------
 
-::CreateFrozenPlayerModel <- function(pos, player, sequence_name) {
+::CreateFrozenPlayerModel <- function(pos, player) {
     // Reestablish this when we have found a way to get the disguise's animation
     local friendly_disguised = false; // player.InCond(TF_COND_DISGUISED) && GetPropInt(player, "m_Shared.m_nDisguiseTeam") == player.GetTeam();
     local scope = player.GetScriptScope();
@@ -35,7 +35,8 @@
     for (local i = 0; i < 8; i++) {
         frozen_player_model.SetBodygroup(i, player.GetBodygroup(i));
     }
-
+    
+    local sequence_name = GetGroundedSequenceName(player);
     frozen_player_model.ResetSequence(frozen_player_model.LookupSequence(sequence_name));
     frozen_player_model.SetCycle(player.GetCycle());
     frozen_player_model.SetPlaybackRate(0.001);
