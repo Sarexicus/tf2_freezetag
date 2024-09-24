@@ -26,6 +26,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     player.AcceptInput("SpeakResponseConcept", "TLK_RESURRECTED", null, null);
     player.SetAbsAngles(scope.ang);
     player.SnapEyeAngles(scope.eye_ang);
+    scope.last_thaw_time = Time();
 
     foreach (i, num in scope.ammo)
         SetPropIntArray(player, "localdata.m_iAmmo", num, i);
@@ -141,7 +142,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     if (new_unlock_time > 0) {
         scope.revive_unlock_time = new_unlock_time;
         scope.revive_playercount = 0;
-        scope.revive_progress = new_unlock_time / revive_unlock_time;
+        scope.revive_progress = new_unlock_time / scope.revive_unlock_max_time;
         UpdateReviveProgressSprite(player);
         return;
     }

@@ -5,7 +5,10 @@
 IncludeScript(VSCRIPT_PATH + "freeze_points.nut", this);
 IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
 
-::revive_unlock_time <- 2;     // how long it takes players to become thawable after being frozen
+::revive_unlock_time_penalty <- 0;                          // how much the lock time increases each time you die
+::revive_unlock_time <- 2 - revive_unlock_time_penalty;     // how long it takes players to become thawable after being frozen
+::revive_unlock_time_grace <- 3;                            // how muh time you have after getting thawed before the penalty will be applied on death
+::revive_unlock_time_cap <- 5;                              // how long the unlock time can get
 
 // -------------------------------
 
@@ -23,7 +26,10 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     scope.revive_progress <- GetTeamMinProgress(player.GetTeam());
     scope.frozen <- true;
     scope.spectating_self <- false;
-    scope.revive_unlock_time <- revive_unlock_time;
+
+    if (Time() > scope.last_thaw_time + revive_unlock_time_grace) scope.revive_unlock_max_time += revive_unlock_time_penalty;
+    if (scope.revive_unlock_max_time > revive_unlock_time_cap) scope.revive_unlock_max_time = revive_unlock_time_cap;
+    scope.revive_unlock_time <- scope.revive_unlock_max_time;
 
     scope.ammo <- {};
     local length = NetProps.GetPropArraySize(player, "localdata.m_iAmmo");

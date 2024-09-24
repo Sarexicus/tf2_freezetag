@@ -132,6 +132,7 @@ function Think() {
     scope.solid <- false;
 
     scope.revive_unlock_time <- 0;
+    scope.revive_unlock_max_time <- revive_unlock_time;
     scope.revive_progress <- 0;
     scope.revive_playercount <- 0;
     scope.revive_players <- [];
@@ -147,6 +148,7 @@ function Think() {
     scope.ang <- QAngle(0, 0, 0);
     scope.eye_ang <- QAngle(0, 0, 0);
 
+    scope.last_thaw_time <- 0;
     scope.regen_amount <- 0;
     scope.partial_regen <- 0;
 
