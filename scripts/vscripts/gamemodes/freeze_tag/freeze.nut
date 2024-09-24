@@ -170,9 +170,12 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     SetPropString(proxy_entity, "m_iName", UniqueString("glow_target"));
     SetPropBool(proxy_entity, "m_bPlacing", true);
     SetPropInt(proxy_entity, "m_fObjectFlags", 2);
-    for (local i = 0; i < 8; i++) {
+
+    foreach (i in bodygroups_per_class[player.GetPlayerClass()]) {
         proxy_entity.SetBodygroup(i, player.GetBodygroup(i));
     }
+    proxy_entity.AcceptInput("AddOutput", "rendermode 1", null, null);
+    proxy_entity.AcceptInput("AddOutput", "renderamt 0", null, null);
 
     // Bonemerging
     proxy_entity.SetSolid(0);
