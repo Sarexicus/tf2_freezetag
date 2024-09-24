@@ -35,6 +35,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     //  it should do this nearly every time, but as a failsafe it'll put them in the spawn room
     // if (scope.freeze_point) player.SetOrigin(scope.freeze_point);
     if (scope.revive_marker) player.SetOrigin(scope.revive_marker.GetOrigin() + Vector(0, 0, 1));
+    foreach (ent in scope.revive_players) printl(ent);
     if (scope.revive_players.len() > 0) GenerateThawKillfeedEvent(scope.revive_players, player);
 
     ResetPlayer(player);
