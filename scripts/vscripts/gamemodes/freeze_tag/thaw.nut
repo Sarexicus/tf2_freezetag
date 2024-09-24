@@ -143,7 +143,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
         return;
     }
     if (scope.revive_unlock_time > 0) {
-        scope.revive_progress_sprite.KeyValueFromString("rendercolor", player.GetTeam() == TF_TEAM_RED ? "255 0 0" : "150 150 255");
+        scope.revive_progress_sprite.KeyValueFromString("rendercolor", player.GetTeam() == TF_TEAM_RED ? "255 0 0" : "130 130 255");
         // scope.revive_progress_sprite.KeyValueFromFloat("renderamt", 255.0);
         scope.revive_unlock_time = new_unlock_time;
     }

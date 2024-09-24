@@ -26,7 +26,7 @@
         skin = player.GetSkin(),
         rendermode = 2,
         rendercolor = statue_color[player.GetTeam()]
-        renderamt = 128
+        renderamt = 100
         solid = scope.solid ? 6 : 0,
         DisableBoneFollowers = true
     });
