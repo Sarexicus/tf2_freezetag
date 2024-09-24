@@ -35,8 +35,11 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     //  it should do this nearly every time, but as a failsafe it'll put them in the spawn room
     // if (scope.freeze_point) player.SetOrigin(scope.freeze_point);
     if (scope.revive_marker) player.SetOrigin(scope.revive_marker.GetOrigin() + Vector(0, 0, 1));
-    foreach (ent in scope.revive_players) printl(ent);
     if (scope.revive_players.len() > 0) GenerateThawKillfeedEvent(scope.revive_players, player);
+    
+    foreach (thawer in scope.revive_players)
+        if (thawer != player)
+            SendGlobalGameEvent("player_escort_score", { player = thawer.entindex(), points = 1 });
 
     ResetPlayer(player);
     PlayThawSound(player);
@@ -326,4 +329,14 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     } else {
         scope.revive_blocked = true;
     }
+}
+
+// EVENTS
+// -----------------------------
+
+getroottable()[EventsID].OnGameEvent_revive_player_complete <- function(params) {
+    local player = PlayerInstanceFromIndex(params.entindex);
+    if (!player || !player.IsValid() || !player.IsPlayer()) return;
+
+    SendGlobalGameEvent("player_escort_score", { player = player.entindex(), points = -2 });
 }
