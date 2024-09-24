@@ -150,9 +150,8 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     });
 
     particles.SetTeam(player.GetTeam());
-
     particles.AcceptInput("Start", "", null, null);
-    UnpreserveEntity(particles);
+    // UnpreserveEntity(particles);
 
     return particles;
 }
@@ -203,7 +202,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
         "teamnum": 5 - player.GetTeam()
     });
 
-    UnpreserveEntity(sprite);
+    // UnpreserveEntity(sprite);
     return sprite;
 }
 
@@ -219,7 +218,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
         "teamnum": 5 - player.GetTeam()
     });
 
-    UnpreserveEntity(sprite);
+    // UnpreserveEntity(sprite);
     return sprite;
 }
 
