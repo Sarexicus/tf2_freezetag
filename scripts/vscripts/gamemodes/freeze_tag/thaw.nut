@@ -337,6 +337,5 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
 getroottable()[EventsID].OnGameEvent_revive_player_complete <- function(params) {
     local player = PlayerInstanceFromIndex(params.entindex);
     if (!player || !player.IsValid() || !player.IsPlayer()) return;
-
     SendGlobalGameEvent("player_escort_score", { player = player.entindex(), points = -2 });
 }
