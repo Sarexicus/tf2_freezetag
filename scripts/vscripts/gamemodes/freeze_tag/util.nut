@@ -247,7 +247,7 @@ enum LIFE_STATE
     local fraction = TraceLine(player.GetOrigin() - Vector(0, 0, 8), player.GetOrigin() - Vector(0, 0, 24), player);
     if (fraction < 1.0) return sequence_name;
 
-    local prefixes = ["run", "stand", "crouch_walk", "crouch", "airwalk", "swim", "jumpfloat", "jumpstart", "jump_float", "jump_start", "a_jumpfloat", "a_jumpstart"];
+    local prefixes = ["run", "stand", "crouch_walk", "crouch", "airwalk", "swim", "jumpfloat", "jumpstart", "jump_float", "jump_start", "a_jumpfloat", "a_jumpstart", "a_jump_float", "a_jump_start"];
     foreach (prefix in prefixes)
         if (startswith(sequence_name.tolower(), prefix))
             return "run" + sequence_name.slice(prefix.len());
