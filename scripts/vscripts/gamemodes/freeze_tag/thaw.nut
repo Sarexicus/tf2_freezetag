@@ -28,15 +28,15 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     player.SnapEyeAngles(scope.eye_ang);
     scope.last_thaw_time = Time();
 
-    foreach (i, num in scope.ammo)
-        SetPropIntArray(player, "localdata.m_iAmmo", num, i);
+    // foreach (i, num in scope.ammo)
+    //     SetPropIntArray(player, "localdata.m_iAmmo", num, i);
 
     // put the player at the freeze point where they died if it exists.
     //  it should do this nearly every time, but as a failsafe it'll put them in the spawn room
     // if (scope.freeze_point) player.SetOrigin(scope.freeze_point);
     if (scope.revive_marker) player.SetOrigin(scope.revive_marker.GetOrigin() + Vector(0, 0, 1));
     if (scope.revive_players.len() > 0) GenerateThawKillfeedEvent(scope.revive_players, player);
-    
+
     foreach (thawer in scope.revive_players)
         if (thawer != player)
             SendGlobalGameEvent("player_escort_score", { player = thawer.entindex(), points = 1 });
@@ -53,6 +53,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     scope.revive_progress <- 0;
     scope.revive_players <- [];
     scope.highest_thawing_player <- null;
+    scope.spectating_self <- false;
 
     RemoveFrozenPlayerModel(player);
     RemoveReviveProgressSprite(scope);

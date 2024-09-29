@@ -32,10 +32,10 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     if (scope.revive_unlock_max_time > revive_unlock_time_cap) scope.revive_unlock_max_time = revive_unlock_time_cap;
     scope.revive_unlock_time <- scope.revive_unlock_max_time;
 
-    scope.ammo <- {};
-    local length = NetProps.GetPropArraySize(player, "localdata.m_iAmmo");
-    for (local i = 0; i < length; i++)
-        scope.ammo[i] <- NetProps.GetPropIntArray(player, "localdata.m_iAmmo", i);
+    // scope.ammo <- {};
+    // local length = NetProps.GetPropArraySize(player, "localdata.m_iAmmo");
+    // for (local i = 0; i < length; i++)
+    //     scope.ammo[i] <- NetProps.GetPropIntArray(player, "localdata.m_iAmmo", i);
 
     RemoveFrozenPlayerModel(player);
     RemovePlayerReviveMarker(scope);
