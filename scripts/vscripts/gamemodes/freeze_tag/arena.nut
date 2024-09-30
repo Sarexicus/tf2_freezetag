@@ -79,6 +79,7 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
     EntFireByHandle(FORCERESPAWN, "ForceTeamRespawn", "3", 4, null, null);
 
     EntFire("tf_dropped_weapon", "Kill", "", 0, null);
+    EntFire("tf_ragdoll", "Kill", "", 0, null);
     EntFire("template_ft_preround", "ForceSpawn", "", 0, null);
     EntFire("setupgate*", "Close", "", 0, null);
     EntFire("game_forcerespawn", "ForceRespawn", "", 0.3, null);
@@ -104,7 +105,7 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
     GAMERULES.AcceptInput("PlayVO", "Announcer.AM_RoundStartRandom", null, null);
     GAMERULES.AcceptInput("PlayVO", "Ambient.Siren", null, null);
 
-    RunWithDelay(function() { 
+    RunWithDelay(function() {
         UpdateTeamEscrows();
         initial_playercount = CountAlivePlayers();
     }, 0.1);
@@ -113,7 +114,7 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
 ::SpawnEscrows <- function() {
     foreach (team, escrow in escrow_playercount)
         if (escrow && escrow.IsValid()) escrow.Destroy();
-    
+
     escrow_playercount[TF_TEAM_BLUE] <- SpawnEscrowPlayercountFlag(TF_TEAM_BLUE);
     escrow_playercount[TF_TEAM_RED] <- SpawnEscrowPlayercountFlag(TF_TEAM_RED);
 

@@ -15,6 +15,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
 ::FreezePlayer <- function(player) {
     // EntFire("tf_ragdoll", "RunScriptCode", "HideRagdoll(self)", 0.01, player);
     // EntFireByHandle(player, "RunScriptCode", "GetPropEntity(self, `m_hRagdoll`).Destroy(); SetPropEntity(self, `m_hRagdoll`, null);", 0.01, player, player);
+    EntFire("tf_dropped_weapon", "Kill", "", 0, null);
 
     local scope = player.GetScriptScope();
     scope.marker_parent <- null;
@@ -61,6 +62,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
 ::FakeFreezePlayer <- function(player) {
     // HACK: I don't think the fake ragdoll is stored anywhere, so we have to use that
     EntFire("tf_ragdoll", "Kill", "", 0.01, player);
+    EntFire("tf_dropped_weapon", "Kill", "", 0, null);
 
     local scope = player.GetScriptScope();
     scope.marker_parent <- null;
