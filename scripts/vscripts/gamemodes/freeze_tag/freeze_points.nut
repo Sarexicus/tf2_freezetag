@@ -19,13 +19,14 @@ class FreezePosition {
 
     constructor(offset, parent=null) {
         this.parent = parent;
-        this.offset = parent ? offset - parent.GetOrigin() : offest;
+        this.offset = parent ? offset - parent.GetOrigin() : offset;
     }
 
     function pos() {
         return this.parent ? this.parent.GetOrigin() + this.offset : this.offset;
     }
 }
+::FreezePosition <- FreezePosition;
 
 ::GetFreezePositionUnderPlayer <- function(player) {
     local traceTable = {
@@ -36,7 +37,7 @@ class FreezePosition {
         "hullmax": player.GetPlayerMaxs() - Vector(0, 0, 64),  // Make the hull shorter to avoid it getting stuck if the player is crouching
         "mask": CONTENTS_SOLID | CONTENTS_PLAYERCLIP | CONTENTS_TRANSLUCENT | CONTENTS_MOVEABLE
     }
-    if (TraceHull(traceTable) && "hit" in traceTable) {
+    if (TraceHull(traceTable) && "enthit" in traceTable) {
         local ent = traceTable.enthit;
         while (ent && ent.IsValid() && ent.GetClassname() != "func_tracktrain") ent = ent.GetMoveParent();
         if (ent && ent.IsValid()) {
