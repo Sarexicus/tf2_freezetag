@@ -206,7 +206,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
         "targetname": "revive_progress_sprite",
         "rendermode": 4,
         "rendercolor": "255 255 255",
-        // "renderamt": 255
+        "renderamt": 200
         "scale": 0.25,
         "spawnflags": 1
         "teamnum": 5 - player.GetTeam()
