@@ -128,13 +128,18 @@ function Think() {
     local scope = player.GetScriptScope();
     scope.late_joiner <- true;
     scope.frozen <- false;
-    scope.frozen_player_model <- null;
 
     scope.freeze_positions <- [];
     scope.position_index <- 0;
     scope.freeze_point <- null;
     scope.marker_parent <- null;
     scope.solid <- false;
+
+    scope.revive_progress_sprite <- null;
+    scope.revive_marker <- null;
+    scope.frozen_player_model <- null;
+    scope.particles <- null;
+    scope.glow <- null;
 
     scope.revive_unlock_time <- 0;
     scope.revive_unlock_max_time <- revive_unlock_time;
