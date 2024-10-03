@@ -49,7 +49,7 @@ class FreezePosition {
             if (navPosition != null) {
                 return FreezePosition(traceTable.endpos);
             } else {
-                return null; 
+                return null;
             }
         }
     }
@@ -58,7 +58,7 @@ class FreezePosition {
 ::CalculatePlayerFreezePoint <- function(player) {
     player.ValidateScriptScope();
     local scope = player.GetScriptScope();
-    
+
     local freeze_position = GetFreezePositionUnderPlayer(player);
     if (freeze_position != null) {
         if (scope.freeze_positions.len() >= 2) {
@@ -138,8 +138,7 @@ class FreezePosition {
     local freeze_position = GetFreezePositionUnderPlayer(player);
     if (freeze_position != null && SpaceAvailableForFreezePoint(freeze_position.pos(), player)) {
         scope.solid <- players_solid_when_frozen;
-        scope.marker_parent <- freeze_position.parent;
-        return freeze_position.pos();
+        return freeze_position;
     }
 
     local foundFreezePoint = false;
@@ -150,7 +149,7 @@ class FreezePosition {
     // worst-case scenario - they haven't moved at all and spawned too close to a teammate. just freeze them here.
     if (searchIndex == -1) {
         scope.solid <- false;
-        return player.GetOrigin();
+        return FreezePosition(player.GetOrigin());
     }
 
     local iterations = 0;
@@ -163,8 +162,7 @@ class FreezePosition {
 
         if (SpaceAvailableForFreezePoint(searchPos.pos(), player)) {
             scope.solid <- players_solid_when_frozen;
-            scope.marker_parent <- searchPos.parent;
-            return searchPos.pos();
+            return searchPos;
         }
 
         searchIndex -= 1;
@@ -176,6 +174,5 @@ class FreezePosition {
     //  use the most recent location and set the model to nonsolid for now
     local position = scope.freeze_positions[maxSearchIndex];
     scope.solid <- false;
-    scope.marker_parent <- position.parent;
-    return position.pos();
+    return position;
 }

@@ -132,7 +132,6 @@ function Think() {
     scope.freeze_positions <- [];
     scope.position_index <- 0;
     scope.freeze_point <- null;
-    scope.marker_parent <- null;
     scope.solid <- false;
 
     scope.revive_progress_sprite <- null;

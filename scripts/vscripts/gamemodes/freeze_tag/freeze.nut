@@ -18,8 +18,8 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     EntFire("tf_dropped_weapon", "Kill", "", 0, null);
 
     local scope = player.GetScriptScope();
-    scope.marker_parent <- null;
-    local freeze_point = FindFreezePoint(player);
+    local freeze_position = FindFreezePoint(player);
+    local freeze_point = freeze_position.pos();
 
     PlayFreezeSound(player);
 
@@ -43,7 +43,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     RemoveGlow(scope);
 
     RunWithDelay(function() {
-        scope.revive_marker <- CreateReviveMarker(freeze_point, player);
+        scope.revive_marker <- CreateReviveMarker(freeze_position, player);
         scope.frozen_player_model <- CreateFrozenPlayerModel(freeze_point, player);
         scope.frozen_player_model.AcceptInput("SetParent", "!activator", scope.revive_marker, scope.revive_marker);
 
@@ -65,12 +65,12 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     EntFire("tf_dropped_weapon", "Kill", "", 0, null);
 
     local scope = player.GetScriptScope();
-    scope.marker_parent <- null;
-    local freeze_point = FindFreezePoint(player);
+    local freeze_position = FindFreezePoint(player);
+    local freeze_point = freeze_position.pos();
 
     PlayFreezeSound(player);
 
-    local fake_revive_marker = CreateReviveMarker(freeze_point, player);
+    local fake_revive_marker = CreateReviveMarker(freeze_position, player);
     local fake_frozen_player_model = CreateFrozenPlayerModel(freeze_point, player);
     local fake_particles = CreateFreezeParticles(freeze_point, player);
     local fake_revive_progress_sprite = CreateFakeReviveProgressSprite(freeze_point, player);
@@ -103,10 +103,10 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     });
 }
 
-::CreateReviveMarker <- function(pos, player) {
+::CreateReviveMarker <- function(position, player) {
     local revive_marker = SpawnEntityFromTable("entity_revive_marker", {
         "targetname": "player_revive",
-        "origin": pos,
+        "origin": position.pos(),
         "angles": player.GetAbsAngles(),
         "solid": 0,
         "rendermode": 10
@@ -124,8 +124,8 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     revive_marker.SetSolidFlags(0);
 
     local scope = player.GetScriptScope();
-    if (scope.marker_parent && scope.marker_parent.IsValid())
-        revive_marker.AcceptInput("SetParent", "!activator", scope.marker_parent, scope.marker_parent);
+    if (position.parent && position.parent.IsValid())
+        revive_marker.AcceptInput("SetParent", "!activator", position.parent, position.parent);
 
     return revive_marker;
 }
