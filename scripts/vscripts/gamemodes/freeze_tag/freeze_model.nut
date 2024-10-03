@@ -6,12 +6,12 @@
 ::statue_color <- { [TF_TEAM_BLUE] = "225 240 255", [TF_TEAM_RED] = "255 225 240" };        // this is the color that will tint the frozen player models
 ::allowed_cosmetic_bones <- [ "bip_head", "medal_bone", "prp_pack_back" ];                  // cosmetics with any of those bones are allowed (cosmetics are disallowed by default)
 ::disallowed_cosmetic_bones <- [ "bip_spine0", "bip_spine1", "bip_spine2", "bip_spine3", "bip_pelvis", "bip_jacketcollar_0_R", "bip_jacketcollar_0_L", "bip_jacketcollar_0_B" ];  // cosmetics with any of those bones are disallowed
-::bodygroups_per_class <- { 
+::bodygroups_per_class <- {
     [TF_CLASS_SCOUT] = [0, 1],
     [TF_CLASS_SOLDIER] = [1, 2],
     [TF_CLASS_PYRO] = [0],
     [TF_CLASS_DEMOMAN] = [],
-    [TF_CLASS_HEAVYWEAPONS] = [1],
+    [TF_CLASS_HEAVYWEAPONS] = [0],
     [TF_CLASS_ENGINEER] = [0, 1],
     [TF_CLASS_MEDIC] = [],
     [TF_CLASS_SNIPER] = [0, 1, 2],
@@ -46,7 +46,7 @@
     foreach (i in bodygroups_per_class[player.GetPlayerClass()]) {
         frozen_player_model.SetBodygroup(i, player.GetBodygroup(i));
     }
-    
+
     local sequence_name = GetGroundedSequenceName(player);
     frozen_player_model.ResetSequence(frozen_player_model.LookupSequence(sequence_name));
     frozen_player_model.SetCycle(player.GetCycle());
