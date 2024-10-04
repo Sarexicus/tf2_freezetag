@@ -319,7 +319,13 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     if (!within_radius) return;
 
     // line-of-sight check
-    if (TraceLine(player.GetOrigin() + player.GetClassEyeHeight(), frozen_statue_location, player) != 1) return;
+    local traceTable = {
+        start = player.GetOrigin() + player.GetClassEyeHeight(),
+        end = frozen_statue_location,
+        ignore = player,
+        mask = CONTENTS_SOLID | CONTENTS_PLAYERCLIP | CONTENTS_TRANSLUCENT | CONTENTS_MOVEABLE
+    }
+    if (TraceLineEx(traceTable) && traceTable.hit) return;
     if (developer() >= 2) DebugDrawLine(player.GetCenter(), frozen_statue_location, 0, 0, 255, false, 0.5);
 
     // block progress if any enemy players are too close by
