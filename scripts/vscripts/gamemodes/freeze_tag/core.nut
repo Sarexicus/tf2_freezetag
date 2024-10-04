@@ -100,11 +100,11 @@ function Think() {
         if (STATE == GAMESTATES.ROUND) {
             ThawThink(player);
             RegenThink(player);
-        }
 
-        if (!IsPlayerAlive(player)) {
-            local ragdoll = GetPropEntity(player, "m_hRagdoll");
-            if (ragdoll && ragdoll.IsValid()) ragdoll.Destroy();
+            if (!IsPlayerAlive(player)) {
+                local ragdoll = GetPropEntity(player, "m_hRagdoll");
+                if (ragdoll && ragdoll.IsValid()) ragdoll.Destroy();
+            }
         }
     }
 
