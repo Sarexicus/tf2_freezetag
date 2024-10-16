@@ -36,7 +36,7 @@ if (developer() >= 1) printl("[FREEZE TAG LOADED] Version " + version);
 ::thaw_block_sound <- "freeze_tag/thawblock.wav";
 ::thaw_finish_sound <- "freeze_tag/thawfinish.wav";
 ::thaw_particle <- "ft_playerthaw";
-::fake_thaw_sound <- "Halloween.spell_stealth";
+::fake_thaw_sound <- "freeze_tag/freezefeign.wav";
 ::fake_disappear_particle <- "ghost_smoke";
 ::regen_particle <- "ft_playeraura";
 
