@@ -83,7 +83,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     fake_revive_marker.GetScriptScope().Think <- function() {
         if (!player.InCond(TF_COND_STEALTHED)) {
             EmitSoundEx({
-                sound_name = fake_thaw_sound,
+                sound_name = fake_thaw_sound, sound_level = 120
                 origin = self.GetCenter(),
                 filter_type = RECIPIENT_FILTER_GLOBAL
             });
