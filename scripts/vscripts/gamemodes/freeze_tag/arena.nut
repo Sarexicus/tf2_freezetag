@@ -84,6 +84,10 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
     EntFire("setupgate*", "Close", "", 0, null);
     EntFire("game_forcerespawn", "ForceRespawn", "", 0.3, null);
     EntFire("ft_relay_newround", "Trigger", "", 0.3, null);
+    for (local ent; ent = Entities.FindByClassname(ent, "item_healthkit_*");) {
+        if (ent.GetOwner()) ent.Destroy();
+    }
+    
     RunWithDelay(UpdateTeamEscrows, 0.5);
 
     EntityOutputs.AddOutput(GAME_TIMER, "OnFinished", mainLogicEntity.GetName(), "RunScriptCode", "ChangeStateToRound()", 0, 1);
