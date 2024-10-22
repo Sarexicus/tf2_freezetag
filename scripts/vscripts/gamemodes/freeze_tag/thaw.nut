@@ -55,7 +55,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     scope.highest_thawing_player <- null;
     scope.spectating_self <- false;
 
-    RemoveFrozenPlayerModel(player);
+    RemoveFrozenPlayerModel(scope);
     RemoveReviveProgressSprite(scope);
     RemoveGlow(scope);
     RemovePlayerReviveMarker(scope);
@@ -101,8 +101,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     SafeDeleteFromScope(scope, "spectate_origin");
 }
 
-::RemoveFrozenPlayerModel <- function(player) {
-    local scope = player.GetScriptScope();
+::RemoveFrozenPlayerModel <- function(scope) {
     SafeDeleteFromScope(scope, "frozen_player_model");
     SafeDeleteFromScope(scope, "frozen_weapon_model");
 }

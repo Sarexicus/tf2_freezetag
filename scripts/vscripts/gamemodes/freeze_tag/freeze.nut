@@ -38,7 +38,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     // for (local i = 0; i < length; i++)
     //     scope.ammo[i] <- NetProps.GetPropIntArray(player, "localdata.m_iAmmo", i);
 
-    RemoveFrozenPlayerModel(player);
+    RemoveFrozenPlayerModel(scope);
     RemovePlayerReviveMarker(scope);
     RemoveGlow(scope);
 
