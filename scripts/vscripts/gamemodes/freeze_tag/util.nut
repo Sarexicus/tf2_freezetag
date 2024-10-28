@@ -244,10 +244,10 @@ enum LIFE_STATE
 
 ::GetGroundedSequenceName <- function(player) {
     local sequence_name = player.GetSequenceName(player.GetSequence());
-    local fraction = TraceLine(player.GetOrigin() - Vector(0, 0, 8), player.GetOrigin() - Vector(0, 0, 24), player);
-    if (fraction < 1.0) return sequence_name;
+    // local fraction = TraceLine(player.GetOrigin() - Vector(0, 0, 8), player.GetOrigin() - Vector(0, 0, 24), player);
+    // if (fraction < 1.0) return sequence_name;
 
-    local prefixes = ["run", "stand", "crouch_walk", "crouch", "airwalk", "swim", "jumpfloat", "jumpstart", "jump_float", "jump_start", "a_jumpfloat", "a_jumpstart", "a_jump_float", "a_jump_start"];
+    local prefixes = ["run", "stand", "crouch_walk", "crouch", "airwalk", "swim", "a_jumpfloat", "a_jumpstart", "a_jump_float", "a_jump_start", "jumpfloat", "jumpstart", "jump_float", "jump_start"];
     foreach (prefix in prefixes)
         if (startswith(sequence_name.tolower(), prefix))
             return "run" + sequence_name.slice(prefix.len());
@@ -257,6 +257,7 @@ enum LIFE_STATE
         if (startswith(sequence_name.tolower(), prefix))
             return "run_primary";
 
+    printl(sequence_name);
     return sequence_name;
 }
 
