@@ -116,8 +116,8 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
 }
 
 ::SpawnEscrows <- function() {
-    foreach (team, escrow in escrow_playercount)
-        if (escrow && escrow.IsValid()) escrow.Destroy();
+    for (local ent; ent = Entities.FindByName(ent, "escrow_flag");)
+        ent.Destroy();
 
     escrow_playercount[TF_TEAM_BLUE] <- SpawnEscrowPlayercountFlag(TF_TEAM_BLUE);
     escrow_playercount[TF_TEAM_RED] <- SpawnEscrowPlayercountFlag(TF_TEAM_RED);
@@ -129,6 +129,7 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
     local player = FindFirstAlivePlayerOnTeam(team);
 
     local flag = SpawnEntityFromTable("item_teamflag", {
+        "targetname": "escrow_flag"
         "PointValue": 1,
         "flag_model": "models/empty.mdl",
         "GameType": 6,
