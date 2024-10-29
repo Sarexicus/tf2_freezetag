@@ -64,7 +64,7 @@ text_thaw_timeleft <- SpawnEntityFromTable("game_text", {
         seconds_text = "ᵀᴴᴬᵂᴱᴰ!";
     } else {
         local percentage = seconds / max_seconds;
-        seconds_text = format("%sˢ ₍⤫%s₎", ToSubscript(format("%1.1f", (max_seconds - seconds) / rate)), ToSubscript(format("%1.1f", rate)));
+        seconds_text = format("%s ₍⤫%s₎", ToSubscript(format("%1.1f", (max_seconds - seconds) / rate)), ToSubscript(format("%1.1f", rate)));
 
         if (show_thawing_text) seconds_text = "ᵀᴴᴬᵂᴵᴺᴳ\n" + seconds_text;
         if (blocked) seconds_text = "BLOCKED!";
