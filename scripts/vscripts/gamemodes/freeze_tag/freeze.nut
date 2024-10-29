@@ -83,13 +83,13 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     fake_revive_marker.GetScriptScope().Think <- function() {
         if (!player.InCond(TF_COND_STEALTHED)) {
             EmitSoundEx({
-                sound_name = fake_thaw_sound, sound_level = 120
-                origin = self.GetCenter(),
+                sound_name = fake_thaw_sound, channel = 128 + player.entindex(), sound_level = 100
+                origin = self.GetCenter()
                 filter_type = RECIPIENT_FILTER_GLOBAL
             });
             DispatchParticleEffect(fake_disappear_particle, self.GetCenter(), vectriple(0));
             CountAlivePlayers();
-            self.Destroy();
+            RunWithDelay(function() { this.Destroy(); }, 0.01, [self]);
         }
     }
     AddThinkToEnt(fake_revive_marker, "Think");
