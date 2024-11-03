@@ -103,8 +103,10 @@ function Think() {
 
             if (!IsPlayerAlive(player)) {
                 local ragdoll = GetPropEntity(player, "m_hRagdoll");
-                if (ragdoll && ragdoll.IsValid()) ragdoll.Destroy();
-                SetPropEntity(player, "m_hRagdoll", null);
+                if (ragdoll && ragdoll.IsValid()) {
+                    ragdoll.Destroy();
+                    SetPropEntity(player, "m_hRagdoll", null);
+                }
             }
         }
     }
