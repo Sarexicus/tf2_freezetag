@@ -205,7 +205,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     local medic_hack = IsPlayerAlive(player);
 
     if (scope.revive_progress >= 1 || medic_hack) {
-        UnfreezePlayer(player, medic_hack);
+        UnfreezePlayer(player) // medic_hack);
     }
 }
 
