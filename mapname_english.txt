@@ -1,5 +1,5 @@
 Objective:
-Your team must either eliminate all players on the opposing team or capture the control point that will be activated during the round.
+Kill all enemy players or capture the control point to win.
 
 Other Notes:
-Respawn dead teammates by standing next to them for a short amount of time.
+Players freeze when they die. Standing near a frozen ally will bring them back to life. The control point activates after 75 seconds.
