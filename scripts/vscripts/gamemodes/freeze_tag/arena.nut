@@ -30,7 +30,7 @@
         targetname = "text_win_blu", x = -1, y = -1, spawnflags = 1
     }),
     [0] = SpawnEntityFromTable("game_text", {
-        channel = 3, color = "255 0 255", fadein = 0.5, fadeout = 0.5, holdtime = 5,
+        channel = 3, color = "180 0 180", fadein = 0.5, fadeout = 0.5, holdtime = 5,
         message = "It's a tie!"
         targetname = "text_win_none", x = -1, y = -1, spawnflags = 1
     })
