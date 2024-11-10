@@ -281,6 +281,7 @@ getroottable()[EventsID].OnGameEvent_player_death <- function(params)
 
             if (spy) FakeFreezePlayer(spy);
         } else {
+            flawless[player.GetTeam()] = false;
             FreezePlayer(player);
             RunWithDelay(function() { DetermineLastPlayerAlive(player); }, 0.1);
         }

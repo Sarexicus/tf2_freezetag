@@ -53,6 +53,7 @@ EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam2", mainLogicEntity.GetName(), "Ru
 
 local round_scored = false;
 local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
+::flawless <- { [TF_TEAM_RED] = false, [TF_TEAM_BLUE] = false };
 
 ::GAMESTATES <- {
     SETUP = 0,
@@ -102,6 +103,9 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
     CENTRAL_CP.AcceptInput("SetUnlockTime", point_unlock_timer.tostring(), null, null);
     FORCERESPAWN.AcceptInput("ForceTeamRespawn", "2", null, null);
     FORCERESPAWN.AcceptInput("ForceTeamRespawn", "3", null, null);
+
+    flawless[TF_TEAM_RED] = true;
+    flawless[TF_TEAM_BLUE] = true;
 
     EntFire("ft_preround*", "Kill", "", 0, null);
     EntFire("setupgate*", "Open", "", 0, null);
@@ -199,6 +203,10 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
     if (winnerTeam) {
         PLAYER_DESTRUCTION_LOGIC.AcceptInput("Score"+TeamName(winnerTeam, true)+"Points", "", null, null);
         scores[winnerTeam]++;
+        if (flawless[winnerTeam]) {
+            GAMERULES.AcceptInput("PlayVO"+TeamName(winnerTeam, true), "Announcer.AM_FlawlessVictoryRandom", null, null);
+            GAMERULES.AcceptInput("PlayVO"+TeamName(5-winnerTeam, true), "Announcer.AM_FlawlessDefeatRandom", null, null);
+        }
     } else {
         PLAYER_DESTRUCTION_LOGIC.AcceptInput("ScoreRedPoints", "", null, null);
         PLAYER_DESTRUCTION_LOGIC.AcceptInput("ScoreBluePoints", "", null, null);

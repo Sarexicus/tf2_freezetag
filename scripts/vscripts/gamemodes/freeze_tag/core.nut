@@ -66,6 +66,8 @@ function Precache() {
     PrecacheScriptSound(thaw_finish_sound);
     PrecacheScriptSound(fake_thaw_sound);
     for (local i = 1; i <= 4; i++) PrecacheScriptSound("Announcer.AM_LastManAlive0" + i);
+    PrecacheScriptSound("Announcer.AM_FlawlessVictoryRandom");
+    PrecacheScriptSound("Announcer.AM_FlawlessDefeatRandom");
 }
 
 function OnPostSpawn() {
