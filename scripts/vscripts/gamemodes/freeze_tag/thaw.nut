@@ -23,6 +23,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     }
     RunWithDelay(function(player) { player.SetHealth(player.GetMaxHealth() * health_multiplier_on_thaw); StartRegenerating(player); }, 0.01, [this, player]);
     player.AddCondEx(TF_COND_INVULNERABLE_USER_BUFF, 1.0, player);
+    player.RemoveCond(TF_COND_TEAM_GLOWS);
     player.AcceptInput("SpeakResponseConcept", "TLK_RESURRECTED", null, null);
     player.SetAbsAngles(scope.ang);
     player.SnapEyeAngles(scope.eye_ang);
