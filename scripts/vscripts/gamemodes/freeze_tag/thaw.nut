@@ -315,8 +315,6 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
 }
 
 ::ThawCheck <- function(player, params) {
-    if (!CanThaw(player)) return;
-
     local scope = params.scope;
     local frozen_statue = scope.frozen_player_model;
     local revive_marker = scope.revive_marker;
@@ -326,16 +324,17 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     local frozen_player = params.frozen_player;
 
     local within_radius = CylindricalDistanceCheck(frozen_statue_location, player.GetCenter(), thaw_distance);
+    local can_cap_thaw = within_radius && CanThaw(player);
 
     local weapon = player.GetActiveWeapon();
     if (revive_marker && GetPropEntity(weapon, "m_hHealingTarget") == revive_marker) {
-        scope.revive_playercount += within_radius ? GetPlayerThawSpeed(player) : medigun_thawing_efficiency;
+        scope.revive_playercount += can_cap_thaw ? GetPlayerThawSpeed(player) : medigun_thawing_efficiency;
         scope.revive_players.push(player);
         scope.is_medigun_revived = true;
         return;
     }
 
-    if (!within_radius) return;
+    if (!can_cap_thaw) return;
 
     // line-of-sight check
     local traceTable = {
