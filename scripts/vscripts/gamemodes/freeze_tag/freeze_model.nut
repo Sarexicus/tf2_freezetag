@@ -20,7 +20,22 @@
 
 // -------------------------------
 
-::CreateFrozenPlayerModel <- function(pos, player) {
+::GetFrozenPlayerModel <- function(player_class) {
+    switch(player_class) {
+        case TF_CLASS_SCOUT:         return "models/freezetag/player/scout_frozen.mdl";
+        case TF_CLASS_SOLDIER:       return "models/freezetag/player/soldier_frozen.mdl";
+        case TF_CLASS_PYRO:          return "models/freezetag/player/pyro_frozen.mdl";
+        case TF_CLASS_DEMOMAN:       return "models/freezetag/player/demo_frozen.mdl";
+        case TF_CLASS_HEAVYWEAPONS:  return "models/freezetag/player/heavy_frozen.mdl";
+        case TF_CLASS_ENGINEER:      return "models/freezetag/player/engineer_frozen.mdl";
+        case TF_CLASS_MEDIC:         return "models/freezetag/player/medic_frozen.mdl";
+        case TF_CLASS_SNIPER:        return "models/freezetag/player/sniper_frozen.mdl";
+        case TF_CLASS_SPY:           return "models/freezetag/player/spy_frozen.mdl";
+        default: return "";
+    }
+}
+
+::CreateFrozenPlayerModel <- function(pos, player, hide_until_unlocked=false) {
     // Reestablish this when we have found a way to get the disguise's animation
     local friendly_disguised = false; // player.InCond(TF_COND_DISGUISED) && GetPropInt(player, "m_Shared.m_nDisguiseTeam") == player.GetTeam();
     local scope = player.GetScriptScope();
@@ -37,7 +52,7 @@
         skin = player.GetSkin(),
         rendermode = 2,
         rendercolor = statue_color[player.GetTeam()]
-        renderamt = 100
+        renderamt = hide_until_unlocked ? 0 : 100
         solid = scope.solid ? 6 : 0,
         DisableBoneFollowers = true
     });
@@ -100,7 +115,7 @@
                 targetname = "frozen_wearable",
                 origin = frozen_player_model.GetOrigin(),
                 rendermode = 2,
-                renderamt = 192,
+                renderamt = hide_until_unlocked ? 0 : 192,
                 rendercolor = frozen_color[player.GetTeam()],
                 model = wearable.GetModelName(),
                 skin = player.GetSkin()

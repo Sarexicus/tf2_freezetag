@@ -221,6 +221,13 @@ enum LIFE_STATE
     return false;
 }
 
+::PlayerHasYERActive <- function(player) {
+    local weapon = player.GetActiveWeapon();
+    if (!weapon || !weapon.IsValid()) return;
+    local index = GetPropInt(weapon, "m_AttributeManager.m_Item.m_iItemDefinitionIndex");
+    return index == 225 || index == 574;
+}
+
 ::GetWeaponModel <- function(wep_idx)
 {
     // spawn an econ entity weapon from its item ID specifically to grab its modelname

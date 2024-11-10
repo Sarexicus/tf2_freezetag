@@ -39,6 +39,7 @@ if (developer() >= 1) printl("[FREEZE TAG LOADED] Version " + version);
 ::fake_thaw_sound <- "freeze_tag/freezefeign.wav";
 ::fake_disappear_particle <- "ghost_smoke";
 ::regen_particle <- "ft_playeraura";
+::reveal_particle <- "snow_steppuff01";
 
 ::tick_rate <- 0.1;   // how often the base think rate polls
 
@@ -59,6 +60,7 @@ function Precache() {
     PrecacheParticle(thaw_particle);
     PrecacheParticle(regen_particle);
     PrecacheParticle(fake_disappear_particle);
+    PrecacheParticle(reveal_particle);
 
     PrecacheScriptSound(freeze_sound);
     PrecacheScriptSound(thaw_start_sound);
@@ -144,6 +146,7 @@ function Think() {
     scope.frozen_player_model <- null;
     scope.particles <- null;
     scope.glow <- null;
+    scope.hidden <- false;
 
     scope.revive_unlock_time <- 0;
     scope.revive_unlock_max_time <- revive_unlock_time;

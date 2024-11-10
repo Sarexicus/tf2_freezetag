@@ -12,7 +12,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
 
 // -------------------------------
 
-::FreezePlayer <- function(player) {
+::FreezePlayer <- function(player, hide_until_unlocked=false) {
     // EntFire("tf_ragdoll", "RunScriptCode", "HideRagdoll(self)", 0.01, player);
     // EntFireByHandle(player, "RunScriptCode", "GetPropEntity(self, `m_hRagdoll`).Destroy(); SetPropEntity(self, `m_hRagdoll`, null);", 0.01, player, player);
     EntFire("tf_dropped_weapon", "Kill", "", 0, null);
@@ -21,13 +21,14 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     local freeze_position = FindFreezePoint(player);
     local freeze_point = freeze_position.pos();
 
-    PlayFreezeSound(player);
+    if (!hide_until_unlocked) PlayFreezeSound(player);
 
     scope.player_class <- player.GetPlayerClass();
     scope.freeze_point <- freeze_point;
     scope.revive_progress <- GetTeamMinProgress(player.GetTeam());
     scope.frozen <- true;
     scope.spectating_self <- false;
+    scope.hidden <- hide_until_unlocked;
 
     if (Time() > scope.last_thaw_time + revive_unlock_time_grace) scope.revive_unlock_max_time += revive_unlock_time_penalty;
     if (scope.revive_unlock_max_time > revive_unlock_time_cap) scope.revive_unlock_max_time = revive_unlock_time_cap;
@@ -43,15 +44,15 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     RemoveGlow(scope);
 
     RunWithDelay(function() {
-        scope.revive_marker <- CreateReviveMarker(freeze_position, player);
-        scope.frozen_player_model <- CreateFrozenPlayerModel(freeze_point, player);
+        scope.revive_marker <- CreateReviveMarker(freeze_position, player, hide_until_unlocked);
+        scope.frozen_player_model <- CreateFrozenPlayerModel(freeze_point, player, hide_until_unlocked);
         scope.frozen_player_model.AcceptInput("SetParent", "!activator", scope.revive_marker, scope.revive_marker);
 
         player.Teleport(true, freeze_point + Vector(0, 0, 48), false, QAngle(0, 0, 0), true, Vector(0, 0, 0));
         scope.spectate_origin <- CreateSpectateOrigin(freeze_point + Vector(0, 0, 48));
-        scope.particles <- CreateFreezeParticles(freeze_point, player);
-        scope.glow <- CreateGlow(player, scope.frozen_player_model);
-        scope.revive_progress_sprite <- CreateReviveProgressSprite(freeze_point, player);
+        scope.particles <- CreateFreezeParticles(freeze_point, player, hide_until_unlocked);
+        scope.glow <- CreateGlow(player, scope.frozen_player_model, hide_until_unlocked);
+        scope.revive_progress_sprite <- CreateReviveProgressSprite(freeze_point, player, hide_until_unlocked);
 
         scope.particles.AcceptInput("SetParent", "!activator", scope.revive_marker, scope.revive_marker);
         scope.spectate_origin.AcceptInput("SetParent", "!activator", scope.revive_marker, scope.revive_marker);
@@ -103,12 +104,11 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     });
 }
 
-::CreateReviveMarker <- function(position, player) {
+::CreateReviveMarker <- function(position, player, hide_until_unlocked=false) {
     local revive_marker = SpawnEntityFromTable("entity_revive_marker", {
         "targetname": "player_revive",
         "origin": position.pos(),
         "angles": player.GetAbsAngles(),
-        "solid": 0,
         "rendermode": 10
     });
     revive_marker.SetModelSimple("models/freezetag/player/scout_frozen.mdl");
@@ -122,6 +122,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     revive_marker.SetMoveType(MOVETYPE_NONE, MOVECOLLIDE_FLY_BOUNCE);
     revive_marker.SetCollisionGroup(COLLISION_GROUP_DEBRIS);
     revive_marker.SetSolidFlags(0);
+    if (hide_until_unlocked) revive_marker.SetSolid(2);
 
     local scope = player.GetScriptScope();
     if (position.parent && position.parent.IsValid())
@@ -130,22 +131,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     return revive_marker;
 }
 
-::GetFrozenPlayerModel <- function(player_class) {
-    switch(player_class) {
-        case TF_CLASS_SCOUT:         return "models/freezetag/player/scout_frozen.mdl";
-        case TF_CLASS_SOLDIER:       return "models/freezetag/player/soldier_frozen.mdl";
-        case TF_CLASS_PYRO:          return "models/freezetag/player/pyro_frozen.mdl";
-        case TF_CLASS_DEMOMAN:       return "models/freezetag/player/demo_frozen.mdl";
-        case TF_CLASS_HEAVYWEAPONS:  return "models/freezetag/player/heavy_frozen.mdl";
-        case TF_CLASS_ENGINEER:      return "models/freezetag/player/engineer_frozen.mdl";
-        case TF_CLASS_MEDIC:         return "models/freezetag/player/medic_frozen.mdl";
-        case TF_CLASS_SNIPER:        return "models/freezetag/player/sniper_frozen.mdl";
-        case TF_CLASS_SPY:           return "models/freezetag/player/spy_frozen.mdl";
-        default: return "";
-    }
-}
-
-::CreateFreezeParticles <- function(pos, player) {
+::CreateFreezeParticles <- function(pos, player, hide_until_unlocked=false) {
     local scope = player.GetScriptScope();
     local particle_name = "ft_thawzone_" + ((player.GetTeam() == 2) ? "red" : "blu");
 
@@ -157,13 +143,13 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     });
 
     particles.SetTeam(player.GetTeam());
-    particles.AcceptInput("Start", "", null, null);
+    particles.AcceptInput(hide_until_unlocked ? "Stop" : "Start", "", null, null);
     // UnpreserveEntity(particles);
 
     return particles;
 }
 
-::CreateGlow <- function(player, prop) {
+::CreateGlow <- function(player, prop, hide_until_unlocked=false) {
     // "Prop" that will be glowing
     local proxy_entity = Entities.CreateByClassname("obj_teleporter");
     proxy_entity.SetAbsOrigin(prop.GetOrigin());
@@ -192,13 +178,13 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     local glow = SpawnEntityFromTable("tf_glow", {
         targetname = "glow_" + proxy_entity.GetName(),
         target = proxy_entity.GetName(),
-        GlowColor = "255 255 255 255"
+        GlowColor = "255 255 255 " + (hide_until_unlocked ? "0" : "255")
     });
 
     return glow;
 }
 
-::CreateReviveProgressSprite <- function(pos, player) {
+::CreateReviveProgressSprite <- function(pos, player, hide_until_unlocked=false) {
     local sprite = SpawnEntityFromTable("env_glow", {
         "origin": pos + player.GetClassEyeHeight() + Vector(0, 0, 32),
         "model": "freeze_tag/revive_bar.vmt",
@@ -212,6 +198,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
         "teamnum": 5 - player.GetTeam()
     });
 
+    if (hide_until_unlocked) sprite.AcceptInput("Alpha", "0", null, null);
     // UnpreserveEntity(sprite);
     return sprite;
 }
@@ -257,6 +244,7 @@ getroottable()[EventsID].OnGameEvent_player_death <- function(params)
 {
     local player = GetPlayerFromUserID(params.userid);
     if (player.GetTeam() < 2) return;
+    local attacker = GetPlayerFromUserID(params.attacker);
 
     if (STATE == GAMESTATES.SETUP) {
         RunWithDelay(function() {
@@ -282,7 +270,7 @@ getroottable()[EventsID].OnGameEvent_player_death <- function(params)
             if (spy) FakeFreezePlayer(spy);
         } else {
             flawless[player.GetTeam()] = false;
-            FreezePlayer(player);
+            FreezePlayer(player, IsValidPlayer(attacker) && PlayerHasYERActive(attacker));
             RunWithDelay(function() { DetermineLastPlayerAlive(player); }, 0.1);
         }
 

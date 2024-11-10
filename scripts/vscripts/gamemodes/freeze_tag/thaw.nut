@@ -152,8 +152,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
         return;
     }
     if (scope.revive_unlock_time > 0) {
-        scope.revive_progress_sprite.KeyValueFromString("rendercolor", player.GetTeam() == TF_TEAM_RED ? "255 0 0" : "135 135 255");
-        // scope.revive_progress_sprite.KeyValueFromFloat("renderamt", 255.0);
+        UnlockAndShowStatue(player);
         scope.revive_unlock_time = new_unlock_time;
     }
 
@@ -207,6 +206,26 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
 
     if (scope.revive_progress >= 1 || medic_hack) {
         UnfreezePlayer(player) // medic_hack);
+    }
+}
+
+::UnlockAndShowStatue <- function(player) {
+    local scope = player.GetScriptScope();
+    scope.revive_marker.SetSolid(2);
+    scope.frozen_player_model.AcceptInput("Alpha", "100", null, null);
+    scope.particles.AcceptInput("Start", "", null, null);
+    scope.revive_progress_sprite.KeyValueFromString("rendercolor", player.GetTeam() == TF_TEAM_RED ? "255 0 0" : "135 135 255");
+    scope.revive_progress_sprite.AcceptInput("Alpha", "200", null, null);
+
+    for (local wearable = scope.frozen_player_model.FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer()) {
+        if (wearable.GetClassname() == "prop_dynamic_ornament")
+            wearable.AcceptInput("Alpha", "192", null, null);
+    }
+
+    if (scope.hidden) {
+        DispatchParticleEffect(reveal_particle, scope.frozen_player_model.GetCenter(), Vector(90, 0, 0));
+        PlayFreezeSound(player);
+        scope.hidden = false;
     }
 }
 

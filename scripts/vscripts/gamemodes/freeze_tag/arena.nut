@@ -227,7 +227,10 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
 
         StopRegenerating(player);
         if (!winnerTeam || team != winnerTeam) {
-            if (IsPlayerAlive(player)) StunPlayer(player, 9999);
+            if (IsPlayerAlive(player))
+                StunPlayer(player, 9999);
+            else if (scope.frozen)
+                UnlockAndShowStatue(player);
         } else {
             if (!IsPlayerAlive(player) && !scope.late_joiner) UnfreezePlayer(player);
             // Delay is necessary because of the potential respawn
