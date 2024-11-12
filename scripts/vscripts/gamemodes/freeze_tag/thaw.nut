@@ -55,6 +55,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     scope.revive_players <- [];
     scope.highest_thawing_player <- null;
     scope.spectating_self <- false;
+    scope.hidden <- false;
 
     RemoveFrozenPlayerModel(scope);
     RemoveReviveProgressSprite(scope);

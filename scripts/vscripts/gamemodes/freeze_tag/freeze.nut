@@ -60,6 +60,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     }, 0);
 }
 
+// NOTE: No need to worry about the YER, the DR can't block backstabs
 ::FakeFreezePlayer <- function(player) {
     // HACK: I don't think the fake ragdoll is stored anywhere, so we have to use that
     EntFire("tf_ragdoll", "Kill", "", 0.01, player);
@@ -122,7 +123,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     revive_marker.SetMoveType(MOVETYPE_NONE, MOVECOLLIDE_FLY_BOUNCE);
     revive_marker.SetCollisionGroup(COLLISION_GROUP_DEBRIS);
     revive_marker.SetSolidFlags(0);
-    if (hide_until_unlocked) revive_marker.SetSolid(2);
+    if (hide_until_unlocked) revive_marker.SetSolid(0);
 
     local scope = player.GetScriptScope();
     if (position.parent && position.parent.IsValid())

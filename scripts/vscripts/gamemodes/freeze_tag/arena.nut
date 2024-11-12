@@ -229,7 +229,7 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
         if (!winnerTeam || team != winnerTeam) {
             if (IsPlayerAlive(player))
                 StunPlayer(player, 9999);
-            else if (scope.frozen)
+            else if (scope.frozen && scope.hidden)
                 UnlockAndShowStatue(player);
         } else {
             if (!IsPlayerAlive(player) && !scope.late_joiner) UnfreezePlayer(player);
