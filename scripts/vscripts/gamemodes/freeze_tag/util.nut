@@ -264,6 +264,9 @@ enum LIFE_STATE
         if (startswith(sequence_name.tolower(), prefix))
             return "run_primary";
 
+    if (sequence_name == "ref")
+        return "run_melee";
+
     printl(sequence_name);
     return sequence_name;
 }
