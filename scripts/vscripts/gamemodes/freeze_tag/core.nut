@@ -2,6 +2,16 @@
 // by Sarexicus and Le Codex
 // -----------------------------------------------
 
+// !CompilePal::IncludeDirectory("scripts/vscripts/gamemode/freezetag")
+// !CompilePal::IncludeFile("resource/ui/hudobjectivefreezetag.res")
+// !CompilePal::IncludeFile("particles/ft_fx.pcf")
+// !CompilePal::IncludeDirectory("materials/effects/freezetag")
+// !CompilePal::IncludeDirectory("materials/freeze_tag")
+// !CompilePal::IncludeDirectory("materials/hud")
+// !CompilePal::IncludeDirectory("materials/test")
+// !CompilePal::IncludeDirectory("models/freezetag/player")
+// !CompilePal::IncludeDirectory("sound/freeze_tag")
+
 if (!getroottable().rawin("EventsID")) {
     ::EventsID <- UniqueString();
 } else {
