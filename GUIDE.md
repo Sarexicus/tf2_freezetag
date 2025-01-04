@@ -32,6 +32,7 @@ In addition to those necessary elements, you will also find a separate trigger o
 ## To add Freeze Tag to your map, follow these steps:
 1. Take the central control point, its control point base model, and its associated trigger, and place them where you want the CP to be placed in your map.
     - The control point, trigger, and prop all have special names and outputs to make the gamemode work.
+    - You may notice that it has a fairly long cap time. This is from our testing, we saw that a long cap time allowed for more interesting games. We recommend keeping it as is.
     - **DO NOT** recreate the control point from scratch. Use the one in the prefab.
 2. Take all the floating entities off to the side of the control point, and put them anywhere in your map.
     - Those entities are what powers the gamemode. All of them are necessary.
@@ -88,7 +89,7 @@ You should now have a working example of a Freeze Tag map. Here are a few elemen
 - As you may have guessed, the gamemode requires closed spawn rooms. Be sure to have a space for them in your map.
 - The gamemode handles death pits, either through them not having nav meshes, or having a ft_func_nofreeze in them. Statues will be placed at the last valid position the player was in.
 - Players thaw at half health, then slowly regenerate to full. Unlike regular Arena, **YOU SHOULD** put more health kits around to help players get back in the fight faster.
-
+- The capture point has a fairly long capture time by default. It's recommended to keep it as is, as through testing, we realized that a logner cap time lead to more interesting games.
 
 
 # IV. Compiling for launch
@@ -136,7 +137,11 @@ When doing so, **YOU MUST** also move or rename the scripts folder of this pack,
   - Make sure you have included ALL of the core entities into your map, as per the installation instructions
 - The point never unlocks
   - Use the point in the prefab (control point, trigger, and prop). Do not recreate them from scratch
-- I crashed (when killing someone)
+- I crashed (when killing someone or when someone else dies)
   - This is a known bug that we have been unable to fix. We kill ragdolls to sell the effect better, but this sometimes causes clients to crash. Alternatives have been explored but none were good enough
+- The gamemode loads correctly, but nothing happens
+  - Check if you have other scripts in your map, and if they clear event callbacks. If so, remove those scripts, or rework them to use event namespaces to avoid interference with other scripts.
+- Players drop flags and round score isn't reported on the HUD
+  - You might have accidentally duplicated part of the central logic. Check for it in your map, and redo the installation if needed.
 - I have some other issue! / I have a suggestion!
   - Leave a message on the prefab's thread. We'll look into solving bugs, and potentially integrating suggestions if we deem them fitting and possible to do.
