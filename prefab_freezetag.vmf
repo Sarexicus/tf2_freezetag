@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8869"
-	"mapversion" "47"
+	"mapversion" "49"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "47"
+	"mapversion" "49"
 	"classname" "worldspawn"
 	"_minlight" "0.0"
 	"detailmaterial" "detailsprites"
@@ -690,10 +690,10 @@ world
 	}
 	solid
 	{
-		"id" "1834"
+		"id" "1820"
 		side
 		{
-			"id" "540"
+			"id" "432"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -711,7 +711,7 @@ world
 		}
 		side
 		{
-			"id" "539"
+			"id" "431"
 			"plane" "(-1024 1024 1024) (1024 1024 1024) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -729,7 +729,7 @@ world
 		}
 		side
 		{
-			"id" "538"
+			"id" "430"
 			"plane" "(-1024 -1024 -64) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -747,7 +747,7 @@ world
 		}
 		side
 		{
-			"id" "537"
+			"id" "429"
 			"plane" "(-1024 1024 1024) (-1024 -1024 1024) (-1024 -1024 -64)"
 			vertices_plus
 			{
@@ -765,7 +765,7 @@ world
 		}
 		side
 		{
-			"id" "536"
+			"id" "428"
 			"plane" "(1024 1024 -64) (1024 -1024 -64) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -783,7 +783,7 @@ world
 		}
 		side
 		{
-			"id" "535"
+			"id" "427"
 			"plane" "(-1024 -1024 1024) (-1024 -1024 -64) (1024 -1024 -64)"
 			vertices_plus
 			{
@@ -801,7 +801,7 @@ world
 		}
 		editor
 		{
-			"color" "0 167 244"
+			"color" "0 114 219"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -809,10 +809,10 @@ world
 	}
 	solid
 	{
-		"id" "1832"
+		"id" "1818"
 		side
 		{
-			"id" "546"
+			"id" "438"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -830,7 +830,7 @@ world
 		}
 		side
 		{
-			"id" "545"
+			"id" "437"
 			"plane" "(-1024 1024 1024) (1024 1024 1024) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -848,7 +848,7 @@ world
 		}
 		side
 		{
-			"id" "544"
+			"id" "436"
 			"plane" "(-1024 -1024 -64) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -866,7 +866,7 @@ world
 		}
 		side
 		{
-			"id" "543"
+			"id" "435"
 			"plane" "(-1024 1024 1024) (-1024 -1024 1024) (-1024 -1024 -64)"
 			vertices_plus
 			{
@@ -884,7 +884,7 @@ world
 		}
 		side
 		{
-			"id" "542"
+			"id" "434"
 			"plane" "(1024 1024 -64) (1024 -1024 -64) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -902,7 +902,7 @@ world
 		}
 		side
 		{
-			"id" "541"
+			"id" "433"
 			"plane" "(-1024 1024 -64) (-1024 1024 1024) (1024 1024 1024)"
 			vertices_plus
 			{
@@ -920,7 +920,7 @@ world
 		}
 		editor
 		{
-			"color" "0 167 244"
+			"color" "0 114 219"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -928,10 +928,10 @@ world
 	}
 	solid
 	{
-		"id" "1830"
+		"id" "1816"
 		side
 		{
-			"id" "552"
+			"id" "444"
 			"plane" "(16376 16376 -16376) (16376 -16376 -16376) (16376 -16376 16376)"
 			vertices_plus
 			{
@@ -949,7 +949,7 @@ world
 		}
 		side
 		{
-			"id" "551"
+			"id" "443"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -967,7 +967,7 @@ world
 		}
 		side
 		{
-			"id" "550"
+			"id" "442"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -985,7 +985,7 @@ world
 		}
 		side
 		{
-			"id" "549"
+			"id" "441"
 			"plane" "(-1024 1024 1024) (1024 1024 1024) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -1003,7 +1003,7 @@ world
 		}
 		side
 		{
-			"id" "548"
+			"id" "440"
 			"plane" "(-1024 -1024 -64) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -1021,7 +1021,7 @@ world
 		}
 		side
 		{
-			"id" "547"
+			"id" "439"
 			"plane" "(1024 -1024 1024) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -1039,7 +1039,7 @@ world
 		}
 		editor
 		{
-			"color" "0 167 244"
+			"color" "0 114 219"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -1047,10 +1047,10 @@ world
 	}
 	solid
 	{
-		"id" "1828"
+		"id" "1814"
 		side
 		{
-			"id" "558"
+			"id" "450"
 			"plane" "(-16376 16376 16376) (-16376 -16376 16376) (-16376 -16376 -16376)"
 			vertices_plus
 			{
@@ -1068,7 +1068,7 @@ world
 		}
 		side
 		{
-			"id" "557"
+			"id" "449"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -1086,7 +1086,7 @@ world
 		}
 		side
 		{
-			"id" "556"
+			"id" "448"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1104,7 +1104,7 @@ world
 		}
 		side
 		{
-			"id" "555"
+			"id" "447"
 			"plane" "(-1024 1024 1024) (1024 1024 1024) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -1122,7 +1122,7 @@ world
 		}
 		side
 		{
-			"id" "554"
+			"id" "446"
 			"plane" "(-1024 -1024 -64) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -1140,7 +1140,7 @@ world
 		}
 		side
 		{
-			"id" "553"
+			"id" "445"
 			"plane" "(-1024 -1024 -64) (-1024 -1024 1024) (-1024 1024 1024)"
 			vertices_plus
 			{
@@ -1158,7 +1158,7 @@ world
 		}
 		editor
 		{
-			"color" "0 167 244"
+			"color" "0 114 219"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -1166,10 +1166,10 @@ world
 	}
 	solid
 	{
-		"id" "1826"
+		"id" "1812"
 		side
 		{
-			"id" "564"
+			"id" "456"
 			"plane" "(-16376 -16376 -16376) (16376 -16376 -16376) (16376 16376 -16376)"
 			vertices_plus
 			{
@@ -1187,7 +1187,7 @@ world
 		}
 		side
 		{
-			"id" "563"
+			"id" "455"
 			"plane" "(-16376 16376 16376) (-16376 -16376 16376) (-16376 -16376 -16376)"
 			vertices_plus
 			{
@@ -1205,7 +1205,7 @@ world
 		}
 		side
 		{
-			"id" "562"
+			"id" "454"
 			"plane" "(16376 16376 -16376) (16376 -16376 -16376) (16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1223,7 +1223,7 @@ world
 		}
 		side
 		{
-			"id" "561"
+			"id" "453"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -1241,7 +1241,7 @@ world
 		}
 		side
 		{
-			"id" "560"
+			"id" "452"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1259,7 +1259,7 @@ world
 		}
 		side
 		{
-			"id" "559"
+			"id" "451"
 			"plane" "(1024 1024 -64) (1024 -1024 -64) (-1024 -1024 -64)"
 			vertices_plus
 			{
@@ -1277,7 +1277,7 @@ world
 		}
 		editor
 		{
-			"color" "0 167 244"
+			"color" "0 114 219"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -1285,10 +1285,10 @@ world
 	}
 	solid
 	{
-		"id" "1824"
+		"id" "1810"
 		side
 		{
-			"id" "570"
+			"id" "462"
 			"plane" "(-16376 16376 16376) (16376 16376 16376) (16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1306,7 +1306,7 @@ world
 		}
 		side
 		{
-			"id" "569"
+			"id" "461"
 			"plane" "(-16376 16376 16376) (-16376 -16376 16376) (-16376 -16376 -16376)"
 			vertices_plus
 			{
@@ -1324,7 +1324,7 @@ world
 		}
 		side
 		{
-			"id" "568"
+			"id" "460"
 			"plane" "(16376 16376 -16376) (16376 -16376 -16376) (16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1342,7 +1342,7 @@ world
 		}
 		side
 		{
-			"id" "567"
+			"id" "459"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -1360,7 +1360,7 @@ world
 		}
 		side
 		{
-			"id" "566"
+			"id" "458"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1378,7 +1378,7 @@ world
 		}
 		side
 		{
-			"id" "565"
+			"id" "457"
 			"plane" "(1024 -1024 1024) (1024 1024 1024) (-1024 1024 1024)"
 			vertices_plus
 			{
@@ -1396,7 +1396,7 @@ world
 		}
 		editor
 		{
-			"color" "0 167 244"
+			"color" "0 114 219"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
