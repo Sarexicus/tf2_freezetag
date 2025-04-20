@@ -41,7 +41,7 @@ if (developer() >= 1) printl("[FREEZE TAG LOADED] Version " + version);
 ::players_solid_when_frozen <- false;   // whether frozen players have collisions
 ::point_unlock_timer <- 75;             // how many seconds it takes the point to unlock
 
-::freeze_sound <- "Icicle.TurnToIce";
+::freeze_sound <- "freeze_tag/playerdeath.wav";
 ::thaw_start_sound <- "freeze_tag/thawstart.wav";
 ::thaw_block_sound <- "freeze_tag/thawblock.wav";
 ::thaw_finish_sound <- "freeze_tag/thawfinish.wav";
