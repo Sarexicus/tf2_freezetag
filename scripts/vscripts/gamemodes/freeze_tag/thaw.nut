@@ -75,7 +75,7 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
 
 ::ShowThawParticle <- function(player) {
     local particle = SpawnEntityFromTable("trigger_particle", {
-        particle_name = thaw_particle,
+        particle_name = thaw_particle + (player.GetTeam() == TF_TEAM_RED ? "_red" : "_blu"),
         attachment_type = 1, // PATTACH_ABSORIGIN_FOLLOW,
         spawnflags = 64 // allow everything
     });

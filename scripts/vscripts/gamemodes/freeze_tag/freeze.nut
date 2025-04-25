@@ -99,9 +99,9 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
 
 ::PlayFreezeSound <- function(player) {
     EmitSoundEx({
-        sound_name = freeze_sound,
+        sound_name = freeze_sound, channel = 128 + player.entindex(),
         origin = player.GetCenter(),
-        filter_type = RECIPIENT_FILTER_GLOBAL
+        sound_level = 80, filter_type = RECIPIENT_FILTER_GLOBAL
     });
 }
 

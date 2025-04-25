@@ -1,4 +1,4 @@
 particles_manifest
 {
-	"file"	"!particles/ft_fx.pcf"
+	"file"	"!particles/ft_holo_fx.pcf"
 }

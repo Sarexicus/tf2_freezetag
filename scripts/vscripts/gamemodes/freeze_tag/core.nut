@@ -4,7 +4,7 @@
 
 // !CompilePal::IncludeDirectory("scripts/vscripts/gamemode/freezetag")
 // !CompilePal::IncludeFile("resource/ui/hudobjectivefreezetag.res")
-// !CompilePal::IncludeFile("particles/ft_fx.pcf")
+// !CompilePal::IncludeFile("particles/ft_holo_fx.pcf")
 // !CompilePal::IncludeDirectory("materials/effects/freezetag")
 // !CompilePal::IncludeDirectory("materials/freeze_tag")
 // !CompilePal::IncludeDirectory("materials/hud")
