@@ -83,7 +83,7 @@ This is were our special tool comes into play! Wherever those spot might appear,
 
 
 
-# III. Design principles
+# III. Design principles and miscellaneous advice
 
 You should now have a working example of a Freeze Tag map. Here are a few elements to keep in mind when designing your map:
 - As you may have guessed, the gamemode requires closed spawn rooms. Be sure to have a space for them in your map.
@@ -91,6 +91,7 @@ You should now have a working example of a Freeze Tag map. Here are a few elemen
 - Players thaw at half health, then slowly regenerate to full. Unlike regular Arena, **YOU SHOULD** put more health kits around to help players get back in the fight faster.
 - The capture point has a fairly long capture time by default. It's recommended to keep it as is, as through testing, we realized that a logner cap time lead to more interesting games.
 - If you want things to happen whenever one of the "mini-round" starts, you can create a relay name "ft_relay_newround". It will be triggered at the start of the setup period of each of the rounds.
+- If you want teams to be swapped after a full game win, you can set the "Switch teams on map win" keyvalue of the team_control_point_master (named tcp_master) to 1 (or Yes).
 
 
 # IV. Compiling for launch
