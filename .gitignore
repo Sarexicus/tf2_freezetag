@@ -1,3 +1,10 @@
 /models/
 /sound/sound.cache
 /releases/
+/materials/models/
+
+# Compilation artifacts
+*.vmx
+*.prt
+*.bsp
+*.log

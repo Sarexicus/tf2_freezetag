@@ -90,6 +90,7 @@ You should now have a working example of a Freeze Tag map. Here are a few elemen
 - The gamemode handles death pits, either through them not having nav meshes, or having a ft_func_nofreeze in them. Statues will be placed at the last valid position the player was in.
 - Players thaw at half health, then slowly regenerate to full. Unlike regular Arena, **YOU SHOULD** put more health kits around to help players get back in the fight faster.
 - The capture point has a fairly long capture time by default. It's recommended to keep it as is, as through testing, we realized that a logner cap time lead to more interesting games.
+- If you want things to happen whenever one of the "mini-round" starts, you can create a relay name "ft_relay_newround". It will be triggered at the start of the setup period of each of the rounds.
 
 
 # IV. Compiling for launch
