@@ -36,19 +36,12 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     //  it should do this nearly every time, but as a failsafe it'll put them in the spawn room
     // if (scope.freeze_point) player.SetOrigin(scope.freeze_point);
     if (scope.revive_marker) {
-        local origin = scope.revive_marker.GetOrigin()
-        local traceTable = {
-            "start": origin + Vector(0, 0, 32)
-            "end": origin + Vector(0, 0, -10000),
-            "ignore": player,
-            "hullmin": player.GetPlayerMins(),
-            "hullmax": player.GetPlayerMaxs(),
-            "mask": CONTENTS_SOLID | CONTENTS_PLAYERCLIP | CONTENTS_TRANSLUCENT | CONTENTS_MOVEABLE
-        }
-        if (TraceHull(traceTable) && "enthit" in traceTable) {
-            player.SetOrigin(traceTable.endpos);
+        local origin = scope.revive_marker.GetOrigin();
+        if (scope.freeze_point) {
+            printl("freeze point")
+            player.SetOrigin(scope.freeze_point.pos() + Vector(0, 0, 5));
         } else {
-            player.SetOrigin(origin + Vector(0, 0, 1));
+            player.SetOrigin(scope.revive_marker.GetOrigin() + Vector(0, 0, 5));
         }
     }
     if (scope.revive_players.len() > 0) GenerateThawKillfeedEvent(scope.revive_players, player);
