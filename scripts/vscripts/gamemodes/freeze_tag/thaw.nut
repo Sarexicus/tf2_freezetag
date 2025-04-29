@@ -38,7 +38,6 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     if (scope.revive_marker) {
         local origin = scope.revive_marker.GetOrigin();
         if (scope.freeze_point) {
-            printl("freeze point")
             player.SetOrigin(scope.freeze_point.pos() + Vector(0, 0, 5));
         } else {
             player.SetOrigin(scope.revive_marker.GetOrigin() + Vector(0, 0, 5));
