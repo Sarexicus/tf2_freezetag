@@ -30,12 +30,14 @@ class FreezePosition {
 
 ::GetFreezePositionUnderPlayer <- function(player) {
     local traceTable = {
-        "start": player.GetOrigin() + Vector(0, 0, 32)
+        "start": player.GetOrigin() + Vector(0, 0, 32),
         "end": player.GetOrigin() + Vector(0, 0, -10000),
-        "ignore": player,
-        "mask": CONTENTS_SOLID | CONTENTS_PLAYERCLIP | CONTENTS_TRANSLUCENT | CONTENTS_MOVEABLE
+        "hullmin": player.GetPlayerMins() + Vector(-hull_trace_margin, -hull_trace_margin, offground_leniency),
+        "hullmax": player.GetPlayerMaxs() + Vector(hull_trace_margin, hull_trace_margin, 0),
+        "mask": CONTENTS_SOLID | CONTENTS_PLAYERCLIP | CONTENTS_TRANSLUCENT | CONTENTS_MOVEABLE,
+        "ignore": player
     }
-    if (TraceLineEx(traceTable) && "enthit" in traceTable) {
+    if (TraceHull(traceTable) && "enthit" in traceTable) {
         local ent = traceTable.enthit;
         while (ent && ent.IsValid() && ent.GetClassname() != "func_tracktrain") ent = ent.GetMoveParent();
         if (ent && ent.IsValid()) {
@@ -100,6 +102,7 @@ class FreezePosition {
         "end": location,
         "hullmin": player.GetPlayerMins() + Vector(-hull_trace_margin, -hull_trace_margin, offground_leniency),
         "hullmax": player.GetPlayerMaxs() + Vector(hull_trace_margin, hull_trace_margin, 0),
+        "mask": CONTENTS_SOLID | CONTENTS_PLAYERCLIP | CONTENTS_TRANSLUCENT | CONTENTS_MOVEABLE,
         "ignore": player
     }
     TraceHull(traceTable);

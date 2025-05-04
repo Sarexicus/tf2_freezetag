@@ -54,7 +54,8 @@
         renderamt = hide_until_unlocked ? 0 : 100,
         modelscale = 1.3,
         solid = scope.solid ? 6 : 0,
-        DisableBoneFollowers = true
+        DisableBoneFollowers = true,
+        disableshadows = true
     });
 
     emitter.AcceptInput("SetParent", "!activator", frozen_player_model, frozen_player_model);
