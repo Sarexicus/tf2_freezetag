@@ -19,7 +19,7 @@
         rendermode = 2,
         renderamt = hide_until_unlocked ? 0 : 255,
         modelscale = 0.5,
-        solid = scope.solid ? 6 : 0,
+        solid = 0,
         DisableBoneFollowers = true
     });
     local trace = {
@@ -56,6 +56,7 @@
         solid = scope.solid ? 6 : 0,
         DisableBoneFollowers = true,
         disableshadows = true
+        renderfx = hide_until_unlocked ? 0 : 4  // Fast Wide Pulse
     });
 
     emitter.AcceptInput("SetParent", "!activator", frozen_player_model, frozen_player_model);

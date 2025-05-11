@@ -221,17 +221,18 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     local scope = player.GetScriptScope();
     scope.revive_marker.SetSolid(2);
     scope.frozen_player_model.AcceptInput("Alpha", "100", null, null);
+    scope.frozen_player_model.KeyValueFromInt("renderfx", 0);
     scope.particles.AcceptInput("Start", "", null, null);
     scope.revive_progress_sprite.KeyValueFromString("rendercolor", player.GetTeam() == TF_TEAM_RED ? "255 0 0" : "135 135 255");
     scope.revive_progress_sprite.AcceptInput("Alpha", "200", null, null);
 
-    for (local wearable = scope.frozen_player_model.FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer()) {
-        if (wearable.GetClassname() == "prop_dynamic_ornament")
-            wearable.AcceptInput("Alpha", "192", null, null);
+    for (local child = scope.frozen_player_model.FirstMoveChild(); child != null; child = child.NextMovePeer()) {
+        if (child.GetClassname() == "prop_dynamic")  // Emitter
+            child.AcceptInput("Alpha", "255", null, null);
     }
 
     if (scope.hidden) {
-        DispatchParticleEffect(reveal_particle, scope.frozen_player_model.GetCenter(), Vector(90, 0, 0));
+        DispatchParticleEffect(reveal_particle[player.GetTeam()], scope.frozen_player_model.GetCenter(), Vector(90, 0, 0));
         PlayFreezeSound(player);
         scope.hidden = false;
     }

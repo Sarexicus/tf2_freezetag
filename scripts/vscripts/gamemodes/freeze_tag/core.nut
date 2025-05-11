@@ -49,7 +49,7 @@ if (developer() >= 1) printl("[FREEZE TAG LOADED] Version " + version);
 ::fake_thaw_sound <- "freeze_tag/freezefeign.wav";
 ::fake_disappear_particle <- "ghost_smoke";
 ::regen_particle <- "ft_playeraura";
-::reveal_particle <- "snow_steppuff01";
+::reveal_particle <- { [TF_TEAM_RED] = "drg_cow_explosion_sparks", [TF_TEAM_BLUE] = "drg_cow_explosion_sparks_blue" };
 
 ::tick_rate <- 0.1;   // how often the base think rate polls
 
@@ -70,7 +70,8 @@ function Precache() {
     PrecacheParticle(thaw_particle);
     PrecacheParticle(regen_particle);
     PrecacheParticle(fake_disappear_particle);
-    PrecacheParticle(reveal_particle);
+    PrecacheParticle(reveal_particle[TF_TEAM_RED]);
+    PrecacheParticle(reveal_particle[TF_TEAM_BLUE]);
 
     PrecacheScriptSound(freeze_sound);
     PrecacheScriptSound(thaw_start_sound);
