@@ -25,7 +25,7 @@ getroottable()[EventsID] <- {};
 IncludeScript(VSCRIPT_PATH + "util.nut", this);
 IncludeScript(VSCRIPT_PATH + "arena.nut", this);
 
-version <- "1.15.1";                     // Current version. DO NOT MODIFY
+version <- "1.16";                     // Current version. DO NOT MODIFY
 if (developer() >= 1) printl("[FREEZE TAG LOADED] Version " + version);
 
 // CONFIG
