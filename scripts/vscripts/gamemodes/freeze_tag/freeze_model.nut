@@ -20,7 +20,8 @@
         renderamt = hide_until_unlocked ? 0 : 255,
         modelscale = 0.5,
         solid = 0,
-        DisableBoneFollowers = true
+        DisableBoneFollowers = true,
+        disableshadows = true
     });
     local trace = {
         start = pos + Vector(0, 0, 32),
