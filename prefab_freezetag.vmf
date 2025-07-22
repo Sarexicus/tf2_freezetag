@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8869"
-	"mapversion" "49"
+	"mapversion" "52"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -14,7 +14,7 @@ viewsettings
 	"bSnapToGrid" "1"
 	"bShowGrid" "1"
 	"bShowLogicalGrid" "0"
-	"nGridSpacing" "32"
+	"nGridSpacing" "16"
 }
 palette_plus
 {
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "49"
+	"mapversion" "52"
 	"classname" "worldspawn"
 	"_minlight" "0.0"
 	"detailmaterial" "detailsprites"
@@ -690,10 +690,10 @@ world
 	}
 	solid
 	{
-		"id" "1836"
+		"id" "1963"
 		side
 		{
-			"id" "468"
+			"id" "648"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -711,7 +711,7 @@ world
 		}
 		side
 		{
-			"id" "467"
+			"id" "647"
 			"plane" "(-1024 1024 1024) (1024 1024 1024) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -729,7 +729,7 @@ world
 		}
 		side
 		{
-			"id" "466"
+			"id" "646"
 			"plane" "(-1024 -1024 -64) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -747,7 +747,7 @@ world
 		}
 		side
 		{
-			"id" "465"
+			"id" "645"
 			"plane" "(-1024 1024 1024) (-1024 -1024 1024) (-1024 -1024 -64)"
 			vertices_plus
 			{
@@ -765,7 +765,7 @@ world
 		}
 		side
 		{
-			"id" "464"
+			"id" "644"
 			"plane" "(1024 1024 -64) (1024 -1024 -64) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -783,7 +783,7 @@ world
 		}
 		side
 		{
-			"id" "463"
+			"id" "643"
 			"plane" "(-1024 -1024 1024) (-1024 -1024 -64) (1024 -1024 -64)"
 			vertices_plus
 			{
@@ -801,7 +801,7 @@ world
 		}
 		editor
 		{
-			"color" "0 101 130"
+			"color" "0 223 240"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -809,10 +809,10 @@ world
 	}
 	solid
 	{
-		"id" "1834"
+		"id" "1961"
 		side
 		{
-			"id" "474"
+			"id" "654"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -830,7 +830,7 @@ world
 		}
 		side
 		{
-			"id" "473"
+			"id" "653"
 			"plane" "(-1024 1024 1024) (1024 1024 1024) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -848,7 +848,7 @@ world
 		}
 		side
 		{
-			"id" "472"
+			"id" "652"
 			"plane" "(-1024 -1024 -64) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -866,7 +866,7 @@ world
 		}
 		side
 		{
-			"id" "471"
+			"id" "651"
 			"plane" "(-1024 1024 1024) (-1024 -1024 1024) (-1024 -1024 -64)"
 			vertices_plus
 			{
@@ -884,7 +884,7 @@ world
 		}
 		side
 		{
-			"id" "470"
+			"id" "650"
 			"plane" "(1024 1024 -64) (1024 -1024 -64) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -902,7 +902,7 @@ world
 		}
 		side
 		{
-			"id" "469"
+			"id" "649"
 			"plane" "(-1024 1024 -64) (-1024 1024 1024) (1024 1024 1024)"
 			vertices_plus
 			{
@@ -920,7 +920,7 @@ world
 		}
 		editor
 		{
-			"color" "0 101 130"
+			"color" "0 223 240"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -928,10 +928,10 @@ world
 	}
 	solid
 	{
-		"id" "1832"
+		"id" "1959"
 		side
 		{
-			"id" "480"
+			"id" "660"
 			"plane" "(16376 16376 -16376) (16376 -16376 -16376) (16376 -16376 16376)"
 			vertices_plus
 			{
@@ -949,7 +949,7 @@ world
 		}
 		side
 		{
-			"id" "479"
+			"id" "659"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -967,7 +967,7 @@ world
 		}
 		side
 		{
-			"id" "478"
+			"id" "658"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -985,7 +985,7 @@ world
 		}
 		side
 		{
-			"id" "477"
+			"id" "657"
 			"plane" "(-1024 1024 1024) (1024 1024 1024) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -1003,7 +1003,7 @@ world
 		}
 		side
 		{
-			"id" "476"
+			"id" "656"
 			"plane" "(-1024 -1024 -64) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -1021,7 +1021,7 @@ world
 		}
 		side
 		{
-			"id" "475"
+			"id" "655"
 			"plane" "(1024 -1024 1024) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -1039,7 +1039,7 @@ world
 		}
 		editor
 		{
-			"color" "0 101 130"
+			"color" "0 223 240"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -1047,10 +1047,10 @@ world
 	}
 	solid
 	{
-		"id" "1830"
+		"id" "1957"
 		side
 		{
-			"id" "486"
+			"id" "666"
 			"plane" "(-16376 16376 16376) (-16376 -16376 16376) (-16376 -16376 -16376)"
 			vertices_plus
 			{
@@ -1068,7 +1068,7 @@ world
 		}
 		side
 		{
-			"id" "485"
+			"id" "665"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -1086,7 +1086,7 @@ world
 		}
 		side
 		{
-			"id" "484"
+			"id" "664"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1104,7 +1104,7 @@ world
 		}
 		side
 		{
-			"id" "483"
+			"id" "663"
 			"plane" "(-1024 1024 1024) (1024 1024 1024) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -1122,7 +1122,7 @@ world
 		}
 		side
 		{
-			"id" "482"
+			"id" "662"
 			"plane" "(-1024 -1024 -64) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -1140,7 +1140,7 @@ world
 		}
 		side
 		{
-			"id" "481"
+			"id" "661"
 			"plane" "(-1024 -1024 -64) (-1024 -1024 1024) (-1024 1024 1024)"
 			vertices_plus
 			{
@@ -1158,7 +1158,7 @@ world
 		}
 		editor
 		{
-			"color" "0 101 130"
+			"color" "0 223 240"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -1166,10 +1166,10 @@ world
 	}
 	solid
 	{
-		"id" "1828"
+		"id" "1955"
 		side
 		{
-			"id" "492"
+			"id" "672"
 			"plane" "(-16376 -16376 -16376) (16376 -16376 -16376) (16376 16376 -16376)"
 			vertices_plus
 			{
@@ -1187,7 +1187,7 @@ world
 		}
 		side
 		{
-			"id" "491"
+			"id" "671"
 			"plane" "(-16376 16376 16376) (-16376 -16376 16376) (-16376 -16376 -16376)"
 			vertices_plus
 			{
@@ -1205,7 +1205,7 @@ world
 		}
 		side
 		{
-			"id" "490"
+			"id" "670"
 			"plane" "(16376 16376 -16376) (16376 -16376 -16376) (16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1223,7 +1223,7 @@ world
 		}
 		side
 		{
-			"id" "489"
+			"id" "669"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -1241,7 +1241,7 @@ world
 		}
 		side
 		{
-			"id" "488"
+			"id" "668"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1259,7 +1259,7 @@ world
 		}
 		side
 		{
-			"id" "487"
+			"id" "667"
 			"plane" "(1024 1024 -64) (1024 -1024 -64) (-1024 -1024 -64)"
 			vertices_plus
 			{
@@ -1277,7 +1277,7 @@ world
 		}
 		editor
 		{
-			"color" "0 101 130"
+			"color" "0 223 240"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -1285,10 +1285,10 @@ world
 	}
 	solid
 	{
-		"id" "1826"
+		"id" "1953"
 		side
 		{
-			"id" "498"
+			"id" "678"
 			"plane" "(-16376 16376 16376) (16376 16376 16376) (16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1306,7 +1306,7 @@ world
 		}
 		side
 		{
-			"id" "497"
+			"id" "677"
 			"plane" "(-16376 16376 16376) (-16376 -16376 16376) (-16376 -16376 -16376)"
 			vertices_plus
 			{
@@ -1324,7 +1324,7 @@ world
 		}
 		side
 		{
-			"id" "496"
+			"id" "676"
 			"plane" "(16376 16376 -16376) (16376 -16376 -16376) (16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1342,7 +1342,7 @@ world
 		}
 		side
 		{
-			"id" "495"
+			"id" "675"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -1360,7 +1360,7 @@ world
 		}
 		side
 		{
-			"id" "494"
+			"id" "674"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1378,7 +1378,7 @@ world
 		}
 		side
 		{
-			"id" "493"
+			"id" "673"
 			"plane" "(1024 -1024 1024) (1024 1024 1024) (-1024 1024 1024)"
 			vertices_plus
 			{
@@ -1396,7 +1396,7 @@ world
 		}
 		editor
 		{
-			"color" "0 101 130"
+			"color" "0 223 240"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -2772,7 +2772,7 @@ entity
 	"shadowcastdist" "0"
 	"solid" "6"
 	"spawnflags" "4"
-	"targetname" "cp1"
+	"targetname" "ft_cp1"
 	"team_icon_0" "sprites/obj_icons/icon_obj_neutral"
 	"team_icon_2" "sprites/obj_icons/icon_obj_red"
 	"team_icon_3" "sprites/obj_icons/icon_obj_blu"
@@ -2783,9 +2783,11 @@ entity
 	"team_timedpoints_3" "0"
 	connections
 	{
-		"OnCapTeam1" "cp1_propSkin10-1"
-		"OnCapTeam2" "cp1_propSkin20-1"
-		"OnUnlocked" "cp1ShowModel0-1"
+		"OnCapTeam1" "ft_cp1_propSkin10-1"
+		"OnCapTeam2" "ft_cp1_propSkin20-1"
+		"OnUnlocked" "ft_cp1ShowModel0-1"
+		"OnCapTeam1" "ft_relay_win_redTrigger0-1"
+		"OnCapTeam2" "ft_relay_win_bluTrigger0-1"
 	}
 	"origin" "0 0 0"
 	editor
@@ -2823,7 +2825,7 @@ entity
 	"solid" "6"
 	"spawnflags" "0"
 	"StartDisabled" "0"
-	"targetname" "cp1_prop"
+	"targetname" "ft_cp1_prop"
 	"texframeindex" "0"
 	"origin" "0 0 0"
 	editor
@@ -3016,7 +3018,7 @@ entity
 	"id" "740"
 	"classname" "trigger_capture_area"
 	"angles" "0 0 0"
-	"area_cap_point" "cp1"
+	"area_cap_point" "ft_cp1"
 	"area_time_to_cap" "12"
 	"origin" "0 0 128"
 	"spawnflags" "1"
@@ -3197,6 +3199,69 @@ entity
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 0]"
+	}
+}
+entity
+{
+	"id" "1911"
+	"classname" "logic_relay"
+	"spawnflags" "0"
+	"StartDisabled" "0"
+	"targetname" "ft_relay_win_red"
+	connections
+	{
+		"OnMultiNewRound" "game_rulesSetRedTeamGoalStringKill all enemy players or capture the point! Dead players become ice statues that you can thaw by standing next to them!0-1"
+		"OnMultiNewRound" "game_rulesSetBlueTeamGoalStringKill all enemy players or capture the point! Dead players become ice statues that you can thaw by standing next to them!0-1"
+	}
+	"origin" "64 512 128"
+	editor
+	{
+		"color" "100 150 255"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 500]"
+	}
+}
+entity
+{
+	"id" "1919"
+	"classname" "logic_relay"
+	"spawnflags" "0"
+	"StartDisabled" "0"
+	"targetname" "ft_relay_win_blu"
+	connections
+	{
+		"OnMultiNewRound" "game_rulesSetRedTeamGoalStringKill all enemy players or capture the point! Dead players become ice statues that you can thaw by standing next to them!0-1"
+		"OnMultiNewRound" "game_rulesSetBlueTeamGoalStringKill all enemy players or capture the point! Dead players become ice statues that you can thaw by standing next to them!0-1"
+	}
+	"origin" "80 512 128"
+	editor
+	{
+		"color" "100 150 255"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 500]"
+	}
+}
+entity
+{
+	"id" "1924"
+	"classname" "logic_relay"
+	"spawnflags" "0"
+	"StartDisabled" "0"
+	"targetname" "ft_relay_newround"
+	connections
+	{
+		"OnMultiNewRound" "game_rulesSetRedTeamGoalStringKill all enemy players or capture the point! Dead players become ice statues that you can thaw by standing next to them!0-1"
+		"OnMultiNewRound" "game_rulesSetBlueTeamGoalStringKill all enemy players or capture the point! Dead players become ice statues that you can thaw by standing next to them!0-1"
+	}
+	"origin" "112 512 128"
+	editor
+	{
+		"color" "100 150 255"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 500]"
 	}
 }
 cameras
