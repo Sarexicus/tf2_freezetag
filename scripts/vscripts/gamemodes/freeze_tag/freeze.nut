@@ -24,7 +24,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     if (!hide_until_unlocked) PlayFreezeSound(player);
 
     scope.player_class <- player.GetPlayerClass();
-    scope.freeze_point <- freeze_point;
+    scope.freeze_point <- freeze_position;
     scope.revive_progress <- GetTeamMinProgress(player.GetTeam());
     scope.frozen <- true;
     scope.spectating_self <- false;

@@ -30,14 +30,15 @@ class FreezePosition {
 
 ::GetFreezePositionUnderPlayer <- function(player) {
     local traceTable = {
-        "start": player.GetOrigin() + Vector(0, 0, 32)
+        "start": player.GetOrigin() + Vector(0, 0, 32),
         "end": player.GetOrigin() + Vector(0, 0, -10000),
-        "ignore": player,
-        "hullmin": player.GetPlayerMins(),
-        "hullmax": player.GetPlayerMaxs() - Vector(0, 0, 64),  // Make the hull shorter to avoid it getting stuck if the player is crouching
-        "mask": CONTENTS_SOLID | CONTENTS_PLAYERCLIP | CONTENTS_TRANSLUCENT | CONTENTS_MOVEABLE
+        "hullmin": player.GetPlayerMins() + Vector(-hull_trace_margin, -hull_trace_margin, offground_leniency),
+        "hullmax": player.GetPlayerMaxs() + Vector(hull_trace_margin, hull_trace_margin, -64),  // Make the hull shorter to avoid it getting stuck if the player is crouching
+        "mask": CONTENTS_SOLID | CONTENTS_PLAYERCLIP | CONTENTS_TRANSLUCENT | CONTENTS_MOVEABLE,
+        "ignore": player
     }
     if (TraceHull(traceTable) && "enthit" in traceTable) {
+        traceTable.endpos += Vector(0, 0, offground_leniency);
         local ent = traceTable.enthit;
         while (ent && ent.IsValid() && ent.GetClassname() != "func_tracktrain") ent = ent.GetMoveParent();
         if (ent && ent.IsValid()) {

@@ -35,7 +35,14 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     // put the player at the freeze point where they died if it exists.
     //  it should do this nearly every time, but as a failsafe it'll put them in the spawn room
     // if (scope.freeze_point) player.SetOrigin(scope.freeze_point);
-    if (scope.revive_marker) player.SetOrigin(scope.revive_marker.GetOrigin() + Vector(0, 0, 1));
+    if (scope.revive_marker) {
+        local origin = scope.revive_marker.GetOrigin();
+        if (scope.freeze_point) {
+            player.SetOrigin(scope.freeze_point.pos() + Vector(0, 0, 5));
+        } else {
+            player.SetOrigin(scope.revive_marker.GetOrigin() + Vector(0, 0, 5));
+        }
+    }
     if (scope.revive_players.len() > 0) GenerateThawKillfeedEvent(scope.revive_players, player);
 
     foreach (thawer in scope.revive_players)
