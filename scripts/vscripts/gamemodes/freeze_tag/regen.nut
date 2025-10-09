@@ -8,12 +8,12 @@
 
 ::regen_trigger_particles <- [
     SpawnEntityFromTable("trigger_particle", {
-        particle_name = regen_particle + "_red",
+        particle_name = regen_particles[TF_TEAM_RED],
         attachment_type = 1, // PATTACH_ABSORIGIN_FOLLOW,
         spawnflags = 64 // allow everything
     }),
     SpawnEntityFromTable("trigger_particle", {
-        particle_name = regen_particle + "_blu",
+        particle_name = regen_particles[TF_TEAM_BLUE],
         attachment_type = 1, // PATTACH_ABSORIGIN_FOLLOW,
         spawnflags = 64 // allow everything
     }),

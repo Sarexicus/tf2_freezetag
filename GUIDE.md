@@ -34,6 +34,9 @@ In addition to those necessary elements, you will also find a separate trigger o
     - The control point, trigger, and prop all have special names and outputs to make the gamemode work.
     - You may notice that it has a fairly long cap time. This is from our testing, we saw that a long cap time allowed for more interesting games. **YOU SHOULD** keep it as is, or even increase it if your map is on the larger side.
     - **DO NOT** recreate the control point from scratch. Use the one in the prefab.
+      - **IF YOU MUST**, the control point requires the following things to work correctly: if you want its locking/unlocking/ownership to be controlled by the script, start its name with **"ft_cp"** (without the quotes). Name its prop **"\<name of the point>_prop"**, and its trigger_capture_area **"\<name of the point>_area"**. To make it win the round on capture, add OnCapTeam1/2 outputs that respectively Trigger the **"ft_relay_win_red/blu"** logic_relays.
+      - **YOU MAY** put anything after the "ft_cp" in the point's name.
+      - **YOU MAY** also use this if you need to add some other way for rounds to be won. **Winning through elimination CANNOT be deactivated.**
 2. Take all the floating entities off to the side of the control point, and put them anywhere in your map.
     - Those entities are what powers the gamemode. All of them are necessary.
     - This includes a default light_environment. **YOU MAY** delete it to avoid issues.
@@ -96,6 +99,8 @@ You should now have a working example of a Freeze Tag map. Here are a few elemen
 - The capture point has a fairly long capture time by default. It's recommended to keep it as is, as through testing, we realized that a logner cap time lead to more interesting games.
 - If you want things to happen whenever one of the "mini-round" starts, you can create a relay name "ft_relay_newround". It will be triggered at the start of the setup period of each of the rounds.
 - If you want teams to be swapped after a full game win, you can set the "Switch teams on map win" keyvalue of the team_control_point_master (named tcp_master) to 1 (or Yes).
+- If you want to trigger a round_win through other ways, you can send a Trigger input to the logic_relays named "ft_relay_win_red/blu".
+- If you do not want the script to control the locking/unlocking/ownership of the point, simply rename it with a name that DOESN'T start with "ft_cp".
 
 
 # IV. Compiling for launch
@@ -130,7 +135,6 @@ When doing so, **YOU MUST** also move or rename the scripts folder of this pack,
 - Test freezing from damage and hazards (death pit)
 - Test statue placement (areas that might be unreachable/hard to access)
 - Test thawing (you can use "tf_bot_warp_team_to_me" to have bots teleport to your statue)
-
 
 
 # V. Troubleshooting

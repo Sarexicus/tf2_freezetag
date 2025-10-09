@@ -2250,6 +2250,7 @@ entity
 		"color" "100 150 255"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
+		"comments" "A logic_auto to set goal strings. You may add other inputs to this, but beware that they will get replaced when updating the prefab."
 		"logicalpos" "[0 500]"
 	}
 }
@@ -2689,22 +2690,7 @@ entity
 		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
-		"logicalpos" "[0 500]"
-	}
-}
-entity
-{
-	"id" "560"
-	"classname" "filter_activator_name"
-	"filtername" "inplay"
-	"Negated" "1"
-	"targetname" "filter_late"
-	"origin" "0 512 128"
-	editor
-	{
-		"color" "255 100 150"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
+		"comments" "The central logic_script entity. DO NOT EDIT."
 		"logicalpos" "[0 500]"
 	}
 }
@@ -2721,6 +2707,7 @@ entity
 		"color" "100 150 255"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
+		"comments" "Template for all the setup entities (func_respawnroom, func_regenerate). DO NOT EDIT."
 		"logicalpos" "[0 500]"
 	}
 }
@@ -2772,7 +2759,7 @@ entity
 	"shadowcastdist" "0"
 	"solid" "6"
 	"spawnflags" "4"
-	"targetname" "cp1"
+	"targetname" "ft_cp1"
 	"team_icon_0" "sprites/obj_icons/icon_obj_neutral"
 	"team_icon_2" "sprites/obj_icons/icon_obj_red"
 	"team_icon_3" "sprites/obj_icons/icon_obj_blu"
@@ -2783,9 +2770,11 @@ entity
 	"team_timedpoints_3" "0"
 	connections
 	{
-		"OnCapTeam1" "cp1_propSkin10-1"
-		"OnCapTeam2" "cp1_propSkin20-1"
-		"OnUnlocked" "cp1ShowModel0-1"
+		"OnCapTeam1" "ft_cp1_propSkin10-1"
+		"OnCapTeam2" "ft_cp1_propSkin20-1"
+		"OnUnlocked" "ft_cp1ShowModel0-1"
+		"OnCapTeam1" "ft_relay_win_redTrigger0-1"
+		"OnCapTeam2" "ft_relay_win_bluTrigger0-1"
 	}
 	"origin" "0 0 0"
 	editor
@@ -2823,7 +2812,7 @@ entity
 	"solid" "6"
 	"spawnflags" "0"
 	"StartDisabled" "0"
-	"targetname" "cp1_prop"
+	"targetname" "ft_cp1_prop"
 	"texframeindex" "0"
 	"origin" "0 0 0"
 	editor
@@ -2992,6 +2981,7 @@ entity
 		"color" "100 150 255"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
+		"comments" "Manager entity for the control point. You can use this to switch teams on map win."
 		"logicalpos" "[0 500]"
 	}
 }
@@ -3016,12 +3006,12 @@ entity
 	"id" "740"
 	"classname" "trigger_capture_area"
 	"angles" "0 0 0"
-	"area_cap_point" "cp1"
+	"area_cap_point" "ft_cp1"
 	"area_time_to_cap" "12"
 	"origin" "0 0 128"
 	"spawnflags" "1"
 	"StartDisabled" "0"
-	"targetname" "cp1_area"
+	"targetname" "ft_cp1_area"
 	"team_cancap_2" "1"
 	"team_cancap_3" "1"
 	"team_numcap_2" "1"
@@ -3197,6 +3187,73 @@ entity
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 0]"
+	}
+}
+entity
+{
+	"id" "1911"
+	"classname" "logic_relay"
+	"spawnflags" "0"
+	"StartDisabled" "0"
+	"targetname" "ft_relay_win_red"
+	"origin" "64 512 128"
+	editor
+	{
+		"color" "100 150 255"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"comments" "Trigger this relay to cause a round win for RED"
+		"logicalpos" "[0 500]"
+	}
+}
+entity
+{
+	"id" "1919"
+	"classname" "logic_relay"
+	"spawnflags" "0"
+	"StartDisabled" "0"
+	"targetname" "ft_relay_win_blu"
+	"origin" "80 512 128"
+	editor
+	{
+		"color" "100 150 255"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"comments" "Trigger this relay to cause a round win for BLU"
+		"logicalpos" "[0 500]"
+	}
+}
+entity
+{
+	"id" "1924"
+	"classname" "logic_relay"
+	"spawnflags" "0"
+	"StartDisabled" "0"
+	"targetname" "ft_relay_newround"
+	"origin" "112 512 128"
+	editor
+	{
+		"color" "100 150 255"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"comments" "This relay is triggered every time a new round starts."
+		"logicalpos" "[0 500]"
+	}
+}
+entity
+{
+	"id" "560"
+	"classname" "filter_activator_name"
+	"filtername" "inplay"
+	"Negated" "1"
+	"targetname" "filter_late"
+	"origin" "0 512 128"
+	editor
+	{
+		"color" "255 100 150"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 500]"
 	}
 }
 cameras

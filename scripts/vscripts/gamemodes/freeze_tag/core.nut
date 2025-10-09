@@ -25,7 +25,7 @@ getroottable()[EventsID] <- {};
 IncludeScript(VSCRIPT_PATH + "util.nut", this);
 IncludeScript(VSCRIPT_PATH + "arena.nut", this);
 
-version <- "1.16.1";                     // Current version. DO NOT MODIFY
+version <- "1.17";                     // Current version. DO NOT MODIFY
 if (developer() >= 1) printl("[FREEZE TAG LOADED] Version " + version);
 
 // CONFIG
@@ -48,8 +48,8 @@ if (developer() >= 1) printl("[FREEZE TAG LOADED] Version " + version);
 ::thaw_particle <- "ft_playerthaw";
 ::fake_thaw_sound <- "freeze_tag/freezefeign.wav";
 ::fake_disappear_particle <- "ghost_smoke";
-::regen_particle <- "ft_playeraura";
-::reveal_particle <- { [TF_TEAM_RED] = "drg_cow_explosion_sparks", [TF_TEAM_BLUE] = "drg_cow_explosion_sparks_blue" };
+::regen_particles <- { [TF_TEAM_RED] = "ft_playeraura", [TF_TEAM_BLUE] = "ft_playeraura" };
+::reveal_particles <- { [TF_TEAM_RED] = "drg_cow_explosion_sparks", [TF_TEAM_BLUE] = "drg_cow_explosion_sparks_blue" };
 
 ::tick_rate <- 0.1;   // how often the base think rate polls
 
@@ -68,10 +68,11 @@ function PrecacheParticle(particle_name) {
 
 function Precache() {
     PrecacheParticle(thaw_particle);
-    PrecacheParticle(regen_particle);
+    PrecacheParticle(regen_particles[TF_TEAM_RED]);
+    PrecacheParticle(regen_particles[TF_TEAM_BLUE]);
     PrecacheParticle(fake_disappear_particle);
-    PrecacheParticle(reveal_particle[TF_TEAM_RED]);
-    PrecacheParticle(reveal_particle[TF_TEAM_BLUE]);
+    PrecacheParticle(reveal_particles[TF_TEAM_RED]);
+    PrecacheParticle(reveal_particles[TF_TEAM_BLUE]);
 
     PrecacheScriptSound(freeze_sound);
     PrecacheScriptSound(thaw_start_sound);

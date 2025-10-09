@@ -8,7 +8,8 @@
 // --------------------------------------
 
 ::GAMERULES <- Entities.FindByClassname(null, "tf_gamerules");
-::CENTRAL_CP <- Entities.FindByClassname(null, "team_control_point");
+::RED_WIN_RELAY <- Entities.FindByName(null, "ft_relay_win_red"); 
+::BLU_WIN_RELAY <- Entities.FindByName(null, "ft_relay_win_blu"); 
 ::PLAYER_DESTRUCTION_LOGIC <- Entities.FindByClassname(null, "tf_logic_player_destruction");
 ::FORCERESPAWN <- Entities.FindByClassname(null, "game_forcerespawn");
 
@@ -43,8 +44,8 @@ PLAYER_DESTRUCTION_LOGIC.AcceptInput("SetPointsOnPlayerDeath", "0", null, null);
 EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "EnableMaxScoreUpdating", "0", -1, null, null);
 EntFireByHandle(PLAYER_DESTRUCTION_LOGIC, "DisableMaxScoreUpdating", "0", 1, null, null);
 
-EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam1", mainLogicEntity.GetName(), "RunScriptCode", "WinRound(TF_TEAM_RED)", 0, -1);
-EntityOutputs.AddOutput(CENTRAL_CP, "OnCapTeam2", mainLogicEntity.GetName(), "RunScriptCode", "WinRound(TF_TEAM_BLUE)", 0, -1);
+EntityOutputs.AddOutput(RED_WIN_RELAY, "OnTrigger", mainLogicEntity.GetName(), "RunScriptCode", "WinRound(TF_TEAM_RED)", 0, -1);
+EntityOutputs.AddOutput(BLU_WIN_RELAY, "OnTrigger", mainLogicEntity.GetName(), "RunScriptCode", "WinRound(TF_TEAM_BLUE)", 0, -1);
 
 // player count flags
 ::initial_playercount <- { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
@@ -98,9 +99,11 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
 ::ChangeStateToRound <- function() {
     STATE = GAMESTATES.ROUND;
     GAME_TIMER.AcceptInput("Disable", "", null, null);
-    CENTRAL_CP.AcceptInput("SetLocked", "1", null, null);
-    CENTRAL_CP.AcceptInput("HideModel", "", null, null);
-    CENTRAL_CP.AcceptInput("SetUnlockTime", point_unlock_timer.tostring(), null, null);
+    for (local ent; ent = Entities.FindByName(ent, "ft_cp*");) {
+        ent.AcceptInput("SetLocked", "1", null, null);
+        ent.AcceptInput("HideModel", "", null, null);
+        ent.AcceptInput("SetUnlockTime", point_unlock_timer.tostring(), null, null);
+    }
     FORCERESPAWN.AcceptInput("ForceTeamRespawn", "2", null, null);
     FORCERESPAWN.AcceptInput("ForceTeamRespawn", "3", null, null);
 
@@ -250,8 +253,10 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
         if (GetRoundState() == GR_STATE_RND_RUNNING) ChangeStateToSetup();
     }, 5);
 
-    CENTRAL_CP.AcceptInput("SetUnlockTime", "9999", null, null);
-    CENTRAL_CP.AcceptInput("SetLocked", "1", null, null);
-    EntFireByHandle(CENTRAL_CP, "SetOwner", "0", 3, mainLogicEntity, mainLogicEntity);
-    EntFire("cp1_prop", "Skin", "0", 3, null);
+    for (local ent; ent = Entities.FindByName(ent, "ft_cp*");) {
+        ent.AcceptInput("SetUnlockTime", "9999", null, null);
+        ent.AcceptInput("SetLocked", "1", null, null);
+        EntFireByHandle(ent, "SetOwner", "0", 3, mainLogicEntity, mainLogicEntity);
+        EntFire(ent.GetName() + "_prop", "Skin", "0", 3, null);
+    }
 }

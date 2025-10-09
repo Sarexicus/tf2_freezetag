@@ -48,7 +48,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
         scope.frozen_player_model <- CreateFrozenPlayerModel(freeze_point, player, hide_until_unlocked);
         scope.frozen_player_model.AcceptInput("SetParent", "!activator", scope.revive_marker, scope.revive_marker);
 
-        player.Teleport(true, freeze_point + Vector(0, 0, 48), false, QAngle(0, 0, 0), true, Vector(0, 0, 0));
+        player.Teleport(true, freeze_point + Vector(0, 0, 32), false, QAngle(0, 0, 0), true, Vector(0, 0, 0));
         scope.spectate_origin <- CreateSpectateOrigin(freeze_point + Vector(0, 0, 32));
         scope.particles <- CreateFreezeParticles(freeze_point, player, hide_until_unlocked);
         scope.glow <- CreateGlow(player, scope.frozen_player_model, hide_until_unlocked);
