@@ -137,7 +137,6 @@ When doing so, **YOU MUST** also move or rename the scripts folder of this pack,
 - Test thawing (you can use "tf_bot_warp_team_to_me" to have bots teleport to your statue)
 
 
-
 # V. Troubleshooting
 
 - Nothing happens when I run the map

@@ -34,14 +34,10 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
 
     // put the player at the freeze point where they died if it exists.
     //  it should do this nearly every time, but as a failsafe it'll put them in the spawn room
-    // if (scope.freeze_point) player.SetOrigin(scope.freeze_point);
-    if (scope.revive_marker) {
-        local origin = scope.revive_marker.GetOrigin();
-        if (scope.freeze_point) {
-            player.SetOrigin(scope.freeze_point.pos() + Vector(0, 0, 5));
-        } else {
-            player.SetOrigin(scope.revive_marker.GetOrigin() + Vector(0, 0, 5));
-        }
+    if (scope.freeze_point) {
+        player.SetOrigin(scope.freeze_point.pos() + Vector(0, 0, 5));
+    } else if (scope.revive_marker) {
+        player.SetOrigin(scope.revive_marker.GetOrigin() + Vector(0, 0, 5));
     }
     if (scope.revive_players.len() > 0) GenerateThawKillfeedEvent(scope.revive_players, player);
 
@@ -225,13 +221,16 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
     scope.revive_progress_sprite.KeyValueFromString("rendercolor", player.GetTeam() == TF_TEAM_RED ? "255 0 0" : "135 135 255");
     scope.revive_progress_sprite.AcceptInput("Alpha", "200", null, null);
 
-    for (local wearable = scope.frozen_player_model.FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer()) {
-        if (wearable.GetClassname() == "prop_dynamic_ornament")
-            wearable.AcceptInput("Alpha", "192", null, null);
+    for (local child = scope.frozen_player_model.FirstMoveChild(); child != null; child = child.NextMovePeer()) {
+        if (child.GetClassname() == "prop_dynamic_ornament")
+            child.AcceptInput("Alpha", "192", null, null);
+
+        if (child.GetClassname() == "prop_dynamic")  // Emitter/Dirt mound
+            child.AcceptInput("Alpha", "255", null, null);
     }
 
     if (scope.hidden) {
-        DispatchParticleEffect(reveal_particle, scope.frozen_player_model.GetCenter(), Vector(90, 0, 0));
+        DispatchParticleEffect(reveal_particles[player.GetTeam()], scope.frozen_player_model.GetCenter(), Vector(90, 0, 0));
         PlayFreezeSound(player);
         scope.hidden = false;
     }

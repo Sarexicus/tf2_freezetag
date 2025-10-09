@@ -303,3 +303,8 @@ enum LIFE_STATE
 
     return true;
 }
+
+::RotateAroundVector <- function(v, axis, ang) {
+    // Rodrigues formula
+    return v * cos(ang) + axis.Cross(v) * sin(ang) + axis * axis.Dot(v) * (1 - cos(ang))
+}

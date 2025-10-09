@@ -48,8 +48,8 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
         scope.frozen_player_model <- CreateFrozenPlayerModel(freeze_point, player, hide_until_unlocked);
         scope.frozen_player_model.AcceptInput("SetParent", "!activator", scope.revive_marker, scope.revive_marker);
 
-        player.Teleport(true, freeze_point + Vector(0, 0, 48), false, QAngle(0, 0, 0), true, Vector(0, 0, 0));
-        scope.spectate_origin <- CreateSpectateOrigin(freeze_point + Vector(0, 0, 48));
+        player.Teleport(true, freeze_point + Vector(0, 0, 32), false, QAngle(0, 0, 0), true, Vector(0, 0, 0));
+        scope.spectate_origin <- CreateSpectateOrigin(freeze_point + Vector(0, 0, 32));
         scope.particles <- CreateFreezeParticles(freeze_point, player, hide_until_unlocked);
         scope.glow <- CreateGlow(player, scope.frozen_player_model, hide_until_unlocked);
         scope.revive_progress_sprite <- CreateReviveProgressSprite(freeze_point, player, hide_until_unlocked);
@@ -99,9 +99,9 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
 
 ::PlayFreezeSound <- function(player) {
     EmitSoundEx({
-        sound_name = freeze_sound,
+        sound_name = freeze_sound, channel = 128 + player.entindex(),
         origin = player.GetCenter(),
-        filter_type = RECIPIENT_FILTER_GLOBAL
+        sound_level = 80, filter_type = RECIPIENT_FILTER_GLOBAL
     });
 }
 
@@ -161,9 +161,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
     SetPropBool(proxy_entity, "m_bPlacing", true);
     SetPropInt(proxy_entity, "m_fObjectFlags", 2);
 
-    foreach (i in bodygroups_per_class[player.GetPlayerClass()]) {
-        proxy_entity.SetBodygroup(i, player.GetBodygroup(i));
-    }
+    proxy_entity.SetBodygroup(1, prop.GetBodygroup(1));
     proxy_entity.AcceptInput("AddOutput", "rendermode 1", null, null);
     proxy_entity.AcceptInput("AddOutput", "renderamt 0", null, null);
 

@@ -103,6 +103,7 @@ class FreezePosition {
         "end": location,
         "hullmin": player.GetPlayerMins() + Vector(-hull_trace_margin, -hull_trace_margin, offground_leniency),
         "hullmax": player.GetPlayerMaxs() + Vector(hull_trace_margin, hull_trace_margin, 0),
+        "mask": CONTENTS_SOLID | CONTENTS_PLAYERCLIP | CONTENTS_TRANSLUCENT | CONTENTS_MOVEABLE,
         "ignore": player
     }
     TraceHull(traceTable);

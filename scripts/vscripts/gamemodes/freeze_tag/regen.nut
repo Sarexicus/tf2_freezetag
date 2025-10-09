@@ -6,16 +6,23 @@
 
 // -------------------------------
 
-::regen_trigger_particle <- SpawnEntityFromTable("trigger_particle", {
-    particle_name = regen_particle,
-    attachment_type = 1, // PATTACH_ABSORIGIN_FOLLOW,
-    spawnflags = 64 // allow everything
-});
+::regen_trigger_particles <- [
+    SpawnEntityFromTable("trigger_particle", {
+        particle_name = regen_particles[TF_TEAM_RED],
+        attachment_type = 1, // PATTACH_ABSORIGIN_FOLLOW,
+        spawnflags = 64 // allow everything
+    }),
+    SpawnEntityFromTable("trigger_particle", {
+        particle_name = regen_particles[TF_TEAM_BLUE],
+        attachment_type = 1, // PATTACH_ABSORIGIN_FOLLOW,
+        spawnflags = 64 // allow everything
+    }),
+]
 
 ::StartRegenerating <- function(player) {
     local scope = player.GetScriptScope();
     scope.regen_amount = player.GetMaxHealth() - player.GetHealth() + 1;  // +1 so it's a full heal, for some reason it doesn't fully heal otherwise
-    regen_trigger_particle.AcceptInput("StartTouch", "!activator", player, player);
+    regen_trigger_particles[player.GetTeam() - 2].AcceptInput("StartTouch", "!activator", player, player);
 }
 
 ::StopRegenerating <- function(player) {
