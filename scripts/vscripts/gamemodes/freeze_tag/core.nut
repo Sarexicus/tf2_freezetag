@@ -41,15 +41,15 @@ if (developer() >= 1) printl("[FREEZE TAG LOADED] Version " + version);
 ::players_solid_when_frozen <- false;   // whether frozen players have collisions
 ::point_unlock_timer <- 75;             // how many seconds it takes the point to unlock
 
-::freeze_sound <- "Icicle.TurnToIce";
+::freeze_sound <- "Boulder.ImpactHard";
 ::thaw_start_sound <- "freeze_tag/thawstart.wav";
 ::thaw_block_sound <- "freeze_tag/thawblock.wav";
-::thaw_finish_sound <- "freeze_tag/thawfinish.wav";
+::thaw_finish_sound <- "Breakable.Concrete";
 ::thaw_particle <- "ft_playerthaw";
 ::fake_thaw_sound <- "freeze_tag/freezefeign.wav";
 ::fake_disappear_particle <- "ghost_smoke";
 ::regen_particles <- { [TF_TEAM_RED] = "ft_playeraura", [TF_TEAM_BLUE] = "ft_playeraura" };
-::reveal_particles <- { [TF_TEAM_RED] = "snow_steppuff01", [TF_TEAM_BLUE] = "snow_steppuff01" };
+::reveal_particles <- { [TF_TEAM_RED] = "impact_dirt", [TF_TEAM_BLUE] = "impact_dirt" };
 
 ::tick_rate <- 0.1;   // how often the base think rate polls
 

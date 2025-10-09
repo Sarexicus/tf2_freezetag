@@ -89,7 +89,7 @@ IncludeScript(VSCRIPT_PATH + "freeze_model.nut", this);
                 origin = self.GetCenter()
                 filter_type = RECIPIENT_FILTER_GLOBAL
             });
-            DispatchParticleEffect(fake_disappear_particle, self.GetCenter(), vectriple(0));
+            DispatchParticleEffect(fake_disappear_particle, self.GetCenter() + model_offset, vectriple(0));
             CountAlivePlayers();
             RunWithDelay(function() { this.Destroy(); }, 0.01, [self]);
         }

@@ -216,14 +216,14 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
 ::UnlockAndShowStatue <- function(player) {
     local scope = player.GetScriptScope();
     scope.revive_marker.SetSolid(2);
-    scope.frozen_player_model.AcceptInput("Alpha", "100", null, null);
+    scope.frozen_player_model.AcceptInput("Alpha", model_alpha.tostring(), null, null);
     scope.particles.AcceptInput("Start", "", null, null);
     scope.revive_progress_sprite.KeyValueFromString("rendercolor", player.GetTeam() == TF_TEAM_RED ? "255 0 0" : "135 135 255");
     scope.revive_progress_sprite.AcceptInput("Alpha", "200", null, null);
 
     for (local child = scope.frozen_player_model.FirstMoveChild(); child != null; child = child.NextMovePeer()) {
         if (child.GetClassname() == "prop_dynamic_ornament")
-            child.AcceptInput("Alpha", "192", null, null);
+            child.AcceptInput("Alpha", cosmetics_alpha.tostring(), null, null);
 
         if (child.GetClassname() == "prop_dynamic")  // Emitter/Dirt mound
             child.AcceptInput("Alpha", "255", null, null);

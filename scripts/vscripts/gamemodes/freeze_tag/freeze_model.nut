@@ -2,16 +2,20 @@
 // by Sarexicus and Le Codex
 // -------------------------------
 
-::frozen_player_model_root <- "models/freezetag/player/";
-::frozen_player_model_suffix <- "_frozen";
+::frozen_player_model_root <- "models/freezetag/player/ft_stone_";
+::frozen_player_model_suffix <- "";
 ::single_frozen_player_model <- null;
-::extra_prop_model <- null;
+::extra_prop_model <- "models/props_freezetag/ft_dirt01.mdl";
+::model_alpha <- 255;
 ::model_scale <- 1.0;
-::extra_prop_model_scale <- 1.0;
+::extra_prop_model_scale <- 0.7;
+::model_offset <- Vector(0, 0, -32);
+::extra_prop_model_offset <- Vector(0, 0, 0);
 
 ::transfer_sequence <- true;
 ::transfer_pose <- true;
 ::transfer_cosmetics <- true;
+::cosmetics_alpha <- 255;
 
 ::frozen_color <- { [TF_TEAM_BLUE] = "255 255 255", [TF_TEAM_RED] = "255 255 255" };        // this is the color that will tint frozen weapons and cosmetics
 ::statue_color <- { [TF_TEAM_BLUE] = "225 240 255", [TF_TEAM_RED] = "255 225 240" };        // this is the color that will tint the frozen player models
@@ -63,7 +67,7 @@
         extra_prop = SpawnEntityFromTable("prop_dynamic", {
             targetname = "frozen_player_extra",
             model = extra_prop_model,
-            origin = pos,
+            origin = pos + extra_prop_model_offset,
             angles = player.GetAbsAngles(),
             rendermode = 2,
             renderamt = hide_until_unlocked ? 0 : 255,
@@ -90,7 +94,7 @@
 
             local angles = extra_prop.GetAbsAngles();
             angles.z = v.Dot(Vector(0, 0, 1).Cross(up)) * 180 / PI;
-            extra_prop.SetAbsOrigin(trace.endpos);
+            extra_prop.SetAbsOrigin(trace.endpos + extra_prop_model_offset);
             extra_prop.SetAbsAngles(angles);
         }
     }
@@ -98,12 +102,12 @@
     local frozen_player_model = SpawnEntityFromTable("prop_dynamic", {
         targetname = "frozen_player",
         model = fpm,
-        origin = extra_prop ? extra_prop.GetOrigin() : pos,
+        origin = (extra_prop ? extra_prop.GetOrigin() : pos) + model_offset,
         angles = player.GetAbsAngles(),
         skin = player.GetSkin(),
         rendermode = 2,
         rendercolor = statue_color[player.GetTeam()]
-        renderamt = hide_until_unlocked ? 0 : 100
+        renderamt = hide_until_unlocked ? 0 : model_alpha
         modelscale = model_scale
         solid = scope.solid ? 6 : 0,
         DisableBoneFollowers = true,
@@ -182,7 +186,7 @@
                     targetname = "frozen_wearable",
                     origin = frozen_player_model.GetOrigin(),
                     rendermode = 2,
-                    renderamt = hide_until_unlocked ? 0 : 192,
+                    renderamt = hide_until_unlocked ? 0 : cosmetics_alpha,
                     rendercolor = frozen_color[player.GetTeam()],
                     model = wearable.GetModelName(),
                     skin = player.GetSkin()
