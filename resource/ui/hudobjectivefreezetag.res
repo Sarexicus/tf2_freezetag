@@ -327,190 +327,190 @@
 				"scaleimage"			"1"
 				"visible"				"1"
 				"enabled"				"1"
-				"Image"					"../hud/objectives_arenahybrid_trophy"
+				"Image"					"../vgui/replay/thumbnails/objectives_arenahybrid_trophy"
 				"proportionalToParent"	"1"
 			}
-            
-            // ARENA PLAYERCOUNT HUD
-            "blueteam"
-            {
-                "ControlName"	"EditablePanel"
-                "fieldName"		"blueteam"
-                "xpos"			"c-57"
-                "ypos"			"28"
-                "zpos"			"0"
-                "wide"			"60"
-                "tall"			"30"
-                "visible"		"1"
+			
+			// ARENA PLAYERCOUNT HUD
+			"blueteam"
+			{
+				"ControlName"	"EditablePanel"
+				"fieldName"		"blueteam"
+				"xpos"			"c-57"
+				"ypos"			"28"
+				"zpos"			"0"
+				"wide"			"60"
+				"tall"			"30"
+				"visible"		"1"
 				"proportionalToParent"	"1"
-            
-                "background"
-                {
-                    "ControlName"	"CTFImagePanel"
-                    "fieldName"		"background"
-                    "xpos"			"5"
-                    "ypos"			"7"
-                    "zpos"			"0"
-                    "wide"			"50"
-                    "tall"			"23"
-                    "autoResize"	"0"
-                    "pinCorner"		"0"
-                    "visible"		"1"
-                    "enabled"		"1"
-                    "image"			"../hud/color_panel_blu"
-                        
-                    "src_corner_height"		"23"			// pixels inside the image
-                    "src_corner_width"		"23"
-                            
-                    "draw_corner_width"		"5"				// screen size of the corners ( and sides ), proportional
-                    "draw_corner_height" 	"5"	
-                }
-                
-                "playerimage"
-                {
-                    "ControlName"	"ImagePanel"		
-                    "fieldName"		"playerimage"
-                    "xpos"			"12"
-                    "ypos"			"10"
-                    "zpos"			"3"
-                    "wide"			"8"
-                    "tall"			"16"
-                    "visible"		"1"
-                    "enabled"		"1"
-                    "image"			"capture_icon_white"
-                    "scaleImage"	"1"
-                }
-            }
+			
+				"background"
+				{
+					"ControlName"	"CTFImagePanel"
+					"fieldName"		"background"
+					"xpos"			"5"
+					"ypos"			"7"
+					"zpos"			"0"
+					"wide"			"50"
+					"tall"			"23"
+					"autoResize"	"0"
+					"pinCorner"		"0"
+					"visible"		"1"
+					"enabled"		"1"
+					"image"			"../hud/color_panel_blu"
+						
+					"src_corner_height"		"23"			// pixels inside the image
+					"src_corner_width"		"23"
+							
+					"draw_corner_width"		"5"				// screen size of the corners ( and sides ), proportional
+					"draw_corner_height" 	"5"	
+				}
+				
+				"playerimage"
+				{
+					"ControlName"	"ImagePanel"		
+					"fieldName"		"playerimage"
+					"xpos"			"12"
+					"ypos"			"10"
+					"zpos"			"3"
+					"wide"			"8"
+					"tall"			"16"
+					"visible"		"1"
+					"enabled"		"1"
+					"image"			"capture_icon_white"
+					"scaleImage"	"1"
+				}
+			}
 
-            "EscrowBlue"
-            {
-                "ControlName"	"CExLabel"
-                "fieldName"		"EscrowBlue"
-                "xpos"			"c-34"
-                "ypos"			"35"
-                "zpos"			"2"
-                "wide"			"30"
-                "tall"			"25"
-                "autoResize"	"0"
-                "pinCorner"		"0"
-                "visible"		"1"
-                "enabled"		"1"
-                "font"			"HudFontMedium"
-                "labelText"		"%blue_escrow%"
-                "textAlignment"	"center"
-                "fgcolor"		"TanLight"
+			"EscrowBlue"
+			{
+				"ControlName"	"CExLabel"
+				"fieldName"		"EscrowBlue"
+				"xpos"			"c-34"
+				"ypos"			"35"
+				"zpos"			"2"
+				"wide"			"30"
+				"tall"			"25"
+				"autoResize"	"0"
+				"pinCorner"		"0"
+				"visible"		"1"
+				"enabled"		"1"
+				"font"			"HudFontMedium"
+				"labelText"		"%blue_escrow%"
+				"textAlignment"	"center"
+				"fgcolor"		"TanLight"
 				"proportionalToParent"	"1"
-            }	
-            
-            "EscrowBlueShadow"
-            {
-                "ControlName"		"CExLabel"
-                "fieldName"		"EscrowBlueShadow"
-                "xpos"			"c-33"
-                "ypos"			"36"
-                "zpos"			"1"
-                "wide"			"30"
-                "tall"			"25"
-                "autoResize"	"0"
-                "pinCorner"		"0"
-                "visible"		"1"
-                "enabled"		"1"
-                "font"			"HudFontMedium"
-                "labelText"		"%blue_escrow%"
-                "textAlignment"	"center"
-                "fgcolor"		"Black"
+			}	
+			
+			"EscrowBlueShadow"
+			{
+				"ControlName"		"CExLabel"
+				"fieldName"		"EscrowBlueShadow"
+				"xpos"			"c-33"
+				"ypos"			"36"
+				"zpos"			"1"
+				"wide"			"30"
+				"tall"			"25"
+				"autoResize"	"0"
+				"pinCorner"		"0"
+				"visible"		"1"
+				"enabled"		"1"
+				"font"			"HudFontMedium"
+				"labelText"		"%blue_escrow%"
+				"textAlignment"	"center"
+				"fgcolor"		"Black"
 				"proportionalToParent"	"1"
-            }
+			}
 
-            "redteam"
-            {
-                "ControlName"	"EditablePanel"
-                "fieldName"		"redteam"
-                "xpos"			"c-3"
-                "ypos"			"28"
-                "zpos"			"0"
-                "wide"			"60"
-                "tall"			"30"
-                "visible"		"1"
+			"redteam"
+			{
+				"ControlName"	"EditablePanel"
+				"fieldName"		"redteam"
+				"xpos"			"c-3"
+				"ypos"			"28"
+				"zpos"			"0"
+				"wide"			"60"
+				"tall"			"30"
+				"visible"		"1"
 				"proportionalToParent"	"1"
-            
-                "background"
-                {
-                    "ControlName"	"CTFImagePanel"
-                    "fieldName"		"background"
-                    "xpos"			"5"
-                    "ypos"			"7"
-                    "zpos"			"0"
-                    "wide"			"50"
-                    "tall"			"23"
-                    "autoResize"	"0"
-                    "pinCorner"		"0"
-                    "visible"		"1"
-                    "enabled"		"1"
-                    "image"			"../hud/color_panel_red"
-                        
-                    "src_corner_height"		"23"			// pixels inside the image
-                    "src_corner_width"		"23"
-                            
-                    "draw_corner_width"		"5"				// screen size of the corners ( and sides ), proportional
-                    "draw_corner_height" 	"5"	
-                }
-                
-                "playerimage"
-                {
-                    "ControlName"	"ImagePanel"		
-                    "fieldName"		"playerimage"
-                    "xpos"			"12"
-                    "ypos"			"10"
-                    "zpos"			"3"
-                    "wide"			"8"
-                    "tall"			"16"
-                    "visible"		"1"
-                    "enabled"		"1"
-                    "image"			"capture_icon_white"
-                    "scaleImage"	"1"
-                }			
-            }
+			
+				"background"
+				{
+					"ControlName"	"CTFImagePanel"
+					"fieldName"		"background"
+					"xpos"			"5"
+					"ypos"			"7"
+					"zpos"			"0"
+					"wide"			"50"
+					"tall"			"23"
+					"autoResize"	"0"
+					"pinCorner"		"0"
+					"visible"		"1"
+					"enabled"		"1"
+					"image"			"../hud/color_panel_red"
+						
+					"src_corner_height"		"23"			// pixels inside the image
+					"src_corner_width"		"23"
+							
+					"draw_corner_width"		"5"				// screen size of the corners ( and sides ), proportional
+					"draw_corner_height" 	"5"	
+				}
+				
+				"playerimage"
+				{
+					"ControlName"	"ImagePanel"		
+					"fieldName"		"playerimage"
+					"xpos"			"12"
+					"ypos"			"10"
+					"zpos"			"3"
+					"wide"			"8"
+					"tall"			"16"
+					"visible"		"1"
+					"enabled"		"1"
+					"image"			"capture_icon_white"
+					"scaleImage"	"1"
+				}			
+			}
 
-            "EscrowRed"
-            {
-                "ControlName"	"CExLabel"
-                "fieldName"		"EscrowRed"
-                "xpos"			"c20"
-                "ypos"			"35"
-                "zpos"			"2"
-                "wide"			"30"
-                "tall"			"25"
-                "autoResize"	"0"
-                "pinCorner"		"0"
-                "visible"		"1"
-                "enabled"		"1"
-                "font"			"HudFontMedium"
-                "labelText"		"%red_escrow%"
-                "textAlignment"	"center"
-                "fgcolor"		"TanLight"
+			"EscrowRed"
+			{
+				"ControlName"	"CExLabel"
+				"fieldName"		"EscrowRed"
+				"xpos"			"c20"
+				"ypos"			"35"
+				"zpos"			"2"
+				"wide"			"30"
+				"tall"			"25"
+				"autoResize"	"0"
+				"pinCorner"		"0"
+				"visible"		"1"
+				"enabled"		"1"
+				"font"			"HudFontMedium"
+				"labelText"		"%red_escrow%"
+				"textAlignment"	"center"
+				"fgcolor"		"TanLight"
 				"proportionalToParent"	"1"
-            }	
-            
-            "EscrowRedShadow"
-            {
-                "ControlName"	"CExLabel"
-                "fieldName"		"EscrowRedShadow"
-                "xpos"			"c21"
-                "ypos"			"36"
-                "zpos"			"1"
-                "wide"			"30"
-                "tall"			"25"
-                "autoResize"	"0"
-                "pinCorner"		"0"
-                "visible"		"1"
-                "enabled"		"1"
-                "font"			"HudFontMedium"
-                "labelText"		"%red_escrow%"
-                "textAlignment"	"center"
-                "fgcolor"		"Black"
+			}	
+			
+			"EscrowRedShadow"
+			{
+				"ControlName"	"CExLabel"
+				"fieldName"		"EscrowRedShadow"
+				"xpos"			"c21"
+				"ypos"			"36"
+				"zpos"			"1"
+				"wide"			"30"
+				"tall"			"25"
+				"autoResize"	"0"
+				"pinCorner"		"0"
+				"visible"		"1"
+				"enabled"		"1"
+				"font"			"HudFontMedium"
+				"labelText"		"%red_escrow%"
+				"textAlignment"	"center"
+				"fgcolor"		"Black"
 				"proportionalToParent"	"1"
-            }
+			}
 
 			"FlagImageBlue"
 			{
