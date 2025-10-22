@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8870"
-	"mapversion" "53"
+	"mapversion" "54"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "53"
+	"mapversion" "54"
 	"classname" "worldspawn"
 	"_minlight" "0.0"
 	"detailmaterial" "detailsprites"
@@ -690,10 +690,10 @@ world
 	}
 	solid
 	{
-		"id" "2003"
+		"id" "2019"
 		side
 		{
-			"id" "432"
+			"id" "468"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -711,7 +711,7 @@ world
 		}
 		side
 		{
-			"id" "431"
+			"id" "467"
 			"plane" "(-1024 1024 1024) (1024 1024 1024) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -729,7 +729,7 @@ world
 		}
 		side
 		{
-			"id" "430"
+			"id" "466"
 			"plane" "(-1024 -1024 -64) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -747,7 +747,7 @@ world
 		}
 		side
 		{
-			"id" "429"
+			"id" "465"
 			"plane" "(-1024 1024 1024) (-1024 -1024 1024) (-1024 -1024 -64)"
 			vertices_plus
 			{
@@ -765,7 +765,7 @@ world
 		}
 		side
 		{
-			"id" "428"
+			"id" "464"
 			"plane" "(1024 1024 -64) (1024 -1024 -64) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -783,7 +783,7 @@ world
 		}
 		side
 		{
-			"id" "427"
+			"id" "463"
 			"plane" "(-1024 -1024 1024) (-1024 -1024 -64) (1024 -1024 -64)"
 			vertices_plus
 			{
@@ -801,7 +801,7 @@ world
 		}
 		editor
 		{
-			"color" "0 164 145"
+			"color" "0 196 121"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -809,10 +809,10 @@ world
 	}
 	solid
 	{
-		"id" "2001"
+		"id" "2017"
 		side
 		{
-			"id" "438"
+			"id" "474"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -830,7 +830,7 @@ world
 		}
 		side
 		{
-			"id" "437"
+			"id" "473"
 			"plane" "(-1024 1024 1024) (1024 1024 1024) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -848,7 +848,7 @@ world
 		}
 		side
 		{
-			"id" "436"
+			"id" "472"
 			"plane" "(-1024 -1024 -64) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -866,7 +866,7 @@ world
 		}
 		side
 		{
-			"id" "435"
+			"id" "471"
 			"plane" "(-1024 1024 1024) (-1024 -1024 1024) (-1024 -1024 -64)"
 			vertices_plus
 			{
@@ -884,7 +884,7 @@ world
 		}
 		side
 		{
-			"id" "434"
+			"id" "470"
 			"plane" "(1024 1024 -64) (1024 -1024 -64) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -902,7 +902,7 @@ world
 		}
 		side
 		{
-			"id" "433"
+			"id" "469"
 			"plane" "(-1024 1024 -64) (-1024 1024 1024) (1024 1024 1024)"
 			vertices_plus
 			{
@@ -920,7 +920,7 @@ world
 		}
 		editor
 		{
-			"color" "0 164 145"
+			"color" "0 196 121"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -928,10 +928,10 @@ world
 	}
 	solid
 	{
-		"id" "1999"
+		"id" "2015"
 		side
 		{
-			"id" "444"
+			"id" "480"
 			"plane" "(16376 16376 -16376) (16376 -16376 -16376) (16376 -16376 16376)"
 			vertices_plus
 			{
@@ -949,7 +949,7 @@ world
 		}
 		side
 		{
-			"id" "443"
+			"id" "479"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -967,7 +967,7 @@ world
 		}
 		side
 		{
-			"id" "442"
+			"id" "478"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -985,7 +985,7 @@ world
 		}
 		side
 		{
-			"id" "441"
+			"id" "477"
 			"plane" "(-1024 1024 1024) (1024 1024 1024) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -1003,7 +1003,7 @@ world
 		}
 		side
 		{
-			"id" "440"
+			"id" "476"
 			"plane" "(-1024 -1024 -64) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -1021,7 +1021,7 @@ world
 		}
 		side
 		{
-			"id" "439"
+			"id" "475"
 			"plane" "(1024 -1024 1024) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -1039,7 +1039,7 @@ world
 		}
 		editor
 		{
-			"color" "0 164 145"
+			"color" "0 196 121"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -1047,10 +1047,10 @@ world
 	}
 	solid
 	{
-		"id" "1997"
+		"id" "2013"
 		side
 		{
-			"id" "450"
+			"id" "486"
 			"plane" "(-16376 16376 16376) (-16376 -16376 16376) (-16376 -16376 -16376)"
 			vertices_plus
 			{
@@ -1068,7 +1068,7 @@ world
 		}
 		side
 		{
-			"id" "449"
+			"id" "485"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -1086,7 +1086,7 @@ world
 		}
 		side
 		{
-			"id" "448"
+			"id" "484"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1104,7 +1104,7 @@ world
 		}
 		side
 		{
-			"id" "447"
+			"id" "483"
 			"plane" "(-1024 1024 1024) (1024 1024 1024) (1024 -1024 1024)"
 			vertices_plus
 			{
@@ -1122,7 +1122,7 @@ world
 		}
 		side
 		{
-			"id" "446"
+			"id" "482"
 			"plane" "(-1024 -1024 -64) (1024 -1024 -64) (1024 1024 -64)"
 			vertices_plus
 			{
@@ -1140,7 +1140,7 @@ world
 		}
 		side
 		{
-			"id" "445"
+			"id" "481"
 			"plane" "(-1024 -1024 -64) (-1024 -1024 1024) (-1024 1024 1024)"
 			vertices_plus
 			{
@@ -1158,7 +1158,7 @@ world
 		}
 		editor
 		{
-			"color" "0 164 145"
+			"color" "0 196 121"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -1166,10 +1166,10 @@ world
 	}
 	solid
 	{
-		"id" "1995"
+		"id" "2011"
 		side
 		{
-			"id" "456"
+			"id" "492"
 			"plane" "(-16376 -16376 -16376) (16376 -16376 -16376) (16376 16376 -16376)"
 			vertices_plus
 			{
@@ -1187,7 +1187,7 @@ world
 		}
 		side
 		{
-			"id" "455"
+			"id" "491"
 			"plane" "(-16376 16376 16376) (-16376 -16376 16376) (-16376 -16376 -16376)"
 			vertices_plus
 			{
@@ -1205,7 +1205,7 @@ world
 		}
 		side
 		{
-			"id" "454"
+			"id" "490"
 			"plane" "(16376 16376 -16376) (16376 -16376 -16376) (16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1223,7 +1223,7 @@ world
 		}
 		side
 		{
-			"id" "453"
+			"id" "489"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -1241,7 +1241,7 @@ world
 		}
 		side
 		{
-			"id" "452"
+			"id" "488"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1259,7 +1259,7 @@ world
 		}
 		side
 		{
-			"id" "451"
+			"id" "487"
 			"plane" "(1024 1024 -64) (1024 -1024 -64) (-1024 -1024 -64)"
 			vertices_plus
 			{
@@ -1277,7 +1277,7 @@ world
 		}
 		editor
 		{
-			"color" "0 164 145"
+			"color" "0 196 121"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -1285,10 +1285,10 @@ world
 	}
 	solid
 	{
-		"id" "1993"
+		"id" "2009"
 		side
 		{
-			"id" "462"
+			"id" "498"
 			"plane" "(-16376 16376 16376) (16376 16376 16376) (16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1306,7 +1306,7 @@ world
 		}
 		side
 		{
-			"id" "461"
+			"id" "497"
 			"plane" "(-16376 16376 16376) (-16376 -16376 16376) (-16376 -16376 -16376)"
 			vertices_plus
 			{
@@ -1324,7 +1324,7 @@ world
 		}
 		side
 		{
-			"id" "460"
+			"id" "496"
 			"plane" "(16376 16376 -16376) (16376 -16376 -16376) (16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1342,7 +1342,7 @@ world
 		}
 		side
 		{
-			"id" "459"
+			"id" "495"
 			"plane" "(16376 16376 16376) (-16376 16376 16376) (-16376 16376 -16376)"
 			vertices_plus
 			{
@@ -1360,7 +1360,7 @@ world
 		}
 		side
 		{
-			"id" "458"
+			"id" "494"
 			"plane" "(16376 -16376 -16376) (-16376 -16376 -16376) (-16376 -16376 16376)"
 			vertices_plus
 			{
@@ -1378,7 +1378,7 @@ world
 		}
 		side
 		{
-			"id" "457"
+			"id" "493"
 			"plane" "(1024 -1024 1024) (1024 1024 1024) (-1024 1024 1024)"
 			vertices_plus
 			{
@@ -1396,7 +1396,7 @@ world
 		}
 		editor
 		{
-			"color" "0 164 145"
+			"color" "0 196 121"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -3158,35 +3158,6 @@ entity
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 500]"
-	}
-}
-entity
-{
-	"id" "1583"
-	"classname" "info_overlay"
-	"angles" "0 0 0"
-	"BasisNormal" "0 -8.6613e-08 1"
-	"BasisOrigin" "32 576 0"
-	"BasisU" "1 0 0"
-	"BasisV" "-0 1 8.6613e-08"
-	"EndU" "1"
-	"EndV" "0"
-	"fademindist" "-1"
-	"material" "hud/objectives_arenahybrid_trophy"
-	"sides" "5"
-	"StartU" "0"
-	"StartV" "1"
-	"uv0" "-32 -32 0"
-	"uv1" "-32 32 0"
-	"uv2" "32 32 0"
-	"uv3" "32 -32 0"
-	"origin" "32 576 0"
-	editor
-	{
-		"color" "255 200 100"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
-		"logicalpos" "[0 0]"
 	}
 }
 entity
