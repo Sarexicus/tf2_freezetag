@@ -4,10 +4,67 @@
 
 "Halloween.PlayerScream" { "wave" "misc/null.wav" }
 
-"engineer_mvm_resurrect01" { "wave" "misc/null.wav" }
+"engineer_mvm_resurrect01"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"1.000"
+	"pitch"			"PITCH_NORM"
+	"soundlevel"		"SNDLVL_95dB"
+	"rndwave"
+	{
+		"wave"		"vo/engineer_mvm_resurrect02.mp3"
+		"wave"		"vo/engineer_mvm_resurrect03.mp3"
+	}	
+}
 
-"heavy_mvm_resurrect03" { "wave" "misc/null.wav" }
+"heavy_mvm_resurrect03"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"1.000"
+	"pitch"			"PITCH_NORM"
+	"soundlevel"		"SNDLVL_95dB"
+	"rndwave"
+	{
+		"wave"		"vo/heavy_mvm_resurrect01.mp3"
+		"wave"		"vo/heavy_mvm_resurrect02.mp3"
+		"wave"		"vo/heavy_mvm_resurrect04.mp3"
+		"wave"		"vo/heavy_mvm_resurrect05.mp3"
+		"wave"		"vo/heavy_mvm_resurrect06.mp3"
+		"wave"		"vo/heavy_mvm_resurrect07.mp3"
+	}	
+}
 
-"sniper_mvm_resurrect04" { "wave" "misc/null.wav" }
+"sniper_mvm_resurrect04"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"1.000"
+	"pitch"			"PITCH_NORM"
+	"soundlevel"		"SNDLVL_95dB"
+	"rndwave"
+	{
+		"wave"		"vo/sniper_mvm_resurrect01.mp3"
+		"wave"		"vo/sniper_mvm_resurrect02.mp3"
+		"wave"		"vo/sniper_mvm_resurrect03.mp3"
+	}	
+}
 
-"demoman_mvm_resurrect04" { "wave" "misc/null.wav" }
+"demoman_mvm_resurrect04"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"1.000"
+	"pitch"			"PITCH_NORM"
+	"soundlevel"		"SNDLVL_95dB"
+	"rndwave"
+	{
+		"wave"		"vo/demoman_mvm_resurrect01.mp3"
+		"wave"		"vo/demoman_mvm_resurrect02.mp3"
+		"wave"		"vo/demoman_mvm_resurrect03.mp3"
+		"wave"		"vo/demoman_mvm_resurrect05.mp3"
+		"wave"		"vo/demoman_mvm_resurrect06.mp3"
+		"wave"		"vo/demoman_mvm_resurrect07.mp3"
+		"wave"		"vo/demoman_mvm_resurrect08.mp3"
+		"wave"		"vo/demoman_mvm_resurrect09.mp3"
+		"wave"		"vo/demoman_mvm_resurrect10.mp3"
+		"wave"		"vo/demoman_mvm_resurrect11.mp3"
+	}	
+}
