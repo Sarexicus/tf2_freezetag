@@ -327,7 +327,7 @@
 				"scaleimage"			"1"
 				"visible"				"1"
 				"enabled"				"1"
-				"Image"					"replay/thumbnails/hud/objectives_arenahybrid_trophy"
+				"Image"					"replay/thumbnails/hud/objectives_arenahybrid_trophy2"
 				"proportionalToParent"	"1"
 			}
             
