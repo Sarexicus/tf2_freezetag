@@ -18,11 +18,13 @@
 ::ForceSpectateFrozenPlayer <- function(player) {
     local scope = player.GetScriptScope();
 
-    local target = scope.spectate_origin;
-    if (!target || !target.IsValid())
-        target = FindFirstAlivePlayerOnTeam(player.GetTeam());
-    else
+    local target = scope.spectating_self ? null : scope.spectate_origin;
+    if (!target || !target.IsValid()) {
+        local last = FindLastAlivePlayerOnTeam(player.GetTeam());
+        target = scope.previous_spectator == last || scope.spectating_self ? FindFirstAlivePlayerOnTeam(player.GetTeam()) : last;
+    } else {
         scope.spectating_self <- true;
+    }
 
     SetPropEntity(player, "m_hObserverTarget", target);
 }
@@ -32,18 +34,14 @@
     local observer = GetPropEntity(player, "m_hObserverTarget");
     if (observer == null || !observer.IsValid()) return;
 
-    if (!scope.spectating_self) {
-        if (observer == spectator_proxy) {
-            ForceSpectateFrozenPlayer(player);
-            return;
-        }
-    } else if (observer != scope.spectate_origin) {
-        scope.spectating_self <- false;
-        SetPropEntity(player, "m_hObserverTarget", FindFirstAlivePlayerOnTeam(player.GetTeam()));
-        // if (observer.GetClassname() == "info_observer_point") {
-        //     SetPropEntity(player, "m_hObserverTarget", FindFirstAlivePlayerOnTeam(player.GetTeam()));
-        // }
+    if (observer == spectator_proxy) {
+        ForceSpectateFrozenPlayer(player);
+        return;
     }
+    if (observer != scope.spectate_origin) {
+        scope.spectating_self <- false;
+    }
+    scope.previous_spectator <- GetPropEntity(player, "m_hObserverTarget");
 }
 
 ::ForcePlayerSpectateRules <- function(player) {

@@ -71,27 +71,40 @@ if (!("ConstantNamingConvention" in ROOT)) // make sure folding is only done onc
 ::ForEachAlivePlayer <- function(callback, params = {}) {
     for (local i = 1; i <= MaxPlayers; i++)
     {
-        local player = PlayerInstanceFromIndex(i)
+        local player = PlayerInstanceFromIndex(i);
         if (player == null) continue;
-
-        if(GetPropInt(player, "m_lifeState") != 0) continue;
-
+        if(!IsPlayerAlive(player)) continue;
         callback(player, params);
     }
 }
 
 ::FindFirstAlivePlayerOnTeam <- function(team) {
+    local first_player = null;
     for (local i = 1; i <= MaxPlayers; i++)
     {
-        local player = PlayerInstanceFromIndex(i)
+        local player = PlayerInstanceFromIndex(i);
         if (player == null) continue;
-
-        if(GetPropInt(player, "m_lifeState") != 0) continue;
-
+        if (!IsPlayerAlive(player)) continue;
+        if (!first_player) first_player = player;  // For spectators
         if (player.GetTeam() == team) return player;
     }
 
-    return null;
+    return first_player;
+}
+
+::FindLastAlivePlayerOnTeam <- function(team) {
+    local last_player = null;
+    local last_team_player = null
+    for (local i = 1; i <= MaxPlayers; i++)
+    {
+        local player = PlayerInstanceFromIndex(i);
+        if (player == null) continue;
+        if (!IsPlayerAlive(player)) continue;
+        last_player = player;  // For spectators
+        if (player.GetTeam() == team) last_team_player = player;
+    }
+
+    return last_team_player ? last_team_player : last_player;
 }
 
 ::RunWithDelay <- function(next, delay, args=clone [mainLogic]) {
@@ -129,7 +142,7 @@ enum LIFE_STATE
 {
     try
     {
-        return player != null && player.IsValid() && player.IsPlayer() && player.GetTeam() > 1;
+        return player != null && player.IsValid() && player.IsPlayer();
     }
     catch(e)
     {
