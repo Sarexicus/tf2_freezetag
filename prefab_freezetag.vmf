@@ -690,7 +690,7 @@ world
 	}
 	solid
 	{
-		"id" "2027"
+		"id" "2019"
 		side
 		{
 			"id" "468"
@@ -801,7 +801,7 @@ world
 		}
 		editor
 		{
-			"color" "0 202 235"
+			"color" "0 196 121"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -809,7 +809,7 @@ world
 	}
 	solid
 	{
-		"id" "2025"
+		"id" "2017"
 		side
 		{
 			"id" "474"
@@ -920,7 +920,7 @@ world
 		}
 		editor
 		{
-			"color" "0 202 235"
+			"color" "0 196 121"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -928,7 +928,7 @@ world
 	}
 	solid
 	{
-		"id" "2023"
+		"id" "2015"
 		side
 		{
 			"id" "480"
@@ -1039,7 +1039,7 @@ world
 		}
 		editor
 		{
-			"color" "0 202 235"
+			"color" "0 196 121"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -1047,7 +1047,7 @@ world
 	}
 	solid
 	{
-		"id" "2021"
+		"id" "2013"
 		side
 		{
 			"id" "486"
@@ -1158,7 +1158,7 @@ world
 		}
 		editor
 		{
-			"color" "0 202 235"
+			"color" "0 196 121"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -1166,7 +1166,7 @@ world
 	}
 	solid
 	{
-		"id" "2019"
+		"id" "2011"
 		side
 		{
 			"id" "492"
@@ -1277,7 +1277,7 @@ world
 		}
 		editor
 		{
-			"color" "0 202 235"
+			"color" "0 196 121"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -1285,7 +1285,7 @@ world
 	}
 	solid
 	{
-		"id" "2017"
+		"id" "2009"
 		side
 		{
 			"id" "498"
@@ -1396,7 +1396,7 @@ world
 		}
 		editor
 		{
-			"color" "0 202 235"
+			"color" "0 196 121"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 			"cordonsolid" "1"
@@ -3158,35 +3158,6 @@ entity
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 500]"
-	}
-}
-entity
-{
-	"id" "1583"
-	"classname" "info_overlay"
-	"angles" "0 0 0"
-	"BasisNormal" "0 -8.6613e-08 1"
-	"BasisOrigin" "32 576 0"
-	"BasisU" "1 0 0"
-	"BasisV" "-0 1 8.6613e-08"
-	"EndU" "1"
-	"EndV" "0"
-	"fademindist" "-1"
-	"material" "hud/objectives_arenahybrid_trophy"
-	"sides" "5"
-	"StartU" "0"
-	"StartV" "1"
-	"uv0" "-32 -32 0"
-	"uv1" "-32 32 0"
-	"uv2" "32 32 0"
-	"uv3" "32 -32 0"
-	"origin" "32 576 0"
-	editor
-	{
-		"color" "255 200 100"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
-		"logicalpos" "[0 0]"
 	}
 }
 entity
