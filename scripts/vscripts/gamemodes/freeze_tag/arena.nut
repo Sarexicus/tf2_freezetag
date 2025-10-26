@@ -84,8 +84,8 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
     EntFire("tf_ragdoll", "Kill", "", 0, null);
     EntFire("template_ft_preround", "ForceSpawn", "", 0, null);
     EntFire("setupgate*", "Close", "", 0, null);
-    EntFire("game_forcerespawn", "ForceRespawn", "", 0.3, null);
-    EntFire("ft_relay_newround", "Trigger", "", 0.3, null);
+    EntFire("game_forcerespawn", "ForceRespawn", "", 0, null);
+    EntFire("ft_relay_newround", "Trigger", "", 0, null);
     for (local ent; ent = Entities.FindByClassname(ent, "item_healthkit_*");) {
         if (ent.GetOwner()) ent.Destroy();
     }
@@ -230,10 +230,12 @@ local scores = { [TF_TEAM_RED] = 0, [TF_TEAM_BLUE] = 0 };
 
         StopRegenerating(player);
         if (!winnerTeam || team != winnerTeam) {
-            if (IsPlayerAlive(player))
+            if (IsPlayerAlive(player)) {
                 StunPlayer(player, 9999);
-            else if (scope.frozen && scope.hidden)
+                player.RemoveCond(TF_COND_STEALTHED);
+            } else if (scope.frozen && scope.hidden) {
                 UnlockAndShowStatue(player);
+            }
         } else {
             if (!IsPlayerAlive(player) && !scope.late_joiner) UnfreezePlayer(player);
             // Delay is necessary because of the potential respawn

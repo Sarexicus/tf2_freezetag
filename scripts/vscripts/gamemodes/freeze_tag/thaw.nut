@@ -145,7 +145,6 @@ IncludeScript(VSCRIPT_PATH + "spectate.nut", this);
 
     // spectating (cycle and forced)
     ForcePlayerSpectateRules(player);
-    FrozenPlayerSpectatorCycle(player);
 
     local new_unlock_time = scope.revive_unlock_time - tick_rate;
     if (new_unlock_time > 0) {

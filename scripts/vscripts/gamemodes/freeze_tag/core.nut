@@ -106,14 +106,12 @@ function Think() {
 
     foreach(player in GetAllPlayers()) {
         local scope = player.GetScriptScope();
-        if (scope.late_joiner) continue;  // Don't process late joiners
+        if (!scope.late_joiner && STATE == GAMESTATES.ROUND) {  // Don't process late joiners
+            // only run the freeze think every second tick, for performance's sake
+            if (_ticks % (tick_rate * 2) == 0) {
+                FreezeThink(player);
+            }
 
-        // only run the freeze think every second tick, for performance's sake
-        if (_ticks % (tick_rate * 2) == 0) {
-            FreezeThink(player);
-        }
-
-        if (STATE == GAMESTATES.ROUND) {
             ThawThink(player);
             RegenThink(player);
 
@@ -124,6 +122,9 @@ function Think() {
                     SetPropEntity(player, "m_hRagdoll", null);
                 }
             }
+        }
+        if (!IsPlayerAlive(player)) {
+            FrozenPlayerSpectatorCycle(player);
         }
     }
 
@@ -171,6 +172,7 @@ function Think() {
     scope.spectate_origin <- null;
     scope.did_force_spectate <- false;
     scope.spectating_self <- false;
+    scope.previous_spectator <- null; 
 
     scope.player_class <- 0;
     scope.ammo <- {};
