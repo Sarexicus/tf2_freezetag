@@ -2,4 +2,4 @@ Objective:
 Kill all enemy players or capture the control point to win.
 
 Other Notes:
-Players freeze when they die. Standing near a frozen ally will bring them back to life. The control point activates after 75 seconds.
+Players turn to statues when they die. Standing near a petrified ally will bring them back to life. The control point activates after 75 seconds.
