@@ -3,6 +3,7 @@
 // -------------------------------
 
 ::frozen_player_model_root <- null;
+::frozen_player_model_suffix <- null;
 ::single_frozen_player_model <- "models/freezetag/player/ft_hologram.mdl";
 ::extra_prop_model <- "models/props_mvm/hologram_projector.mdl";
 ::model_scale <- 1.3;
@@ -35,15 +36,15 @@
 ::GetFrozenPlayerModel <- function(player_class) {
     if (single_frozen_player_model) return single_frozen_player_model;
     switch(player_class) {
-        case TF_CLASS_SCOUT:         return frozen_player_model_root + "scout_frozen.mdl";
-        case TF_CLASS_SOLDIER:       return frozen_player_model_root + "soldier_frozen.mdl";
-        case TF_CLASS_PYRO:          return frozen_player_model_root + "pyro_frozen.mdl";
-        case TF_CLASS_DEMOMAN:       return frozen_player_model_root + "demo_frozen.mdl";
-        case TF_CLASS_HEAVYWEAPONS:  return frozen_player_model_root + "heavy_frozen.mdl";
-        case TF_CLASS_ENGINEER:      return frozen_player_model_root + "engineer_frozen.mdl";
-        case TF_CLASS_MEDIC:         return frozen_player_model_root + "medic_frozen.mdl";
-        case TF_CLASS_SNIPER:        return frozen_player_model_root + "sniper_frozen.mdl";
-        case TF_CLASS_SPY:           return frozen_player_model_root + "spy_frozen.mdl";
+        case TF_CLASS_SCOUT:         return frozen_player_model_root + "scout" + frozen_player_model_suffix + ".mdl";
+        case TF_CLASS_SOLDIER:       return frozen_player_model_root + "soldier" + frozen_player_model_suffix + ".mdl";
+        case TF_CLASS_PYRO:          return frozen_player_model_root + "pyro" + frozen_player_model_suffix + ".mdl";
+        case TF_CLASS_DEMOMAN:       return frozen_player_model_root + "demo" + frozen_player_model_suffix + ".mdl";
+        case TF_CLASS_HEAVYWEAPONS:  return frozen_player_model_root + "heavy" + frozen_player_model_suffix + ".mdl";
+        case TF_CLASS_ENGINEER:      return frozen_player_model_root + "engineer" + frozen_player_model_suffix + ".mdl";
+        case TF_CLASS_MEDIC:         return frozen_player_model_root + "medic" + frozen_player_model_suffix + ".mdl";
+        case TF_CLASS_SNIPER:        return frozen_player_model_root + "sniper" + frozen_player_model_suffix + ".mdl";
+        case TF_CLASS_SPY:           return frozen_player_model_root + "spy" + frozen_player_model_suffix + ".mdl";
         default: return "";
     }
 }
